@@ -1,11 +1,11 @@
 /* ==========================================================================
-   METEMORALI ADMIN SUITE: MODAL DIALOGS (PRODUCT ADD/EDIT, DELETIONS, ETC.)
+   METEMORALI ADMIN SUITE: MODAL DIALOGS (LIGHT THEME)
    ========================================================================== */
 .custom-modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(5, 8, 15, 0.85);
-    backdrop-filter: blur(8px);
+    background: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(4px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -22,16 +22,17 @@
 }
 
 .custom-modal {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-hover);
-    border-radius: var(--radius-xl);
+    background: #ffffff;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
     width: 860px;
     max-width: 95%;
     max-height: 90vh;
     overflow-y: auto;
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
     transform: scale(0.96) translateY(10px);
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    color: #000000;
 }
 
 .custom-modal-overlay.active .custom-modal {
@@ -46,19 +47,20 @@
     border-bottom: 1px solid var(--border-subtle);
     position: sticky;
     top: 0;
-    background: var(--bg-secondary);
+    background: #ffffff;
     z-index: 10;
 }
 
 .modal-header h3 {
     font-size: 1.25rem;
-    color: var(--text-primary);
+    font-weight: 700;
+    color: #000000;
 }
 
 .modal-close-btn {
-    background: rgba(255, 255, 255, 0.05);
+    background: #f1f5f9;
     border: 1px solid var(--border-subtle);
-    color: var(--text-secondary);
+    color: #475569;
     width: 32px;
     height: 32px;
     border-radius: 50%;
@@ -70,12 +72,13 @@
 }
 
 .modal-close-btn:hover {
-    background: rgba(239, 68, 68, 0.15);
-    color: #ef4444;
+    background: #fee2e2;
+    color: #dc2626;
 }
 
 .modal-body {
     padding: 28px;
+    background: #ffffff;
 }
 
 .modal-footer, .custom-modal-actions {
@@ -84,5 +87,5 @@
     gap: 12px;
     padding: 20px 28px;
     border-top: 1px solid var(--border-subtle);
-    background: rgba(255, 255, 255, 0.01);
+    background: #f8fafc;
 }

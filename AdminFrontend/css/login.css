@@ -1,15 +1,15 @@
 /* ==========================================================================
-   METEMORALI ADMIN SUITE: LOGIN PAGE (CRISP, FLAT ENTERPRISE ARCHITECTURE)
+   METEMORALI ADMIN SUITE: LOGIN PAGE (CLEAN WHITE & PURE BLACK THEME)
    ========================================================================== */
 .login-body {
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    background-color: #07090e;
+    background-color: #f8fafc;
     background-image: 
-        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+        linear-gradient(#e2e8f0 1px, transparent 1px),
+        linear-gradient(90deg, #e2e8f0 1px, transparent 1px);
     background-size: 32px 32px;
     padding: 24px;
     position: relative;
@@ -19,12 +19,12 @@
 .login-card {
     width: 440px;
     max-width: 100%;
-    background: #0f131c;
-    border: 1px solid rgba(255, 255, 255, 0.09);
-    border-top: 3px solid var(--brand-gold);
-    border-radius: 4px; /* Keskin, düz kurumsal hatlar - Baloncuk yok */
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-top: 4px solid var(--brand-gold);
+    border-radius: 4px;
     padding: 40px 36px;
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
     position: relative;
     z-index: 10;
 }
@@ -32,14 +32,14 @@
 .login-header {
     margin-bottom: 28px;
     padding-bottom: 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid #e2e8f0;
 }
 
 .login-brand {
     display: flex;
     align-items: center;
     gap: 14px;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
 }
 
 .login-brand-logo {
@@ -51,7 +51,7 @@
 .login-brand h2 {
     font-size: 1.35rem;
     font-weight: 700;
-    color: var(--text-primary);
+    color: #000000;
     margin: 0;
     line-height: 1.1;
     letter-spacing: -0.02em;
@@ -62,14 +62,14 @@
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--brand-gold);
-    font-weight: 600;
+    font-weight: 700;
     display: block;
     margin-top: 2px;
 }
 
 .login-subtitle {
     font-size: 0.84rem;
-    color: var(--text-secondary);
+    color: #475569;
     margin: 0;
 }
 
@@ -80,8 +80,8 @@
 .login-card .form-group label {
     display: block;
     font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--text-secondary);
+    font-weight: 700;
+    color: #000000;
     margin-bottom: 6px;
     text-transform: uppercase;
     letter-spacing: 0.04em;
@@ -89,15 +89,16 @@
 
 .login-card .form-input {
     border-radius: 4px;
-    background: #141a26;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    color: #000000;
     padding: 12px 14px;
 }
 
 .login-card .form-input:focus {
     border-color: var(--brand-gold);
     box-shadow: 0 0 0 1px var(--brand-gold);
-    background: #182030;
+    background: #ffffff;
 }
 
 .password-wrapper {
@@ -111,38 +112,39 @@
     transform: translateY(-50%);
     background: none;
     border: none;
-    color: var(--text-muted);
+    color: #64748b;
     cursor: pointer;
     font-size: 0.95rem;
     padding: 4px;
 }
 
 .password-toggle-btn:hover {
-    color: var(--text-primary);
+    color: #000000;
 }
 
 /* Brute-force countdown banner */
 .lockout-banner {
     display: none;
     padding: 12px 16px;
-    background: rgba(239, 68, 68, 0.15);
-    border: 1px solid rgba(239, 68, 68, 0.35);
+    background: #fef2f2;
+    border: 1px solid #fecaca;
     border-radius: var(--radius-md);
-    color: #fca5a5;
+    color: #991b1b;
     font-size: 0.85rem;
     margin-bottom: 20px;
     text-align: center;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .error-banner {
     display: none;
     padding: 10px 14px;
-    background: rgba(239, 68, 68, 0.12);
-    border: 1px solid rgba(239, 68, 68, 0.3);
+    background: #fef2f2;
+    border: 1px solid #fecaca;
     border-radius: var(--radius-md);
-    color: #f87171;
+    color: #b91c1c;
     font-size: 0.84rem;
     margin-bottom: 18px;
     text-align: center;
+    font-weight: 600;
 }
