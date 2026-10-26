@@ -80,8 +80,8 @@ const products = [
             fr: "Haute protection avec 99% Coton, 1% Fibre de Carbone",
             it: "Elevata protezione con 99% Cotone, 1% Fibra di Carbonio"
         },
-        image: "img/Mavi Reflektif İş Üniforması Seti.png",
-        fsImage: "img/Mavi Reflektif İş Ceketi.png",
+        image: "img/Mavi Reflektörlü İş Üniforması.png",
+        fsImage: "img/Mavi Reflektörlü İş Güvenliği Montu.png",
         label: {
             tr: "Kaynakçı Kıyafeti (Düz)",
             en: "Welder Jacket (Plain)",
@@ -161,7 +161,7 @@ const products = [
             it: "Riflettente, Resistente al Calore e alle Fiamme"
         },
         image: "img/Reflektörlü Mavi-Lime İş Elbisesi.png",
-        fsImage: "img/Yandan Görünüm Hi-Vis İş Montu.png",
+        fsImage: "img/Kobalt Mavi ve Neon Sarı İş Montu.png",
         label: {
             tr: "Yüksek Görünürlük Kaynakçı",
             en: "High Visibility Welder",
@@ -239,8 +239,8 @@ const products = [
             fr: "Structure Légère et Flexible (320 g/m²)",
             it: "Struttura Leggera e Flessibile (320 g/m²)"
         },
-        image: "img/Yüksek Görünürlüklü Mavi-Sarı İş Montu.png",
-        fsImage: "img/Kobalt Mavi ve Neon Sarı İş Montu.png",
+        image: "img/Lacivert Reflektif İş Tulumu.png",
+        fsImage: "img/Lacivert Reflektörlü İş Montu.png",
         label: {
             tr: "Supervisor Ceket ve Pantolon",
             en: "Supervisor Jacket and Pants",
@@ -319,7 +319,7 @@ const products = [
             it: "Fodera Interna: 79% Cotone, 20% Poliestere, 1% Fibra di Carbonio (170 g/m²)"
         },
         image: "img/Beyaz Zeminde Yüksek Görünürlüklü İş Parkası.png",
-        fsImage: "img/Neon Sarı Reflektif İş Parkası.png",
+        fsImage: "img/Neon Sarı Reflektif Güvenlik Parkası.png",
         label: {
             tr: "Supervisor Parka 2024",
             en: "Supervisor Parka 2024",
@@ -608,10 +608,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="fs-container">
                         <div class="fs-left">
                             <div class="fs-image-wrapper ${data.fsCustomClass || ''}">
-                                <picture class="fs-image-picture">
-                                    <source srcset="${(data.fsImage || data.image).replace('.png', '.webp')}" type="image/webp">
-                                    <img src="${data.fsImage || data.image}" alt="${getTranslation(data.fsTitle, lang)}" class="fs-product-image" loading="lazy" width="400" height="400">
-                                </picture>
+                                <div class="fs-image-picture">
+                                    <img src="${data.fsImage || data.image}" alt="${getTranslation(data.fsTitle, lang)}" class="fs-product-image" loading="lazy" width="450" height="450">
+                                </div>
                             </div>
                         </div>
                         <div class="fs-right">

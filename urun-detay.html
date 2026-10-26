@@ -759,28 +759,7 @@
                 const color1 = colorMap[parts[0].trim()] || '#ccc';
                 const color2 = colorMap[parts[1].trim()] || '#ccc';
                 
-                // Kışlık Parka (ID 1) ve Supervisor Takım (ID 2) için sarı/mavi veya sarı/lacivert oranını %70'e %30 yap
-                if (currentProductData && 
-                    (currentProductData.id == 1 || currentProductData.id == 2 ||
-                     (currentProductData.name && typeof currentProductData.name === 'string' && (currentProductData.name.toLowerCase().includes('parka') || currentProductData.name.toLowerCase().includes('supervisor'))) ||
-                     (currentProductData.name && typeof currentProductData.name === 'object' && currentProductData.name.tr && (currentProductData.name.tr.toLowerCase().includes('parka') || currentProductData.name.tr.toLowerCase().includes('supervisor'))))
-                ) {
-                    if (parts[0].trim() === 'sarı' && (parts[1].trim() === 'lacivert' || parts[1].trim() === 'mavi')) {
-                        return `linear-gradient(135deg, ${color1} 70%, ${color2} 70%)`;
-                    }
-                }
-                
-                // Hi-Vis Kaynakçı (ID 3 ve 7) için mavi/sarı oranını %65'e %35 yap
-                if (currentProductData && 
-                    (currentProductData.id == 3 || currentProductData.id == 7 ||
-                     (currentProductData.name && typeof currentProductData.name === 'string' && currentProductData.name.toLowerCase().includes('kaynakçı')) ||
-                     (currentProductData.name && typeof currentProductData.name === 'object' && currentProductData.name.tr && currentProductData.name.tr.toLowerCase().includes('kaynakçı')))
-                ) {
-                    if (parts[0].trim() === 'mavi' && parts[1].trim() === 'sarı') {
-                        return `linear-gradient(135deg, ${color1} 65%, ${color2} 65%)`;
-                    }
-                }
-                
+                // İki renkli ürünler için merkezden geçen kusursuz 50/50 simetrik geçiş
                 return `linear-gradient(135deg, ${color1} 50%, ${color2} 50%)`;
             }
 
