@@ -68,13 +68,6 @@
             </div>
 
             <div class="sidebar-footer">
-                <div class="admin-profile-chip">
-                    <div class="admin-avatar">A</div>
-                    <div class="admin-info">
-                        <div class="admin-name">Admin Yetkilisi</div>
-                        <div class="admin-role">Süper Yönetici</div>
-                    </div>
-                </div>
                 <a href="#" onclick="confirmLogout(event)" class="logout-btn">
                     <i class="fa-solid fa-arrow-right-from-bracket"></i>
                     <span>Çıkış Yap</span>
@@ -87,13 +80,9 @@
             <header class="top-bar">
                 <div class="page-title">
                     <h1>Sipariş Yönetimi</h1>
-                    <p>Canlı gelen B2B sipariş talepleri, sipariş kalemleri ve kargo/teslimat durumları</p>
                 </div>
                 <div class="top-actions">
-                    <div id="connectionBadge" class="health-badge">
-                        <span class="pulse-dot"></span> Kontrol Ediliyor...
-                    </div>
-                    <button class="btn btn-secondary btn-sm" onclick="loadOrders(); checkSystemHealth();">
+                    <button class="btn btn-secondary btn-sm" onclick="loadOrders();">
                         <i class="fa-solid fa-rotate"></i> Yenile
                     </button>
                 </div>
@@ -131,12 +120,10 @@
     <script src="js/api.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            if (typeof checkSystemHealth === 'function') checkSystemHealth();
             if (typeof loadOrders === 'function') loadOrders();
 
             // 15 saniyede bir otomatik yenile
             setInterval(() => {
-                if (typeof checkSystemHealth === 'function') checkSystemHealth();
                 if (typeof loadOrders === 'function') loadOrders();
             }, 15000);
         });

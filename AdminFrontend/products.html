@@ -68,13 +68,6 @@
             </div>
 
             <div class="sidebar-footer">
-                <div class="admin-profile-chip">
-                    <div class="admin-avatar">A</div>
-                    <div class="admin-info">
-                        <div class="admin-name">Admin Yetkilisi</div>
-                        <div class="admin-role">Süper Yönetici</div>
-                    </div>
-                </div>
                 <a href="#" onclick="confirmLogout(event)" class="logout-btn">
                     <i class="fa-solid fa-arrow-right-from-bracket"></i>
                     <span>Çıkış Yap</span>
@@ -87,12 +80,8 @@
             <header class="top-bar">
                 <div class="page-title">
                     <h1>Ürün Yönetimi</h1>
-                    <p>Canlı katalogda yer alan ürünler, teknik koruma standartları ve depo stokları</p>
                 </div>
                 <div class="top-actions">
-                    <div id="connectionBadge" class="health-badge">
-                        <span class="pulse-dot"></span> Kontrol Ediliyor...
-                    </div>
                     <button class="btn btn-primary" onclick="openAddProductModal()">
                         <i class="fa-solid fa-plus"></i> Yeni Ürün Ekle
                     </button>
@@ -347,7 +336,6 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            if (typeof checkSystemHealth === 'function') checkSystemHealth();
             if (typeof loadProducts === 'function') loadProducts();
         });
     </script>

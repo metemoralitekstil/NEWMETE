@@ -123,52 +123,6 @@
 .sidebar-footer {
     padding-top: 18px;
     border-top: 1px solid var(--border-subtle);
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.admin-profile-chip {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px;
-    background: #f8fafc;
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-md);
-}
-
-.admin-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--brand-gold), #b45309);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #ffffff;
-    font-weight: 700;
-    font-size: 0.85rem;
-}
-
-.admin-info {
-    flex: 1;
-    overflow: hidden;
-}
-
-.admin-name {
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: #000000;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-
-.admin-role {
-    font-size: 0.72rem;
-    color: var(--brand-gold);
-    font-weight: 600;
 }
 
 .logout-btn {
