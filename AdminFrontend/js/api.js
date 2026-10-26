@@ -74,30 +74,81 @@ document.addEventListener('DOMContentLoaded', () => {
         const btnText = document.getElementById('btnText');
         const btnIcon = document.getElementById('btnIcon');
 
+        function formatDuration(sec) {
+            if (sec >= 60) {
+                const mins = Math.floor(sec / 60);
+                const s = sec % 60;
+                return s > 0 ? `${mins} dk ${s} sn` : `${mins} dakika`;
+            }
+            return `${sec} saniye`;
+        }
+
+        // Active MutationObserver: Prevents attackers from removing 'disabled' via F12 Inspect Element
+        let isLockedOut = false;
+        const observer = new MutationObserver(() => {
+            if (isLockedOut && submitBtn) {
+                if (!submitBtn.disabled || submitBtn.style.pointerEvents !== 'none') {
+                    submitBtn.disabled = true;
+                    submitBtn.style.pointerEvents = 'none';
+                    submitBtn.style.opacity = '0.4';
+                    submitBtn.style.cursor = 'not-allowed';
+                }
+            }
+        });
+
+        if (submitBtn) {
+            observer.observe(submitBtn, { attributes: true, attributeFilter: ['disabled', 'style', 'class'] });
+        }
+
+        let timerInterval = null;
+
         // Check if currently locked out
         function checkLockout() {
-            const remaining = getLockoutRemainingSeconds();
+            const remaining = typeof getLockoutRemainingSeconds === 'function' ? getLockoutRemainingSeconds() : 0;
             if (remaining > 0) {
+                isLockedOut = true;
                 submitBtn.disabled = true;
-                submitBtn.style.opacity = '0.5';
+                submitBtn.style.pointerEvents = 'none';
+                submitBtn.style.opacity = '0.4';
                 submitBtn.style.cursor = 'not-allowed';
                 lockoutBanner.style.display = 'block';
-                lockoutTimer.textContent = remaining;
                 errorBanner.style.display = 'none';
 
-                const timerInterval = setInterval(() => {
-                    const sec = getLockoutRemainingSeconds();
+                const tier = typeof getLockoutTier === 'function' ? getLockoutTier() : 1;
+                const tierNotice = tier === 1 ? '3 hatalı deneme yapıldı (1 dk kilit).' : 'Tekrarlanan hatalı deneme (10 dk kilit)!';
+
+                lockoutBanner.innerHTML = `
+                    <i class="fa-solid fa-lock" style="margin-right: 6px;"></i>
+                    <strong>${tierNotice}</strong> Lütfen <strong id="lockoutTimer">${formatDuration(remaining)}</strong> bekleyin.
+                `;
+
+                if (timerInterval) clearInterval(timerInterval);
+
+                timerInterval = setInterval(() => {
+                    const sec = typeof getLockoutRemainingSeconds === 'function' ? getLockoutRemainingSeconds() : 0;
                     if (sec <= 0) {
                         clearInterval(timerInterval);
+                        isLockedOut = false;
                         submitBtn.disabled = false;
+                        submitBtn.style.pointerEvents = 'auto';
                         submitBtn.style.opacity = '1';
                         submitBtn.style.cursor = 'pointer';
                         lockoutBanner.style.display = 'none';
-                        resetFailedLoginAttempts();
+                        if (typeof resetFailedLoginAttempts === 'function') resetFailedLoginAttempts();
                     } else {
-                        lockoutTimer.textContent = sec;
+                        const timerEl = document.getElementById('lockoutTimer');
+                        if (timerEl) timerEl.textContent = formatDuration(sec);
                     }
                 }, 1000);
+            } else {
+                isLockedOut = false;
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.style.pointerEvents = 'auto';
+                    submitBtn.style.opacity = '1';
+                    submitBtn.style.cursor = 'pointer';
+                }
+                if (lockoutBanner) lockoutBanner.style.display = 'none';
             }
         }
 
@@ -105,21 +156,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+            e.stopImmediatePropagation();
 
-            // 1. Honeypot Bot Trap Check
-            const trapField = document.getElementById('b_trap_field');
-            if (trapField && trapField.value.trim() !== '') {
-                console.warn('Bot submission blocked via Honeypot!');
-                // Fake slow response to waste bot resources
-                await new Promise(r => setTimeout(r, 2000));
-                errorBanner.style.display = 'block';
-                errorMsg.textContent = 'Güvenlik doğrulaması başarısız.';
+            // 1. Hard Lockout Enforcement (Cannot bypass from F12)
+            if (typeof getLockoutRemainingSeconds === 'function' && getLockoutRemainingSeconds() > 0) {
+                checkLockout();
                 return;
             }
 
-            // 2. Lockout Verification
-            if (getLockoutRemainingSeconds() > 0) {
-                checkLockout();
+            // 2. Honeypot Bot Trap Check
+            const trapField = document.getElementById('b_trap_field');
+            if (trapField && trapField.value.trim() !== '') {
+                console.warn('Bot submission blocked via Honeypot!');
+                await new Promise(r => setTimeout(r, 2000));
+                errorBanner.style.display = 'block';
+                errorMsg.textContent = 'Güvenlik doğrulaması başarısız.';
                 return;
             }
 
@@ -133,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
             errorBanner.style.display = 'none';
 
             // Anti-automation throttle delay
-            await new Promise(r => setTimeout(r, 600));
+            await new Promise(r => setTimeout(r, 500));
 
             try {
                 if (typeof supabaseClient !== 'undefined' && supabaseClient !== null) {
@@ -148,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         const dbHash = data.PasswordHash || data.passwordHash;
 
                         if (inputHash && dbHash && inputHash.toLowerCase() === dbHash.toLowerCase()) {
-                            resetFailedLoginAttempts();
+                            if (typeof resetFailedLoginAttempts === 'function') resetFailedLoginAttempts();
                             localStorage.setItem('adminToken', 'supabase-token-' + username + '-' + Date.now());
                             localStorage.setItem('adminUser', JSON.stringify({
                                 username: data.Username,
@@ -165,19 +216,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 // If credentials invalid:
-                const lockSec = recordFailedLoginAttempt();
+                const lockSec = typeof recordFailedLoginAttempt === 'function' ? recordFailedLoginAttempt() : 0;
+                const attempts = typeof getFailedAttemptsCount === 'function' ? getFailedAttemptsCount() : 1;
+                const remainingTries = 3 - (attempts % 3);
+
                 errorBanner.style.display = 'block';
-                errorMsg.textContent = 'Hatalı kullanıcı adı veya şifre!';
-
-                // Shake animation
-                const card = document.querySelector('.login-card');
-                if (card) {
-                    card.style.animation = 'none';
-                    setTimeout(() => card.style.animation = 'shake 0.4s ease', 10);
-                }
-
                 if (lockSec > 0) {
                     checkLockout();
+                } else {
+                    errorMsg.textContent = `Hatalı kullanıcı adı veya şifre! (${remainingTries} deneme hakkı kaldı)`;
                 }
 
             } catch (err) {
@@ -185,9 +232,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 errorBanner.style.display = 'block';
                 errorMsg.textContent = 'Bağlantı hatası oluştu. Lütfen tekrar deneyin.';
             } finally {
-                if (getLockoutRemainingSeconds() <= 0) {
+                if (typeof getLockoutRemainingSeconds === 'function' && getLockoutRemainingSeconds() <= 0) {
                     submitBtn.disabled = false;
-                    btnText.textContent = 'Güvenli Giriş Yap';
+                    btnText.textContent = 'Giriş Yap';
                     btnIcon.className = 'fa-solid fa-arrow-right';
                 }
             }
