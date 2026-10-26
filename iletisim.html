@@ -177,9 +177,12 @@
     document.getElementById('contact-form').addEventListener('submit', function(e) {
         e.preventDefault();
         
-        const lang = localStorage.getItem('metemorali_lang') || 'tr';
+        const lang = (window.i18n && window.i18n.currentLang) || (new URLSearchParams(window.location.search).get('lang')) || localStorage.getItem('metemorali_lang') || 'tr';
         const t = (key, defaultText) => {
-            if (window.i18n && window.i18n.translations[lang]) {
+            if (window.i18n && typeof window.i18n.t === 'function') {
+                return window.i18n.t(key, defaultText);
+            }
+            if (window.i18n && window.i18n.translations && window.i18n.translations[lang]) {
                 return window.i18n.translations[lang][key] || defaultText;
             }
             return defaultText;

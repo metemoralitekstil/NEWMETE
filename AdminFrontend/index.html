@@ -1,47 +1,86 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
-
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-88R5628V9H"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-88R5628V9H');
-</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Admin panel arama motorları tarafından indexlenmesin -->
     <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
-    <meta name="googlebot" content="noindex, nofollow">
-    <title>Admin Panel — MeteMorali</title>
+    <title>Yönetici Girişi — MeteMorali</title>
     <link rel="stylesheet" href="css/admin-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" type="image/webp" href="../img/logo_gri.webp">
 </head>
+<body class="login-body">
 
-<body>
-    <div class="login-container">
-        <div class="login-box">
-            <h2>Yönetici Girişi</h2>
-            <form id="loginForm">
-                <div class="form-group">
-                    <label>Kullanıcı Adı</label>
-                    <input type="text" id="username" required>
+    <div class="login-card">
+        <div class="login-header">
+            <div class="login-emblem">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <h2>MeteMorali</h2>
+            <p>Yönetim & Güvenlik Portalı</p>
+        </div>
+
+        <!-- Bot & Brute-Force Kilit Bildirimi -->
+        <div id="lockoutBanner" class="lockout-banner">
+            <i class="fa-solid fa-lock" style="margin-right: 6px;"></i>
+            Çok fazla hatalı deneme! Lütfen <strong id="lockoutTimer">300</strong> saniye bekleyin.
+        </div>
+
+        <div id="errorBanner" class="error-banner">
+            <i class="fa-solid fa-circle-exclamation" style="margin-right: 6px;"></i>
+            <span id="errorMsg">Hatalı kullanıcı adı veya şifre!</span>
+        </div>
+
+        <form id="loginForm" autocomplete="off">
+            <!-- Honeypot Bot Kapanı (Görünmez tuzak alanı) -->
+            <input type="text" id="b_trap_field" name="b_trap_field" style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;" tabindex="-1" autocomplete="off">
+
+            <div class="form-group">
+                <label for="username">Kullanıcı Adı</label>
+                <input type="text" id="username" class="form-input" placeholder="admin" required autofocus autocomplete="username">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Şifre</label>
+                <div class="password-wrapper">
+                    <input type="password" id="password" class="form-input" placeholder="••••••••" required autocomplete="current-password">
+                    <button type="button" class="password-toggle-btn" id="togglePasswordBtn" title="Şifreyi Göster/Gizle">
+                        <i class="fa-regular fa-eye" id="togglePasswordIcon"></i>
+                    </button>
                 </div>
-                <div class="form-group">
-                    <label>Şifre</label>
-                    <input type="password" id="password" required>
-                </div>
-                <button type="submit" class="btn">Giriş Yap</button>
-            </form>
-            <p id="errorMsg" style="color: red; text-align: center; display: none;">Hatalı giriş!</p>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="loginSubmitBtn" style="width: 100%; margin-top: 10px; padding: 13px;">
+                <span id="btnText">Güvenli Giriş Yap</span>
+                <i class="fa-solid fa-arrow-right" id="btnIcon"></i>
+            </button>
+        </form>
+
+        <div style="margin-top: 24px; text-align: center; font-size: 0.78rem; color: var(--text-muted);">
+            <i class="fa-solid fa-lock" style="font-size: 0.7rem; margin-right: 4px;"></i> 256-Bit SSL & Şifreli Oturum Koruması
         </div>
     </div>
+
+    <!-- Toast Notification Container -->
+    <div id="adminToastContainer"></div>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase-client.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/api.js"></script>
-</body>
+    <script>
+        // Password Visibility Toggle
+        const toggleBtn = document.getElementById('togglePasswordBtn');
+        const passwordInput = document.getElementById('password');
+        const toggleIcon = document.getElementById('togglePasswordIcon');
 
+        if (toggleBtn && passwordInput) {
+            toggleBtn.addEventListener('click', () => {
+                const isPassword = passwordInput.getAttribute('type') === 'password';
+                passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+                toggleIcon.className = isPassword ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye';
+            });
+        }
+    </script>
+</body>
 </html>

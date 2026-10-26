@@ -1,8 +1,30 @@
-// i18n.js - MeteMorali Multi-Language Support System
+// i18n.js - MeteMorali Multi-Language Support System (v4.5)
+// Architecture:
+// 1. URL Query Param (?lang=...) has highest priority
+// 2. User Explicit Choice in localStorage has second priority
+// 3. Fallback is ALWAYS 'tr' (Turkish Canonical) for optimal Google SEO & zero crawler mismatches
 
 window.i18n = {
-    currentLang: (new URLSearchParams(window.location.search).get('lang')) || localStorage.getItem('metemorali_lang') || ((navigator.language || navigator.userLanguage || '').toLowerCase().startsWith('tr') ? 'tr' : 'en'),
-    
+    // Current active language code (tr, en, de, ru, nl, fr, it)
+    currentLang: (function() {
+        const validLangs = ['tr', 'en', 'de', 'ru', 'nl', 'fr', 'it'];
+        try {
+            const params = new URLSearchParams(window.location.search);
+            const urlLang = params.get('lang');
+            if (urlLang && validLangs.includes(urlLang.toLowerCase())) {
+                return urlLang.toLowerCase();
+            }
+            const storedLang = localStorage.getItem('metemorali_lang');
+            if (storedLang && validLangs.includes(storedLang.toLowerCase())) {
+                return storedLang.toLowerCase();
+            }
+        } catch (e) {
+            console.warn('i18n language resolution fallback to tr', e);
+        }
+        return 'tr'; // Kesin varsayılan: Türkçe (Googlebot ve doğrudan ziyaretçiler için)
+    })(),
+
+    // 7 Languages Dictionary (100% key parity across all languages)
     translations: {
     "tr": {
         "home": "Ana Sayfa",
@@ -123,7 +145,6 @@ window.i18n = {
         "enter_password_placeholder": "Şifrenizi girin",
         "alert_enter_phone": "Lütfen telefon numaranızı girin.",
         "alert_accept_terms": "Giriş yapabilmek için sözleşmeleri ve politikaları kabul etmelisiniz.",
-        "alert_enter_email: ": "Lütfen e-posta adresinizi girin.",
         "alert_enter_password": "Lütfen şifrenizi girin.",
         "alert_profile_updated": "Profil bilgileriniz başarıyla güncellendi!",
         "hello_user": "Merhaba",
@@ -133,7 +154,6 @@ window.i18n = {
         "country_uk": "İngiltere",
         "country_germany": "Almanya",
         "country_france": "Fransa",
-        "country_italy: ": "İtalya",
         "country_turkey": "Türkiye",
         "country_poland": "Polonya",
         "country_bulgaria": "Bulgaristan",
@@ -143,7 +163,14 @@ window.i18n = {
         "country_uzbekistan": "Özbekistan",
         "country_kyrgyzstan": "Kırgızistan",
         "country_qatar_sa": "Katar / Suudi Arabistan",
-        "collection_title": "METE MORALI KOLEKSİYON"
+        "collection_title": "METE MORALI KOLEKSİYON",
+        "back_to_catalog": "Kataloğa Dön",
+        "filter_all": "Tümü",
+        "filter_welder": "Kaynakçı",
+        "filter_supervisor": "Supervisor",
+        "filter_parka": "Kışlık",
+        "alert_enter_email": "Lütfen e-posta adresinizi girin.",
+        "country_italy": "İtalya"
     },
     "en": {
         "home": "Home",
@@ -228,7 +255,6 @@ window.i18n = {
         "privacy_check_link": "Privacy Policy",
         "continue_btn": "Continue",
         "back_to_phone": "Return to Phone Login",
-        "back_to_login: ": "Return to Login",
         "size_select": "Size Selection",
         "color_select": "Color Selection",
         "add_to_cart": "ADD TO CART",
@@ -284,7 +310,13 @@ window.i18n = {
         "country_uzbekistan": "Uzbekistan",
         "country_kyrgyzstan": "Kyrgyzstan",
         "country_qatar_sa": "Qatar / Saudi Arabia",
-        "collection_title": "METE MORALI COLLECTION"
+        "collection_title": "METE MORALI COLLECTION",
+        "back_to_catalog": "Back to Catalog",
+        "filter_all": "All",
+        "filter_welder": "Welder",
+        "filter_supervisor": "Supervisor",
+        "filter_parka": "Winter",
+        "back_to_login": "Back to Login"
     },
     "de": {
         "home": "Startseite",
@@ -423,9 +455,14 @@ window.i18n = {
         "country_azerbaijan": "Aserbaidschan",
         "country_kazakhstan": "Kasachstan",
         "country_uzbekistan": "Usbekistan",
-        "country_kyrgyzstan: ": "Kirgisistan",
         "country_qatar_sa": "Katar / Saudi-Arabien",
-        "collection_title": "METE MORALI KOLLEKTION"
+        "collection_title": "METE MORALI KOLLEKTION",
+        "back_to_catalog": "Zurück zum Katalog",
+        "filter_all": "Alle",
+        "filter_welder": "Schweißer",
+        "filter_supervisor": "Supervisor",
+        "filter_parka": "Winter",
+        "country_kyrgyzstan": "Kirgisistan"
     },
     "ru": {
         "home": "Главная",
@@ -566,7 +603,12 @@ window.i18n = {
         "country_uzbekistan": "Узбекистан",
         "country_kyrgyzstan": "Кыргызстан",
         "country_qatar_sa": "Катар / Саудовская Аравия",
-        "collection_title": "КОЛЛЕКЦИЯ METE MORALI"
+        "collection_title": "КОЛЛЕКЦИЯ METE MORALI",
+        "back_to_catalog": "Назад в каталог",
+        "filter_all": "Все",
+        "filter_welder": "Сварщик",
+        "filter_supervisor": "Супервайзер",
+        "filter_parka": "Зимние"
     },
     "nl": {
         "home": "Home",
@@ -703,7 +745,16 @@ window.i18n = {
         "country_uzbekistan": "Oezbekistan",
         "country_kyrgyzstan": "Kirgizië",
         "country_qatar_sa": "Qatar / Saoedi-Arabië",
-        "collection_title": "METE MORALI COLLECTIE"
+        "collection_title": "METE MORALI COLLECTIE",
+        "back_to_catalog": "Terug naar catalogus",
+        "filter_all": "Alle",
+        "filter_welder": "Lasser",
+        "filter_supervisor": "Supervisor",
+        "filter_parka": "Winter",
+        "pay_now": "Nu betalen",
+        "alert_phone_required": "Om een bestelling te plaatsen, moet u uw telefoonnummer opslaan in uw profiel. U wordt doorgestuurd naar de profielpagina.",
+        "alert_phone_required_toast": "Sla uw telefoonnummer op in uw profiel om een bestelling te plaatsen.",
+        "profile_updated_success": "Uw profielgegevens zijn succesvol bijgewerkt!"
     },
     "fr": {
         "home": "Accueil",
@@ -840,7 +891,16 @@ window.i18n = {
         "country_uzbekistan": "Ouzbékistan",
         "country_kyrgyzstan": "Kirghizistan",
         "country_qatar_sa": "Qatar / Arabie Saoudite",
-        "collection_title": "COLLECTION METE MORALI"
+        "collection_title": "COLLECTION METE MORALI",
+        "back_to_catalog": "Retour au catalogue",
+        "filter_all": "Tous",
+        "filter_welder": "Soudeur",
+        "filter_supervisor": "Superviseur",
+        "filter_parka": "Hiver",
+        "pay_now": "Payer maintenant",
+        "alert_phone_required": "Pour passer une commande, vous devez enregistrer votre numéro de téléphone dans votre profil. Vous êtes redirigé vers la page de profil.",
+        "alert_phone_required_toast": "Veuillez enregistrer votre numéro de téléphone dans votre profil pour passer une commande.",
+        "profile_updated_success": "Les informations de votre profil ont été mises à jour avec succès !"
     },
     "it": {
         "home": "Home",
@@ -977,34 +1037,62 @@ window.i18n = {
         "country_uzbekistan": "Uzbekistan",
         "country_kyrgyzstan": "Kirghizistan",
         "country_qatar_sa": "Qatar / Arabia Saudita",
-        "collection_title": "COLLEZIONE METE MORALI"
+        "collection_title": "COLLEZIONE METE MORALI",
+        "back_to_catalog": "Torna al catalogo",
+        "filter_all": "Tutti",
+        "filter_welder": "Saldatore",
+        "filter_supervisor": "Supervisor",
+        "filter_parka": "Invernale",
+        "pay_now": "Paga ora",
+        "alert_phone_required": "Per effettuare un ordine, devi salvare il tuo numero di telefono nel tuo profilo. Verrai reindirizzato alla pagina del profilo.",
+        "alert_phone_required_toast": "Salva il tuo numero di telefono nel tuo profilo per effettuare un ordine.",
+        "profile_updated_success": "I dati del tuo profilo sono stati aggiornati con successo!"
     }
 },
-    
+
+    // Helper: translate a key dynamically with optional fallback
+    t(key, fallback = '') {
+        const lang = this.currentLang || 'tr';
+        const dict = (this.translations && this.translations[lang]) || (this.translations && this.translations['tr']);
+        if (dict && dict[key] !== undefined && dict[key] !== '') {
+            return dict[key];
+        }
+        if (this.translations && this.translations['tr'] && this.translations['tr'][key] !== undefined) {
+            return this.translations['tr'][key];
+        }
+        return fallback || key;
+    },
+
+    // Set user language, store in localStorage, update URL and navigate
     setLanguage(lang) {
+        const validLangs = ['tr', 'en', 'de', 'ru', 'nl', 'fr', 'it'];
+        if (!validLangs.includes(lang)) lang = 'tr';
+
         localStorage.setItem('metemorali_lang', lang);
         this.currentLang = lang;
-        var searchParams = new URLSearchParams(window.location.search);
-        if (lang && lang !== 'tr') {
-            searchParams.set('lang', lang);
-        } else {
-            searchParams.delete('lang');
+
+        try {
+            const url = new URL(window.location.href);
+            if (lang === 'tr') {
+                url.searchParams.delete('lang');
+            } else {
+                url.searchParams.set('lang', lang);
+            }
+            window.location.href = url.toString();
+        } catch (e) {
+            window.location.reload();
         }
-        var newSearch = searchParams.toString();
-        var targetUrl = window.location.pathname + (newSearch ? '?' + newSearch : '');
-        window.location.href = targetUrl;
     },
-    
+
+    // Translate a single DOM element based on its data-i18n attribute
     translateElement(element) {
+        if (!element) return;
         const key = element.getAttribute('data-i18n');
         if (!key) return;
-        
-        const dictionary = this.translations[this.currentLang];
-        if (!dictionary) return;
-        
-        const translation = dictionary[key];
+
+        const translation = this.t(key);
         if (!translation) return;
-        
+
         if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
             element.setAttribute('placeholder', translation);
         } else if (element.tagName === 'SELECT') {
@@ -1014,36 +1102,51 @@ window.i18n = {
         } else {
             element.innerHTML = translation;
         }
+
+        // Support data-i18n-title
+        const titleKey = element.getAttribute('data-i18n-title');
+        if (titleKey) {
+            element.setAttribute('title', this.t(titleKey));
+        }
+        // Support data-i18n-aria
+        const ariaKey = element.getAttribute('data-i18n-aria');
+        if (ariaKey) {
+            element.setAttribute('aria-label', this.t(ariaKey));
+        }
     },
-    
+
+    // Translate the entire page and trigger SEO meta updates
     translatePage() {
         document.querySelectorAll('[data-i18n]').forEach(el => {
             this.translateElement(el);
         });
-        
-        document.documentElement.lang = this.currentLang;
+
+        document.documentElement.lang = this.currentLang || 'tr';
         this.updateSeoMeta();
     },
 
+    // Manage title, meta description & canonical URL for international SEO
     updateSeoMeta() {
-        // Sadece ana sayfadaysa ana sayfa SEO meta verilerini yönet
         const cleanPath = (window.location.pathname || '').toLowerCase();
         const isHomePage = cleanPath === '/' || cleanPath === '' || cleanPath.endsWith('/index.html') || cleanPath.endsWith('/index') || cleanPath.endsWith('/anasayfa.html') || cleanPath.endsWith('/anasayfa');
-        
+
         if (!isHomePage) {
-            // Katalog, ürün detay, iletişim vb. diğer sayfalarda ana sayfa başlığını ve açıklamasını basma!
             return;
         }
 
         const lang = this.currentLang || 'tr';
 
-        // Türkçe ana sayfa için statik HTML başlığı ve açıklaması zaten mükemmel ve tutarlıdır.
-        // Google botun render sırasında statik vs JS çelişkisi tespit etmesini önlemek için TR'de DOM başlığına dokunmuyoruz:
+        // Türkçe ana sayfa için statik HTML başlığı, meta etiketleri ve canonical zaten mükemmeldir.
+        // Google botun render sırasında statik vs JS çelişkisi tespit etmesini önlemek için TR'de DOM başlığına ve canonical'a dokunmuyoruz:
+        if (lang === 'tr') {
+            const canonicalLink = document.querySelector('link[rel="canonical"]');
+            if (canonicalLink) {
+                canonicalLink.setAttribute('href', 'https://www.mete-morali.com/');
+            }
+            return;
+        }
+
         const seoData = {
-            tr: {
-                title: 'MeteMorali | Endüstriyel İş ve Emniyet Kıyafetleri',
-                desc: 'MeteMorali; alev geciktirici (FR) kaynakçı elbiseleri, teknik emniyet takımları ve iş parkaları ile endüstriyel iş kıyafetlerinde yüksek güvenlik sunar.'
-            },
             en: {
                 title: 'MeteMorali | Industrial Workwear & Technical Safety Clothing',
                 desc: 'MeteMorali - Production of industrial workwear, welder suits, flame retardant garments, and winter parkas.'
@@ -1073,153 +1176,123 @@ window.i18n = {
         const currentSeo = seoData[lang];
         if (currentSeo) {
             document.title = currentSeo.title;
-            
-            let metaDesc = document.querySelector('meta[name="description"]');
+
+            const metaDesc = document.querySelector('meta[name="description"]');
             if (metaDesc) metaDesc.setAttribute('content', currentSeo.desc);
-            
-            let ogTitle = document.querySelector('meta[property="og:title"]');
+
+            const ogTitle = document.querySelector('meta[property="og:title"]');
             if (ogTitle) ogTitle.setAttribute('content', currentSeo.title);
-            
-            let ogDesc = document.querySelector('meta[property="og:description"]');
+
+            const ogDesc = document.querySelector('meta[property="og:description"]');
             if (ogDesc) ogDesc.setAttribute('content', currentSeo.desc);
 
-            let canonicalLink = document.querySelector('link[rel="canonical"]');
+            const canonicalLink = document.querySelector('link[rel="canonical"]');
             if (canonicalLink) {
-                let currentUrl = new URL(window.location.href);
-                if (lang && lang !== 'tr') {
+                try {
+                    const currentUrl = new URL(window.location.href);
                     currentUrl.searchParams.set('lang', lang);
-                } else {
-                    currentUrl.searchParams.delete('lang');
-                }
-                canonicalLink.setAttribute('href', currentUrl.href);
+                    canonicalLink.setAttribute('href', currentUrl.href);
+                } catch (e) {}
             }
         }
     },
-    
+
+    // Bind event listeners to navbar dropdown & mobile menu language selectors
     setupLanguageSelectors() {
+        const current = (this.currentLang || 'tr').toLowerCase();
+
+        // 1. Desktop dropdown selectors
         const selectors = document.querySelectorAll('.lang-selector');
         selectors.forEach(sel => {
             const btn = sel.querySelector('.lang-btn');
             const dropdown = sel.querySelector('.lang-dropdown');
             if (btn && dropdown) {
                 const codeEl = btn.querySelector('.active-lang-code');
-                if (codeEl) codeEl.textContent = this.currentLang.toUpperCase();
-                
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const isExpanded = btn.getAttribute('aria-expanded') === 'true';
-                    btn.setAttribute('aria-expanded', !isExpanded);
-                    dropdown.classList.toggle('active');
-                });
-                
-                dropdown.querySelectorAll('a').forEach(link => {
-                    link.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        const lang = link.getAttribute('data-lang');
-                        this.setLanguage(lang);
+                if (codeEl) codeEl.textContent = current.toUpperCase();
+
+                if (!btn.dataset.langBound) {
+                    btn.dataset.langBound = 'true';
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+                        btn.setAttribute('aria-expanded', !isExpanded);
+                        dropdown.classList.toggle('active');
                     });
+                }
+
+                dropdown.querySelectorAll('a[data-lang]').forEach(link => {
+                    const lang = link.getAttribute('data-lang');
+                    if (lang === current) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                    if (!link.dataset.langBound) {
+                        link.dataset.langBound = 'true';
+                        link.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            this.setLanguage(lang);
+                        });
+                    }
                 });
             }
         });
-        
-        // Also bind to any other elements with data-lang (like in the mobile menu list)
-        document.querySelectorAll('[data-lang]').forEach(link => {
+
+        // 2. Mobile menu language buttons
+        document.querySelectorAll('.mobile-lang-item[data-lang]').forEach(link => {
             const lang = link.getAttribute('data-lang');
-            if (lang === this.currentLang) {
-                link.classList.add('active');
+            if (lang === current) {
+                link.style.color = '#ffffff';
+                link.style.background = 'rgba(255, 255, 255, 0.15)';
+                link.style.fontWeight = 'bold';
             } else {
-                link.classList.remove('active');
+                link.style.color = '#a0a0a0';
+                link.style.background = 'transparent';
+                link.style.fontWeight = 'normal';
             }
-            
-            if (!link.dataset.langListenerAdded) {
-                link.dataset.langListenerAdded = 'true';
+
+            if (!link.dataset.langBound) {
+                link.dataset.langBound = 'true';
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
                     this.setLanguage(lang);
                 });
             }
         });
-        
-        document.addEventListener('click', () => {
-            selectors.forEach(sel => {
-                const btn = sel.querySelector('.lang-btn');
-                const dropdown = sel.querySelector('.lang-dropdown');
-                if (btn && dropdown) {
-                    btn.setAttribute('aria-expanded', 'false');
-                    dropdown.classList.remove('active');
-                }
+
+        // Close dropdowns on outside click
+        if (!document.body.dataset.langOutsideBound) {
+            document.body.dataset.langOutsideBound = 'true';
+            document.addEventListener('click', () => {
+                selectors.forEach(sel => {
+                    const btn = sel.querySelector('.lang-btn');
+                    const dropdown = sel.querySelector('.lang-dropdown');
+                    if (btn && dropdown) {
+                        btn.setAttribute('aria-expanded', 'false');
+                        dropdown.classList.remove('active');
+                    }
+                });
             });
-        });
+        }
     }
 };
 
-// Add missing translations
-if (window.i18n && window.i18n.translations) {
-    const extraTranslations = {
-        tr: {
-            back_to_catalog: "Kataloğa Dön",
-            filter_all: "Tümü",
-            filter_welder: "Kaynakçı",
-            filter_supervisor: "Supervisor",
-            filter_parka: "Kışlık"
-        },
-        en: {
-            back_to_catalog: "Back to Catalog",
-            filter_all: "All",
-            filter_welder: "Welder",
-            filter_supervisor: "Supervisor",
-            filter_parka: "Winter"
-        },
-        de: {
-            back_to_catalog: "Zurück zum Katalog",
-            filter_all: "Alle",
-            filter_welder: "Schweißer",
-            filter_supervisor: "Supervisor",
-            filter_parka: "Winter"
-        },
-        ru: {
-            back_to_catalog: "Назад в каталог",
-            filter_all: "Все",
-            filter_welder: "Сварщик",
-            filter_supervisor: "Супервайзер",
-            filter_parka: "Зимние"
-        },
-        nl: {
-            back_to_catalog: "Terug naar catalogus",
-            filter_all: "Alle",
-            filter_welder: "Lasser",
-            filter_supervisor: "Supervisor",
-            filter_parka: "Winter"
-        },
-        fr: {
-            back_to_catalog: "Retour au catalogue",
-            filter_all: "Tous",
-            filter_welder: "Soudeur",
-            filter_supervisor: "Superviseur",
-            filter_parka: "Hiver"
-        },
-        it: {
-            back_to_catalog: "Torna al catalogo",
-            filter_all: "Tutti",
-            filter_welder: "Saldatore",
-            filter_supervisor: "Supervisor",
-            filter_parka: "Invernale"
-        }
-    };
-    Object.keys(extraTranslations).forEach(lang => {
-        if (window.i18n.translations[lang]) {
-            Object.assign(window.i18n.translations[lang], extraTranslations[lang]);
-        }
-    });
-}
+// Global shorthand
+window.t = function(key, fallback) {
+    return window.i18n ? window.i18n.t(key, fallback) : (fallback || key);
+};
 
-// Auto-run translation on load
+// Auto-run translation on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
-    window.i18n.translatePage();
+    if (window.i18n) {
+        window.i18n.translatePage();
+    }
 });
 
-// Run translation when components are loaded
+// Run translation when components are dynamically loaded (navbar, footer, sidebar)
 document.addEventListener('componentsLoaded', () => {
-    window.i18n.translatePage();
-    window.i18n.setupLanguageSelectors();
+    if (window.i18n) {
+        window.i18n.translatePage();
+        window.i18n.setupLanguageSelectors();
+    }
 });

@@ -1,84 +1,209 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-88R5628V9H"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-88R5628V9H');
-</script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-88R5628V9H"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-88R5628V9H');
+    </script>
     <meta charset="UTF-8">
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="css/admin-style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeteMorali Admin | Dashboard</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link rel="stylesheet" href="css/admin-style.css">
 </head>
 <body>
     <div class="admin-layout">
-        <div class="sidebar">
-            <div class="sidebar-menu">
-                <h3>Admin Panel</h3>
-                <ul>
-                    <li><a href="dashboard.html" class="active">Dashboard</a></li>
-                    <li><a href="products.html">Ürün Yönetimi</a></li>
-                    <li><a href="orders.html">Sipariş Yönetimi</a></li>
-                    <li><a href="customers.html">Kayıtlı Müşteriler</a></li>
-                    <li><a href="seo-analiz.html">SEO Analiz</a></li>
-                </ul>
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div>
+                <div class="brand-section">
+                    <div class="brand-logo">
+                        <img src="../img/logo_gri.webp" alt="MeteMorali" onerror="this.src='../img/logo_gri.png'">
+                    </div>
+                    <div class="brand-text">
+                        <h2>MeteMorali</h2>
+                        <span>Admin Suite</span>
+                    </div>
+                </div>
+
+                <nav class="sidebar-nav">
+                    <div class="nav-label">Yönetim Paneli</div>
+                    <a href="dashboard.html" class="active">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="products.html">
+                        <i class="fa-solid fa-boxes-stacked"></i>
+                        <span>Ürün Yönetimi</span>
+                    </a>
+                    <a href="orders.html">
+                        <i class="fa-solid fa-bag-shopping"></i>
+                        <span>Sipariş Yönetimi</span>
+                    </a>
+                    <a href="customers.html">
+                        <i class="fa-solid fa-users"></i>
+                        <span>Kayıtlı Müşteriler</span>
+                    </a>
+
+                    <div class="nav-label">Sistem & Vitrin</div>
+                    <a href="seo-analiz.html">
+                        <i class="fa-solid fa-magnifying-glass-chart"></i>
+                        <span>SEO Analiz</span>
+                    </a>
+                    <a href="../katalog.html" target="_blank">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        <span>Canlı Mağazayı Aç</span>
+                    </a>
+                </nav>
             </div>
-            <div class="logout-container">
-                <a href="#" onclick="confirmLogout(event)" class="logout-btn">Çıkış Yap <i class="fa-solid fa-door-open"></i></a>
+
+            <div class="sidebar-footer">
+                <div class="admin-profile-chip">
+                    <div class="admin-avatar">A</div>
+                    <div class="admin-info">
+                        <div class="admin-name">Admin Yetkilisi</div>
+                        <div class="admin-role">Süper Yönetici</div>
+                    </div>
+                </div>
+                <a href="#" onclick="confirmLogout(event)" class="logout-btn">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    <span>Çıkış Yap</span>
+                </a>
             </div>
-        </div>
-        <div class="main-content">
-            <div class="header">
-                <h2>Dashboard Özeti</h2>
-            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="page-title">
+                    <h1>Dashboard Özeti</h1>
+                    <p>Gerçek zamanlı Supabase PostgreSQL bağlantısı ve mağaza metrikleri</p>
+                </div>
+                <div class="top-actions">
+                    <div id="connectionBadge" class="health-badge">
+                        <span class="pulse-dot"></span> Kontrol Ediliyor...
+                    </div>
+                    <button class="btn btn-secondary btn-sm" onclick="loadDashboard(); checkSystemHealth();">
+                        <i class="fa-solid fa-rotate"></i> Yenile
+                    </button>
+                </div>
+            </header>
+
+            <!-- Stat Cards / KPIs -->
             <div class="card-container">
                 <div class="card">
-                    <h4>Toplam Ürün</h4>
-                    <h2 id="totalProducts">-</h2>
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <h4>Katalog Ürünleri</h4>
+                            <h2 id="totalProducts">-</h2>
+                            <span class="card-trend trend-neutral"><i class="fa-solid fa-shield-halved"></i> Canlı Katalog</span>
+                        </div>
+                        <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.25); display: flex; align-items: center; justify-content: center; color: var(--brand-gold); font-size: 1.25rem;">
+                            <i class="fa-solid fa-boxes-stacked"></i>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="card">
-                    <h4>Stok Miktarı</h4>
-                    <h2 id="totalStock">-</h2>
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <h4>Depo Stok Adedi</h4>
+                            <h2 id="totalStock">-</h2>
+                            <span class="card-trend trend-positive"><i class="fa-solid fa-warehouse"></i> Toplam Fiziksel Stok</span>
+                        </div>
+                        <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(59, 130, 246, 0.12); border: 1px solid rgba(59, 130, 246, 0.25); display: flex; align-items: center; justify-content: center; color: var(--accent-blue); font-size: 1.25rem;">
+                            <i class="fa-solid fa-cubes"></i>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="card">
-                    <h4>Toplam Sipariş</h4>
-                    <h2 id="totalOrders">-</h2>
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <h4>Gelen Siparişler</h4>
+                            <h2 id="totalOrders">-</h2>
+                            <span class="card-trend trend-positive"><i class="fa-solid fa-receipt"></i> B2B Talepleri</span>
+                        </div>
+                        <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(139, 92, 246, 0.12); border: 1px solid rgba(139, 92, 246, 0.25); display: flex; align-items: center; justify-content: center; color: #a78bfa; font-size: 1.25rem;">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="card">
-                    <h4>Toplam Gelir</h4>
-                    <h2 id="totalRevenue">-</h2>
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <h4>Tamamlanan Hasılat</h4>
+                            <h2 id="totalRevenue">-</h2>
+                            <span class="card-trend trend-positive"><i class="fa-solid fa-circle-check"></i> Teslim Edilenler</span>
+                        </div>
+                        <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.25); display: flex; align-items: center; justify-content: center; color: var(--accent-green); font-size: 1.25rem;">
+                            <i class="fa-solid fa-coins"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <h3>Son Siparişler</h3>
-            <table id="recentOrdersTable">
-                <thead>
-                    <tr>
-                        <th>Sipariş No</th>
-                        <th>Müşteri</th>
-                        <th>Tarih</th>
-                        <th>Tutar</th>
-                        <th>Durum</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
+
+            <!-- Recent Orders Section -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 36px; margin-bottom: 18px;">
+                <div>
+                    <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-primary); margin: 0;">Son Sipariş Hareketleri</h3>
+                    <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 4px 0 0 0;">Supabase 'Orders' tablosundaki en son 8 sipariş kaydı</p>
+                </div>
+                <a href="orders.html" class="btn btn-secondary btn-sm">
+                    Tüm Siparişleri Gör <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="table-container">
+                <table id="recentOrdersTable" class="data-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 100px;">Sipariş No</th>
+                            <th>Müşteri Bilgisi</th>
+                            <th>Tarih</th>
+                            <th>Toplam Tutar</th>
+                            <th>Sipariş Durumu</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 40px;">
+                                <i class="fa-solid fa-spinner fa-spin" style="margin-right: 8px;"></i> Sipariş kayıtları yükleniyor...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
     </div>
+
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase-client.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/api.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            loadDashboard();
-            // Her 10 saniyede bir dashboard verilerini otomatik yenile
-            setInterval(loadDashboard, 10000);
+            // Check health & load stats
+            if (typeof checkSystemHealth === 'function') checkSystemHealth();
+            if (typeof loadDashboard === 'function') loadDashboard();
+
+            // Refresh periodically every 15 seconds
+            setInterval(() => {
+                if (typeof checkSystemHealth === 'function') checkSystemHealth();
+                if (typeof loadDashboard === 'function') loadDashboard();
+            }, 15000);
         });
     </script>
 </body>

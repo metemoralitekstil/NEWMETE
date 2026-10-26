@@ -2,18 +2,7 @@
 
 let cart = JSON.parse(localStorage.getItem('metemorali_cart')) || [];
 
-// Hotfix: legacy cart migration
-let needsSave = false;
-cart.forEach(item => {
-    if (item.image) {
-        if (item.image.includes('Mavi-Sari.png') || item.image.includes('Sari-Mavi.png')) {
-            needsSave = true;
-        }
-    }
-});
-if (needsSave) {
-    localStorage.setItem('metemorali_cart', JSON.stringify(cart));
-}
+
 
 function saveCart() {
     localStorage.setItem('metemorali_cart', JSON.stringify(cart));
@@ -49,10 +38,8 @@ function addToCart(product) {
     
     saveCart();
     
-    const lang = localStorage.getItem('metemorali_lang') || 'tr';
-    const toastText = window.i18n && window.i18n.translations[lang] 
-        ? window.i18n.translations[lang]['cart_toast'] 
-        : 'sepete eklendi!';
+    const lang = (window.i18n && window.i18n.currentLang) || (new URLSearchParams(window.location.search).get('lang')) || localStorage.getItem('metemorali_lang') || 'tr';
+    const toastText = (window.i18n && window.i18n.t('cart_toast')) || 'sepete eklendi!';
     const displayTitle = typeof product.title === 'object' 
         ? (product.title[lang] || product.title['tr']) 
         : product.title;

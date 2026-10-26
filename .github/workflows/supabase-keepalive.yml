@@ -1,0 +1,25 @@
+name: Supabase Database Keep-Alive
+
+on:
+  schedule:
+    # Runs every 2 days at 08:00 UTC (Prevents Supabase free-tier 7-day inactivity pause)
+    - cron: '0 8 */2 * *'
+  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+
+jobs:
+  ping-supabase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase REST API
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "apikey: sb_publishable_HF5kZ1rTFx15rJes459xZA_C_rzkoc3" \
+            -H "Authorization: Bearer sb_publishable_HF5kZ1rTFx15rJes459xZA_C_rzkoc3" \
+            "https://vcmgijcjltleytlwzayx.supabase.co/rest/v1/Products?select=Id&limit=1")
+          echo "Supabase HTTP Response Code: $STATUS"
+          if [ "$STATUS" -ge 200 ] && [ "$STATUS" -lt 400 ]; then
+            echo "Supabase keep-alive successful! Database is active and awake."
+          else
+            echo "Warning: Received HTTP $STATUS from Supabase"
+            exit 1
+          fi

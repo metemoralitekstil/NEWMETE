@@ -626,7 +626,7 @@
                 }
             };
             
-            const lang = localStorage.getItem('metemorali_lang') || 'tr';
+            const lang = (window.i18n && window.i18n.currentLang) || (new URLSearchParams(window.location.search).get('lang')) || localStorage.getItem('metemorali_lang') || 'tr';
             const t = certTranslations[lang] || certTranslations['tr'];
             
             const navLabelEl = document.getElementById('nav-cert-list-label');

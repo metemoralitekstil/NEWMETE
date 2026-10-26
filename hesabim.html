@@ -309,9 +309,12 @@
             const errorParam = urlParams.get('error');
             if (errorParam === 'phone_missing') {
                 setTimeout(() => {
-                    const lang = localStorage.getItem('metemorali_lang') || 'tr';
+                    const lang = (window.i18n && window.i18n.currentLang) || (new URLSearchParams(window.location.search).get('lang')) || localStorage.getItem('metemorali_lang') || 'tr';
                     const t = (key, defaultText = '') => {
-                        if (window.i18n && window.i18n.translations[lang]) {
+                        if (window.i18n && typeof window.i18n.t === 'function') {
+                            return window.i18n.t(key, defaultText);
+                        }
+                        if (window.i18n && window.i18n.translations && window.i18n.translations[lang]) {
                             return window.i18n.translations[lang][key] || defaultText;
                         }
                         return defaultText;
@@ -336,9 +339,12 @@
                 }, 500);
             } else if (errorParam === 'address_missing') {
                 setTimeout(() => {
-                    const lang = localStorage.getItem('metemorali_lang') || 'tr';
+                    const lang = (window.i18n && window.i18n.currentLang) || (new URLSearchParams(window.location.search).get('lang')) || localStorage.getItem('metemorali_lang') || 'tr';
                     const t = (key, defaultText = '') => {
-                        if (window.i18n && window.i18n.translations[lang]) {
+                        if (window.i18n && typeof window.i18n.t === 'function') {
+                            return window.i18n.t(key, defaultText);
+                        }
+                        if (window.i18n && window.i18n.translations && window.i18n.translations[lang]) {
                             return window.i18n.translations[lang][key] || defaultText;
                         }
                         return defaultText;
@@ -542,8 +548,8 @@
         };
 
         window.deleteAddress = async function (index) {
-            const lang = localStorage.getItem('metemorali_lang') || 'tr';
-            const confirmMsg = lang === 'tr' ? 'Bu adresi silmek istediğinize emin misiniz?' : 'Are you sure you want to delete this address?';
+            const lang = (window.i18n && window.i18n.currentLang) || (new URLSearchParams(window.location.search).get('lang')) || localStorage.getItem('metemorali_lang') || 'tr';
+            const confirmMsg = (window.i18n && typeof window.i18n.t === 'function') ? window.i18n.t('confirm_delete_address', 'Bu adresi silmek istediğinize emin misiniz?') : (lang === 'tr' ? 'Bu adresi silmek istediğinize emin misiniz?' : 'Are you sure you want to delete this address?');
             if (!confirm(confirmMsg)) return;
 
             userAddresses.splice(index, 1);
@@ -627,6 +633,7 @@
     <script src="components/loader.js" defer></script>
     <script src="cart.js" defer></script>
     <script src="js/components.js" defer></script>
+    <script src="js/dashboard.js" defer></script>
 </body>
 
 </html>

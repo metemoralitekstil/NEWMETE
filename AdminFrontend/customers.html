@@ -1,162 +1,137 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-88R5628V9H"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-88R5628V9H');
-</script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-88R5628V9H"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-88R5628V9H');
+    </script>
     <meta charset="UTF-8">
-    <title>Kayıtlı Müşteriler - Admin Panel</title>
-    <link rel="stylesheet" href="css/admin-style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeteMorali Admin | Kayıtlı Müşteriler</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link rel="stylesheet" href="css/admin-style.css">
 </head>
 <body>
     <div class="admin-layout">
-        <div class="sidebar">
-            <div class="sidebar-menu">
-                <h3>Admin Panel</h3>
-                <ul>
-                    <li><a href="dashboard.html">Dashboard</a></li>
-                    <li><a href="products.html">Ürün Yönetimi</a></li>
-                    <li><a href="orders.html">Sipariş Yönetimi</a></li>
-                    <li><a href="customers.html" class="active">Kayıtlı Müşteriler</a></li>
-                    <li><a href="seo-analiz.html">SEO Analiz</a></li>
-                </ul>
-            </div>
-            <div class="logout-container">
-                <a href="#" onclick="confirmLogout(event)" class="logout-btn">Çıkış Yap <i class="fa-solid fa-door-open"></i></a>
-            </div>
-        </div>
-        <div class="main-content">
-            <div class="header">
-                <h2>Kayıtlı Müşteriler</h2>
-            </div>
-            
-            <div class="card" style="margin-bottom: 20px;">
-                <p>Sisteme kayıt olan tüm müşteriler ve verdikleri siparişler aşağıda listelenmektedir.</p>
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div>
+                <div class="brand-section">
+                    <div class="brand-logo">
+                        <img src="../img/logo_gri.webp" alt="MeteMorali" onerror="this.src='../img/logo_gri.png'">
+                    </div>
+                    <div class="brand-text">
+                        <h2>MeteMorali</h2>
+                        <span>Admin Suite</span>
+                    </div>
+                </div>
+
+                <nav class="sidebar-nav">
+                    <div class="nav-label">Yönetim Paneli</div>
+                    <a href="dashboard.html">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="products.html">
+                        <i class="fa-solid fa-boxes-stacked"></i>
+                        <span>Ürün Yönetimi</span>
+                    </a>
+                    <a href="orders.html">
+                        <i class="fa-solid fa-bag-shopping"></i>
+                        <span>Sipariş Yönetimi</span>
+                    </a>
+                    <a href="customers.html" class="active">
+                        <i class="fa-solid fa-users"></i>
+                        <span>Kayıtlı Müşteriler</span>
+                    </a>
+
+                    <div class="nav-label">Sistem & Vitrin</div>
+                    <a href="seo-analiz.html">
+                        <i class="fa-solid fa-magnifying-glass-chart"></i>
+                        <span>SEO Analiz</span>
+                    </a>
+                    <a href="../katalog.html" target="_blank">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        <span>Canlı Mağazayı Aç</span>
+                    </a>
+                </nav>
             </div>
 
-            <table id="customersTable">
-                <thead>
-                    <tr>
-                        <th>Kayıt Tarihi</th>
-                        <th>Email / Telefon</th>
-                        <th>Toplam Sipariş</th>
-                        <th>Sipariş Detayları</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Müşteri verileri API'den JS ile yüklenecek -->
-                </tbody>
-            </table>
-        </div>
+            <div class="sidebar-footer">
+                <div class="admin-profile-chip">
+                    <div class="admin-avatar">A</div>
+                    <div class="admin-info">
+                        <div class="admin-name">Admin Yetkilisi</div>
+                        <div class="admin-role">Süper Yönetici</div>
+                    </div>
+                </div>
+                <a href="#" onclick="confirmLogout(event)" class="logout-btn">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    <span>Çıkış Yap</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="page-title">
+                    <h1>Kayıtlı Müşteriler</h1>
+                    <p>Sisteme kayıtlı kurumsal alıcılar, iletişim bilgileri ve geçmiş sipariş hacimleri</p>
+                </div>
+                <div class="top-actions">
+                    <div id="connectionBadge" class="health-badge">
+                        <span class="pulse-dot"></span> Kontrol Ediliyor...
+                    </div>
+                    <button class="btn btn-secondary btn-sm" onclick="loadCustomers(); checkSystemHealth();">
+                        <i class="fa-solid fa-rotate"></i> Yenile
+                    </button>
+                </div>
+            </header>
+
+            <!-- Table Container -->
+            <div class="table-container">
+                <table id="customersTable" class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Müşteri Ad Soyad</th>
+                            <th>E-Posta Adresi</th>
+                            <th>Telefon Numarası</th>
+                            <th>Sipariş Geçmişi</th>
+                            <th>Kayıt Tarihi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 40px;">
+                                <i class="fa-solid fa-spinner fa-spin" style="margin-right: 8px;"></i> Müşteri listesi yükleniyor...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
     </div>
+
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase-client.js"></script>
     <script src="js/auth.js"></script>
+    <script src="js/api.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            const token = localStorage.getItem('adminToken');
-            if (!token) {
-                window.location.href = 'index.html';
-                return;
-            }
-
-            try {
-                let customers = [];
-                let loadedFromSupabase = false;
-
-                if (typeof supabaseClient !== 'undefined' && supabaseClient !== null) {
-                    try {
-                        const { data: custData } = await supabaseClient.from('Customers').select('*');
-                        const { data: ordersData } = await supabaseClient.from('Orders').select('*');
-                        
-                        if (custData) {
-                            customers = custData.map(c => {
-                                const cPhone = c.Phone || c.phone || '';
-                                const cEmail = c.Email || c.email || '';
-                                const cName = c.FullName || c.fullName || c.fullname || '';
-                                const cOrders = (ordersData || []).filter(o => 
-                                    (o.CustomerPhone && o.CustomerPhone === cPhone) || 
-                                    (o.CustomerName && o.CustomerName.toLowerCase() === cName.toLowerCase())
-                                );
-
-                                return {
-                                    createdAt: c.CreatedAt || c.createdAt || new Date(),
-                                    email: cEmail,
-                                    phone: cPhone,
-                                    fullName: cName,
-                                    totalOrders: cOrders.length,
-                                    orders: cOrders.map(o => ({
-                                        orderId: o.Id || o.id,
-                                        orderDate: o.OrderDate || o.orderDate,
-                                        totalAmount: o.TotalAmount || o.totalAmount,
-                                        status: o.Status || o.status
-                                    }))
-                                };
-                            });
-                            loadedFromSupabase = true;
-                        }
-                    } catch (supabaseErr) {
-                        console.warn("Supabase'den müşteriler çekilemedi.", supabaseErr);
-                    }
-                }
-
-                if (!loadedFromSupabase) {
-                    const response = await fetch(API_BASE_URL + '/Customers', {
-                        headers: { 'Authorization': `Bearer ${token}` }
-                    });
-                    if (response.ok) {
-                        customers = await response.json();
-                    } else {
-                        if (response.status === 401) {
-                            alert("Oturum süreniz dolmuş, lütfen tekrar giriş yapın.");
-                            window.location.href = 'index.html';
-                            return;
-                        } else {
-                            alert("Müşteri verileri alınırken bir hata oluştu.");
-                            return;
-                        }
-                    }
-                }
-
-                const tbody = document.querySelector('#customersTable tbody');
-                tbody.innerHTML = '';
-
-                customers.forEach(customer => {
-                    const tr = document.createElement('tr');
-                    
-                    let contactInfo = `<strong>${customer.fullName || ''}</strong><br>`;
-                    if (customer.email) contactInfo += `<i class="fa-solid fa-envelope"></i> ${customer.email}<br>`;
-                    if (customer.phone) contactInfo += `<i class="fa-solid fa-phone"></i> ${customer.phone}`;
-
-                    let orderDetailsHtml = '<em>Sipariş Yok</em>';
-                    if (customer.orders && customer.orders.length > 0) {
-                        orderDetailsHtml = `<ul style="margin: 0; padding-left: 15px;">`;
-                        customer.orders.forEach(o => {
-                            const d = new Date(o.orderDate).toLocaleDateString('tr-TR');
-                            orderDetailsHtml += `<li>#${o.orderId} - ${d} - ${o.totalAmount} € - <strong>${o.status}</strong></li>`;
-                        });
-                        orderDetailsHtml += `</ul>`;
-                    }
-
-                    tr.innerHTML = `
-                        <td>${new Date(customer.createdAt).toLocaleString('tr-TR')}</td>
-                        <td>${contactInfo || 'Bilinmiyor'}</td>
-                        <td><span class="badge ${customer.totalOrders > 0 ? 'badge-success' : 'badge-secondary'}">${customer.totalOrders} Adet</span></td>
-                        <td>${orderDetailsHtml}</td>
-                    `;
-                    tbody.appendChild(tr);
-                });
-            } catch (error) {
-                console.error("Fetch error:", error);
-                alert("Veriler yüklenirken bir bağlantı hatası oluştu.");
-            }
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof checkSystemHealth === 'function') checkSystemHealth();
+            if (typeof loadCustomers === 'function') loadCustomers();
         });
     </script>
 </body>

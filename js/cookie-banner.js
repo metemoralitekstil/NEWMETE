@@ -103,7 +103,7 @@
     }
 
     function createBanner() {
-        const lang = localStorage.getItem('metemorali_lang') || 'tr';
+        const lang = (window.i18n && window.i18n.currentLang) || (new URLSearchParams(window.location.search).get('lang')) || localStorage.getItem('metemorali_lang') || 'tr';
         const t = translations[lang] || translations['tr'];
 
         const policyUrl = 'sozlesmeler#cerez-politikasi';

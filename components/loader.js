@@ -60,6 +60,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.body.appendChild(cookieScript);
     });
 
+    await new Promise((resolve) => {
+        const authScript = document.createElement('script');
+        authScript.src = 'js/auth.js';
+        authScript.onload = resolve;
+        authScript.onerror = () => resolve();
+        document.body.appendChild(authScript);
+    });
+
     // Yerel geliştirme ve testlerde elle .html yazma zorunluluğunu kaldıran akıllı yönlendirici
     document.addEventListener('click', (e) => {
         const a = e.target.closest('a');

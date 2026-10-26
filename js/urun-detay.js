@@ -124,17 +124,17 @@ async function loadProductDetail() {
                 if (data && !error) {
                     product = {
                         id: data.Id || data.id,
-                        name: data.Name || data.name,
-                        subtitle: data.Subtitle || data.subtitle,
-                        description: data.Description || data.description,
+                        name: (mockProduct && mockProduct.name) ? mockProduct.name : (data.Name || data.name),
+                        subtitle: (mockProduct && mockProduct.subtitle) ? mockProduct.subtitle : (data.Subtitle || data.subtitle),
+                        description: (mockProduct && mockProduct.description) ? mockProduct.description : (data.Description || data.description),
+                        features: (mockProduct && mockProduct.features) ? mockProduct.features : (data.Features || data.features),
                         price: Number(data.Price || data.price),
-                        imageUrl: data.ImageUrl || data.image_url || data.imageUrl,
-                        subImages: data.SubImages || data.sub_images || data.subImages,
-                        articleCode: data.ArticleCode || data.article_code || data.articleCode,
-                        certificateCode: data.CertificateCode || data.certificate_code || data.certificateCode,
-                        standards: data.Standards || data.standards,
-                        colors: data.Colors || data.colors,
-                        features: data.Features || data.features,
+                        imageUrl: data.ImageUrl || data.image_url || data.imageUrl || (mockProduct && mockProduct.imageUrl),
+                        subImages: data.SubImages || data.sub_images || data.subImages || (mockProduct && mockProduct.subImages),
+                        articleCode: data.ArticleCode || data.article_code || data.articleCode || (mockProduct && mockProduct.articleCode),
+                        certificateCode: data.CertificateCode || data.certificate_code || data.certificateCode || (mockProduct && mockProduct.certificateCode),
+                        standards: data.Standards || data.standards || (mockProduct && mockProduct.standards),
+                        colors: data.Colors || data.colors || (mockProduct && mockProduct.colors),
                         stockQuantity: (data.StockQuantity !== undefined ? data.StockQuantity : (data.stockQuantity !== undefined ? data.stockQuantity : (data.stock_quantity !== undefined ? data.stock_quantity : 100)))
                     };
                 }
@@ -155,7 +155,7 @@ async function loadProductDetail() {
         currentProductData = product;
 
         // Bilgileri Doldur
-        const lang = localStorage.getItem('metemorali_lang') || 'tr';
+        const lang = (window.i18n && window.i18n.currentLang) || (new URLSearchParams(window.location.search).get('lang')) || localStorage.getItem('metemorali_lang') || 'tr';
         const productName = (typeof getProductTranslation === 'function') 
             ? getProductTranslation(product, 'name', lang) 
             : (product.name && product.name[lang] ? product.name[lang] : product.name);

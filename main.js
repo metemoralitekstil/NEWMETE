@@ -97,7 +97,7 @@ const products = [
         bgImage: "img/arkaplankaynakci.webp",
         bgPosition: "left center",
         particleType: "fire",
-        link: "urun-detay.html?id=4",
+        link: "urun-detay.html?id=5",
         fsCapsule: "CAPSULE COLLECTION // 01",
         fsTitle: {
             tr: "KAYNAKÇI",
@@ -403,7 +403,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const bgElement = document.querySelector('.background');
     const root = document.documentElement;
 
-    const lang = localStorage.getItem('metemorali_lang') || 'tr';
+    const lang = (window.i18n && window.i18n.currentLang) || (new URLSearchParams(window.location.search).get('lang')) || localStorage.getItem('metemorali_lang') || 'tr';
     const initialData = products[0];
     if (root) {
         root.style.setProperty('--accent', initialData.accentColor);
@@ -526,7 +526,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const tl = gsap.timeline({
                 onComplete: () => {
                     // Update content while hidden
-                    const lang = localStorage.getItem('metemorali_lang') || 'tr';
+                    const lang = (window.i18n && window.i18n.currentLang) || (new URLSearchParams(window.location.search).get('lang')) || localStorage.getItem('metemorali_lang') || 'tr';
                     const pictureSource = productImg.parentElement.querySelector('source');
                     if (pictureSource) {
                         pictureSource.srcset = data.image;
@@ -592,7 +592,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- SWIPER SLIDER LOGIC (Feature Slider) ---
     const swiperWrapper = document.getElementById('fs-swiper-wrapper');
     if (swiperWrapper) {
-        const lang = localStorage.getItem('metemorali_lang') || 'tr';
+        const lang = (window.i18n && window.i18n.currentLang) || (new URLSearchParams(window.location.search).get('lang')) || localStorage.getItem('metemorali_lang') || 'tr';
         const examineTranslations = {
             tr: 'İncele',
             en: 'Examine',

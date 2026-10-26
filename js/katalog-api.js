@@ -46,27 +46,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function loadCatalogProducts() {
     try {
-        const lang = localStorage.getItem('metemorali_lang') || 'tr';
+        const lang = (window.i18n && window.i18n.currentLang) || (new URLSearchParams(window.location.search).get('lang')) || localStorage.getItem('metemorali_lang') || 'tr';
         let products = (typeof MOCK_PRODUCTS !== 'undefined') ? MOCK_PRODUCTS : (window.MOCK_PRODUCTS || []);
         
         if (typeof supabaseClient !== 'undefined' && supabaseClient !== null) {
             try {
                 const { data, error } = await supabaseClient.from('Products').select('*').order('Id');
                 if (data && data.length > 0) {
-                    products = data.map(p => ({
-                        id: p.Id || p.id,
-                        name: p.Name || p.name,
-                        subtitle: p.Subtitle || p.subtitle,
-                        description: p.Description || p.description,
-                        price: Number(p.Price || p.price),
-                        imageUrl: p.ImageUrl || p.image_url || p.imageUrl,
-                        subImages: p.SubImages || p.sub_images || p.subImages,
-                        articleCode: p.ArticleCode || p.article_code || p.articleCode,
-                        certificateCode: p.CertificateCode || p.certificate_code || p.certificateCode,
-                        standards: p.Standards || p.standards,
-                        colors: p.Colors || p.colors,
-                        features: p.Features || p.features
-                    }));
+                    const mockList = (typeof MOCK_PRODUCTS !== 'undefined') ? MOCK_PRODUCTS : (window.MOCK_PRODUCTS || []);
+                    products = data.map(p => {
+                        const id = p.Id || p.id;
+                        const mock = mockList.find(m => m.id === id);
+                        return {
+                            id: id,
+                            name: (mock && mock.name) ? mock.name : (p.Name || p.name),
+                            subtitle: (mock && mock.subtitle) ? mock.subtitle : (p.Subtitle || p.subtitle),
+                            description: (mock && mock.description) ? mock.description : (p.Description || p.description),
+                            features: (mock && mock.features) ? mock.features : (p.Features || p.features),
+                            price: Number(p.Price || p.price),
+                            imageUrl: p.ImageUrl || p.image_url || p.imageUrl || (mock && mock.imageUrl),
+                            subImages: p.SubImages || p.sub_images || p.subImages || (mock && mock.subImages),
+                            articleCode: p.ArticleCode || p.article_code || p.articleCode || (mock && mock.articleCode),
+                            certificateCode: p.CertificateCode || p.certificate_code || p.certificateCode || (mock && mock.certificateCode),
+                            standards: p.Standards || p.standards || (mock && mock.standards),
+                            colors: p.Colors || p.colors || (mock && mock.colors)
+                        };
+                    });
                 }
             } catch (err) {
                 console.warn("Supabase'den ürünler çekilemedi, mock verilere geçiliyor.", err);
@@ -92,25 +97,27 @@ async function loadCatalogProducts() {
         }
 
         products.forEach(p => {
+            if (!p || !p.imageUrl || p.imageUrl.trim() === '') return;
             const rawName = getProductTranslation(p, 'name', lang) || '';
             const rawSubtitle = getProductTranslation(p, 'subtitle', lang) || '';
             const rawDesc = getProductTranslation(p, 'description', lang) || '';
-            const examineBtnText = escapeHtml(EXAMINE_TRANSLATIONS[lang] || EXAMINE_TRANSLATIONS['tr']);
+            const examineBtnText = escapeHtml(EXAMINE_TRANSLATIONS[lang] || (window.i18n && window.i18n.t('examine')) || EXAMINE_TRANSLATIONS['tr']);
 
             // Determine category dynamically based on product ID
             let category = "welder";
             if (p.id === 1) category = "parka";
-            else if (p.id === 2) category = "supervisor";
+            else if (p.id === 2 || p.id === 6) category = "supervisor";
 
             const safeName = escapeHtml(rawName);
             const safeDesc = escapeHtml(rawSubtitle || rawDesc);
             const safeCategory = escapeHtml(category);
             const safeImg = encodeURI(p.imageUrl || '');
             const safeId = encodeURIComponent(p.id || '');
+            const detailUrl = (lang && lang !== 'tr') ? `urun-detay.html?id=${safeId}&lang=${encodeURIComponent(lang)}` : `urun-detay.html?id=${safeId}`;
 
             // "Katalog" kartı tasarımı
             const cardHTML = `
-            <div class="product-card" data-category="${safeCategory}" style="cursor: pointer;" onclick="if (!event.target.closest('a')) window.location.href='urun-detay.html?id=${safeId}'">
+            <div class="product-card" data-category="${safeCategory}" style="cursor: pointer;" onclick="if (!event.target.closest('a')) window.location.href='${detailUrl}'">
                 <!-- Sparks Animasyonu -->
                 <div class="sparks-container">
                     <div class="spark"></div><div class="spark"></div><div class="spark"></div><div class="spark"></div><div class="spark"></div>
@@ -124,7 +131,7 @@ async function loadCatalogProducts() {
                     <h3 class="card-title">${safeName}</h3>
                     <p class="card-desc">${safeDesc}</p>
                     <div class="card-actions" style="display: flex; justify-content: center; align-items: center; margin-top: 15px;">
-                        <a href="urun-detay.html?id=${safeId}" class="btn btn-outline" style="width: 100%; text-align: center;">${examineBtnText}</a>
+                        <a href="${detailUrl}" class="btn btn-outline" style="width: 100%; text-align: center;">${examineBtnText}</a>
                     </div>
                 </div>
             </div>`;
@@ -141,3 +148,10 @@ async function loadCatalogProducts() {
         grid.innerHTML = '<p style="color: red; text-align: center; width: 100%;">Ürünler yüklenemedi.</p>';
     }
 }
+
+// Re-render when components and i18n finish loading
+document.addEventListener('componentsLoaded', () => {
+    if (document.getElementById('catalog-grid')) {
+        loadCatalogProducts();
+    }
+});
