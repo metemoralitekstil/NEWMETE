@@ -41,6 +41,8 @@ const getTranslation = (field, lang) => {
     return field || '';
 };
 
+// Ana sayfa slider verisi — Urun detay verisi icin js/products.js bakin
+// Slider ID'leri MOCK_PRODUCTS ID'leriyle eslestirilmistir
 const products = [
     {
         id: 0,
@@ -204,92 +206,92 @@ const products = [
     {
         id: 2,
         title: {
-            tr: "Supervisor Takım",
-            en: "Supervisor Suit",
-            de: "Supervisor-Anzug",
-            ru: "Костюм супервайзера",
-            nl: "Supervisor Pak",
-            fr: "Costume de Superviseur",
-            it: "Completo Supervisor"
+            tr: "Lacivert Kaynakçı Takımı",
+            en: "Navy Blue Welder Suit",
+            de: "Marineblauer Schweißeranzug",
+            ru: "Темно-синий костюм сварщика",
+            nl: "Marineblauw Lasserspak",
+            fr: "Combinaison de Soudeur Bleu Marine",
+            it: "Completo da Saldatore Blu Navy"
         },
         subtitle: {
-            tr: "MAKSİMUM FARK EDİLEBİLİRLİK",
-            en: "MAXIMUM VISIBILITY",
-            de: "MAXIMALE ERKENNBARKEIT",
-            ru: "МАКСИМАЛЬНАЯ ЗАМЕТНОСТЬ",
-            nl: "MAXIMALE ZICHTBAARHEID",
-            fr: "VISIBILITÉ MAXIMALE",
-            it: "MASSIMA VISIBILITÀ"
+            tr: "ALEV ALMAZ & ANTİSTATİK KORUMA",
+            en: "FLAME RETARDANT & ANTISTATIC PROTECTION",
+            de: "FLAMMHEMMENDER & ANTISTATISCHER SCHUTZ",
+            ru: "ОГНЕСТОЙКАЯ И АНТИСТАТИЧЕСКАЯ ЗАЩИТА",
+            nl: "VLAMVERTRAGENDE & ANTISTATISCHE BESCHERMING",
+            fr: "PROTECTION IGNIFUGE ET ANTISTATIQUE",
+            it: "PROTEZIONE IGNIFUGA E ANTISTATICA"
         },
         desc1: {
-            tr: "Sarı Ağırlıklı Class 3 Yüksek Görünürlük",
-            en: "Yellow Dominant Class 3 High Visibility",
-            de: "Gelb Dominant Klasse 3 Hohe Sichtbarkeit",
-            ru: "Желтый доминирующий класс 3 высокой видимости",
-            nl: "Geel dominant klasse 3 hoge zichtbaarheid",
-            fr: "Jaune Dominant Classe 3 Haute Visibilité",
-            it: "Giallo Dominante Classe 3 Alta Visibilità"
+            tr: "Alev Geciktirici & Antistatik Kalın Kumaş",
+            en: "Flame Retardant & Antistatic Heavy Fabric",
+            de: "Flammhemmender und antistatischer schwerer Stoff",
+            ru: "Огнестойкая и антистатическая плотная ткань",
+            nl: "Vlamvertragende & antistatische zware stof",
+            fr: "Tissu lourd ignifuge et antistatique",
+            it: "Tessuto pesante ignifugo e antistatico"
         },
         desc2: {
-            tr: "Hafif ve Esnek Yapı (320 g/m²)",
-            en: "Lightweight and Flexible Structure (320 g/m²)",
-            de: "Leichte und flexible Struktur (320 g/m²)",
-            ru: "Легкая и гибкая структура (320 г/м²)",
-            nl: "Lichte en flexibele structuur (320 g/m²)",
-            fr: "Structure Légère et Flexible (320 g/m²)",
-            it: "Struttura Leggera e Flessibile (320 g/m²)"
+            tr: "Kaynak ve Metal Çapaklarına Dayanıklı Yapı",
+            en: "Structure Resistant to Welding & Metal Splashes",
+            de: "Struktur beständig gegen Schweiß- und Metallspritzer",
+            ru: "Структура, устойчивая к сварке и брызгам металла",
+            nl: "Structuur bestand tegen las- en metaalspatten",
+            fr: "Structure résistante au soudage et aux projections de métal",
+            it: "Struttura resistente a saldatura e schizzi di metallo"
         },
-        image: "img/Lacivert Reflektif İş Tulumu.png",
-        fsImage: "img/Lacivert Reflektörlü İş Montu.png",
+        image: "img/Lacivert 1.png",
+        fsImage: "img/Lacivert 4.png",
         label: {
-            tr: "Supervisor Ceket ve Pantolon",
-            en: "Supervisor Jacket and Pants",
-            de: "Supervisor Jacke und Hose",
-            ru: "Куртка и брюки супервайзера",
-            nl: "Supervisor Jas en Broek",
-            fr: "Veste et Pantalon de Superviseur",
-            it: "Giacca e Pantaloni Supervisor"
+            tr: "Lacivert Ceket ve Pantolon",
+            en: "Navy Blue Jacket and Pants",
+            de: "Marineblaue Jacke und Hose",
+            ru: "Темно-синяя куртка и брюки",
+            nl: "Marineblauwe Jas en Broek",
+            fr: "Veste et Pantalon Bleu Marine",
+            it: "Giacca e Pantaloni Blu Navy"
         },
-        accentColor: "#ff9f43",
+        accentColor: "#2563eb",
         bgImage: "img/Arkaplan2.webp",
         particleType: "dust",
-        link: "urun-detay.html?id=2",
+        link: "urun-detay.html?id=6",
         fsCapsule: "CAPSULE COLLECTION // 03",
         fsTitle: {
-            tr: "SUPERVISOR",
-            en: "SUPERVISOR",
-            de: "SUPERVISOR",
-            ru: "СУПЕРВАЙЗЕР",
-            nl: "SUPERVISOR",
-            fr: "SUPERVISEUR",
-            it: "SUPERVISOR"
+            tr: "LACİVERT",
+            en: "NAVY BLUE",
+            de: "MARINEBLAU",
+            ru: "ТЕМНО-СИНИЙ",
+            nl: "MARINEBLAUW",
+            fr: "BLEU MARINE",
+            it: "BLU NAVY"
         },
         fsDesc: {
-            tr: "Class 3 Yüksek Görünürlük",
-            en: "Class 3 High Visibility",
-            de: "Klasse 3 Hohe Sichtbarkeit",
-            ru: "Класс 3 Высокая видимость",
-            nl: "Klasse 3 Hoge zichtbaarheid",
-            fr: "Classe 3 Haute Visibilité",
-            it: "Classe 3 Alta Visibilità"
+            tr: "Alev Almaz & Antistatik",
+            en: "Flame Retardant & Antistatic",
+            de: "Flammhemmend & Antistatisch",
+            ru: "Огнестойкий и антистатический",
+            nl: "Vlamvertragend & Antistatisch",
+            fr: "Ignifuge & Antistatique",
+            it: "Ignifugo & Antistatico"
         },
         fsSeason: "2026 EDITION",
         fsCustomClass: "fs-medium-jacket third-jacket",
         features: [
-            { top: "35%", left: "55%", text: "Sarı Kumaş", color: "#e67e22" },
-            { top: "75%", left: "45%", text: "Esnek Yapı", color: "#8c929c" }
+            { top: "35%", left: "55%", text: "Alev Almaz", color: "#2563eb" },
+            { top: "75%", left: "45%", text: "Antistatik", color: "#8c929c" }
         ]
     },
     {
         id: 3,
         title: {
-            tr: "Supervisor Parka",
-            en: "Supervisor Parka",
-            de: "Supervisor-Parka",
-            ru: "Парка супервайзера",
-            nl: "Supervisor Parka",
-            fr: "Parka de Superviseur",
-            it: "Parka Supervisor"
+            tr: "Termal Kışlık Parka",
+            en: "Thermal Winter Parka",
+            de: "Thermischer Winterparka",
+            ru: "Теплая зимняя парка",
+            nl: "Thermische Winterparka",
+            fr: "Parka d'Hiver Thermique",
+            it: "Parka Invernale Termico"
         },
         subtitle: {
             tr: "YÜKSEK GÖRÜNÜRLÜK (CLASS 3) - FR PARKA",
@@ -321,13 +323,13 @@ const products = [
         image: "img/Beyaz Zeminde Yüksek Görünürlüklü İş Parkası.png",
         fsImage: "img/Neon Sarı Reflektif Güvenlik Parkası.png",
         label: {
-            tr: "Supervisor Parka 2024",
-            en: "Supervisor Parka 2024",
-            de: "Supervisor-Parka 2024",
-            ru: "Парка супервайзера 2024",
-            nl: "Supervisor Parka 2024",
-            fr: "Parka de Superviseur 2024",
-            it: "Parka Supervisor 2024"
+            tr: "Termal Kışlık Parka",
+            en: "Thermal Winter Parka",
+            de: "Thermischer Winterparka",
+            ru: "Теплая зимняя парка",
+            nl: "Thermische Winterparka",
+            fr: "Parka d'Hiver Thermique",
+            it: "Parka Invernale Termico"
         },
         accentColor: "#cd84f1",
         bgImage: "img/Arkaplan1.webp",
