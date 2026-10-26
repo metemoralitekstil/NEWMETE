@@ -1,0 +1,21 @@
+# Build & Binaries (.NET)
+bin/
+obj/
+*.user
+*.userosscache
+*.sln.docstates
+
+# IDE & Editor
+.vs/
+.vscode/
+.idea/
+
+# Environment & Logs
+*.log
+.env
+.env.local
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini

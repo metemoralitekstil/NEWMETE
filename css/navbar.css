@@ -1,0 +1,404 @@
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 3rem;
+    height: 85px;
+    background: transparent;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+}
+
+.menu-btn {
+    font-size: 1.4rem;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.menu-btn:hover {
+    background-color: var(--hover-bg);
+    color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.2);
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 0.5rem 0;
+    opacity: 0.9;
+}
+
+.nav-links li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: var(--accent);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+    border-radius: 2px;
+    box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
+}
+
+.nav-links li a:hover {
+    color: var(--accent);
+    opacity: 1;
+}
+
+.nav-links li a:hover::after {
+    width: 100%;
+}
+
+.nav-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.logo-container:hover {
+    transform: scale(1.05);
+}
+
+.logo-img {
+    height: 60px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5));
+}
+
+.logo-text {
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: #ffffff;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.icon-btn {
+    color: var(--text-color);
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    text-decoration: none;
+    background: transparent;
+    position: relative;
+    opacity: 0.9;
+}
+
+.icon-btn:hover {
+    background-color: var(--hover-bg);
+    color: var(--accent);
+    transform: translateY(-2px);
+    opacity: 1;
+}
+
+.navbar {
+    transition: background 0.4s ease, box-shadow 0.4s ease;
+}
+
+.navbar.scrolled {
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+}
+
+.navbar.scrolled .nav-links li a,
+.navbar.scrolled .icon-btn,
+.navbar.scrolled .icon-btn i,
+.navbar.scrolled .menu-btn,
+.navbar.scrolled .menu-btn i {
+    color: #121214;
+}
+
+.navbar.scrolled .nav-links li a:hover {
+    color: var(--accent);
+}
+
+.navbar.scrolled .logo-text {
+    color: #121214;
+    text-shadow: none;
+}
+
+.navbar.scrolled .icon-btn:hover,
+.navbar.scrolled .icon-btn:hover i,
+.navbar.scrolled .menu-btn:hover,
+.navbar.scrolled .menu-btn:hover i {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: var(--accent);
+}
+
+/* Always Dark Navbar Text (for static light pages) */
+.navbar-dark-text .nav-links li a,
+.navbar-dark-text .icon-btn,
+.navbar-dark-text .icon-btn i,
+.navbar-dark-text .menu-btn,
+.navbar-dark-text .menu-btn i {
+    color: #121214 !important;
+}
+
+.navbar-dark-text .logo-text {
+    color: #121214 !important;
+    text-shadow: none !important;
+}
+
+.navbar-dark-text .icon-btn:hover,
+.navbar-dark-text .icon-btn:hover i,
+.navbar-dark-text .menu-btn:hover,
+.navbar-dark-text .menu-btn:hover i {
+    background-color: rgba(0, 0, 0, 0.05) !important;
+    color: var(--accent) !important;
+}
+
+@media (max-width: 900px) {
+    .nav-links {
+        display: none;
+    }
+    .navbar {
+        padding: 0 1.5rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .navbar {
+        padding: 0 1rem;
+    }
+    .logo-img {
+        display: none; 
+    }
+    .logo-text {
+        font-size: 1.3rem; 
+        letter-spacing: 1px;
+    }
+    .icon-btn, .menu-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+    .nav-right {
+        gap: 0.5rem;
+    }
+}
+
+.lang-selector {
+    position: relative;
+    display: inline-block;
+    z-index: 1010;
+}
+
+.lang-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--text-color);
+    padding: 0.5rem 0.8rem;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    height: 45px;
+}
+
+.lang-btn:hover {
+    background: var(--hover-bg);
+    color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.2);
+}
+
+.lang-btn .chevron-icon {
+    font-size: 0.7rem;
+    transition: transform 0.3s ease;
+}
+
+.lang-btn[aria-expanded="true"] .chevron-icon {
+    transform: rotate(180deg);
+}
+
+.lang-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: rgba(20, 20, 22, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 0.5rem;
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.lang-dropdown.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.lang-dropdown a {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 0.8rem;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-size: 0.85rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    text-align: left;
+}
+
+.lang-dropdown a:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--accent);
+    padding-left: 1.1rem;
+}
+
+.flag-icon {
+    font-size: 1.1rem;
+}
+
+.navbar.scrolled .lang-btn,
+.navbar-dark-text .lang-btn {
+    color: #121214 !important;
+    background: rgba(0, 0, 0, 0.03) !important;
+    border-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+.navbar.scrolled .lang-btn:hover,
+.navbar-dark-text .lang-btn:hover {
+    background: rgba(0, 0, 0, 0.06) !important;
+    color: var(--accent) !important;
+}
+
+.mobile-lang-selector {
+    position: relative;
+    width: 100%;
+}
+
+.mobile-lang-selector .lang-btn {
+    width: 100% !important;
+    justify-content: space-between !important;
+    border-radius: 10px !important;
+    height: 48px !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+}
+
+.mobile-lang-selector .lang-dropdown {
+    position: static !important;
+    width: 100% !important;
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    padding: 0 !important;
+    border: none !important;
+    background: rgba(0, 0, 0, 0.2) !important;
+    transition: all 0.3s ease;
+    transform: none !important;
+}
+
+.mobile-lang-selector .lang-dropdown.active {
+    opacity: 1;
+    height: auto;
+    padding: 0.5rem 0 !important;
+    margin-top: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.mobile-lang-item.active {
+    color: var(--accent) !important;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Adapt navbar language selector for mobile screens */
+@media (max-width: 768px) {
+    .navbar .lang-selector {
+        display: none !important;
+    }
+}
+
+.nav-links a.active-page {
+    color: var(--accent, #e74c3c) !important;
+    position: relative;
+}
+.nav-links a.active-page::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 100%;
+    height: 2px;
+    background: var(--accent, #e74c3c);
+    border-radius: 2px;
+    transform: translateX(-50%);
+}
+.mobile-nav-links a.active-page {
+    color: var(--accent, #e74c3c) !important;
+    font-weight: 600;
+}

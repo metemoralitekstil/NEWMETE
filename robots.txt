@@ -1,0 +1,10 @@
+User-agent: *
+Disallow: /scratch/
+Disallow: /sepet
+Disallow: /hesabim
+Disallow: /odeme-sonuc
+Disallow: /AdminBackend/
+Disallow: /AdminFrontend/
+Allow: /
+
+Sitemap: https://www.mete-morali.com/sitemap.xml

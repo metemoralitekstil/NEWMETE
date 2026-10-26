@@ -1,0 +1,289 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-88R5628V9H"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-88R5628V9H');
+</script>
+    <meta charset="UTF-8">
+    <title>Ürün Yönetimi</title>
+    <link rel="stylesheet" href="css/admin-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <div class="sidebar">
+            <div class="sidebar-menu">
+                <h3>Admin Panel</h3>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="products.html" class="active">Ürün Yönetimi</a></li>
+                    <li><a href="orders.html">Sipariş Yönetimi</a></li>
+                    <li><a href="customers.html">Kayıtlı Müşteriler</a></li>
+                    <li><a href="seo-analiz.html">SEO Analiz</a></li>
+                </ul>
+            </div>
+            <div class="logout-container">
+                <a href="#" onclick="confirmLogout(event)" class="logout-btn">Çıkış Yap <i class="fa-solid fa-door-open"></i></a>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="header">
+                <h2>Ürün Listesi</h2>
+                <button class="btn" style="width: 150px;" onclick="openAddProductModal()">+ Yeni Ürün Ekle</button>
+            </div>
+            <table id="productsTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Ürün Adı</th>
+                        <th>Fiyat</th>
+                        <th>Stok</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', loadProducts);
+    </script>
+    <!-- Ürün Ekleme Modalı -->
+    <div class="custom-modal-overlay" id="addProductModal">
+        <div class="custom-modal" style="width: 800px; max-width: 95%; max-height: 90vh; overflow-y: auto; padding-bottom: 30px;">
+            <h3 style="margin-bottom: 20px;">Yeni Ürün Ekle</h3>
+            <form id="addProductForm" onsubmit="saveProduct(event)">
+                <div style="display: flex; gap: 30px; flex-wrap: wrap;">
+                    
+                    <!-- Sol Taraf (Resimler) -->
+                    <div style="flex: 1; min-width: 300px; border-right: 1px dashed #ccc; padding-right: 30px;">
+                        <div style="text-align: center; margin-bottom: 20px;">
+                            <label style="font-weight: bold; margin-bottom: 10px; display: block; text-align: left;">Ana Resim</label>
+                            <div id="mainImagePlaceholder" style="border: 2px dashed #ccc; border-radius: 10px; padding: 40px; cursor: pointer; color: #7f8c8d; position: relative;" onclick="document.getElementById('newProductImage').click()">
+                                <i class="fa-solid fa-plus" style="font-size: 3rem; margin-bottom: 10px;"></i>
+                                <p style="margin: 0; font-weight: bold;">Göz At (Ana Resim)</p>
+                            </div>
+                            <div id="mainImagePreviewContainer" style="display: none; position: relative;">
+                                <img id="mainImagePreview" src="" alt="Önizleme" style="max-width: 100%; max-height: 200px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin-top: 15px;">
+                                <i class="fa-solid fa-trash" style="position: absolute; top: 25px; right: 10px; background: rgba(231, 76, 60, 0.9); color: white; padding: 8px; border-radius: 50%; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.2);" onclick="clearMainImage()" title="Resmi Kaldır"></i>
+                            </div>
+                            <input type="file" id="newProductImage" accept="image/*" style="display: none;" onchange="previewMainImage(this)">
+                        </div>
+
+                        <div class="form-group" style="text-align: left; margin-bottom: 15px; margin-top: 30px;">
+                            <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                                <i class="fa-solid fa-plus" style="font-size: 1.5rem; cursor: pointer; color: white; margin-right: 15px;" onclick="addSubImageInput('new')"></i>
+                                <span style="font-weight: bold; font-size: 1.1rem; background-color: #6a9b91; padding: 8px 20px; border-radius: 20px; color: white;">Alt Resim Ekle</span>
+                            </div>
+                            <div id="newSubImagesContainer" style="display: flex; flex-direction: column; gap: 10px;">
+                                <div style="display: flex; align-items: center;">
+                                    <input type="file" class="new-sub-image-input" accept="image/*" style="flex: 1; padding: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 8px; background: #fff;">
+                                    <i class="fa-solid fa-trash" style="color: red; margin-left: 10px; cursor: pointer;" onclick="this.parentElement.remove()"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sağ Taraf (Metinler) -->
+                    <div style="flex: 1; min-width: 300px;">
+                        <div class="form-group" style="text-align: left; margin-bottom: 20px;">
+                            <label style="font-weight: bold; margin-bottom: 5px; display: block;">Başlık</label>
+                            <input type="text" id="newProductName" required placeholder="Örn: Eldiven" style="width: 100%; padding: 12px; box-sizing: border-box; background-color: #6a9b91; color: white; border: none; border-radius: 20px; font-size: 1.1rem; font-weight: bold;">
+                        </div>
+                        <div class="form-group" style="text-align: left; margin-bottom: 20px; margin-left: 20px;">
+                            <label style="font-weight: bold; margin-bottom: 5px; display: block;">Alt Başlık</label>
+                            <input type="text" id="newProductSubtitle" placeholder="Örn: Ateşten koruyan eldiven" style="width: 100%; padding: 10px; box-sizing: border-box; background-color: #6a9b91; color: white; border: none; border-radius: 20px; font-size: 0.95rem;">
+                        </div>
+                        <div class="form-group" style="text-align: left; margin-bottom: 20px;">
+                            <label style="font-weight: bold; margin-bottom: 5px; display: block;">Fiyat (€ Euro)</label>
+                            <input type="number" step="0.01" id="newProductPrice" required style="width: 100%; padding: 10px; box-sizing: border-box; border-radius: 8px; border: 1px solid #ccc;">
+                        </div>
+                        <div class="form-group" style="text-align: left; margin-bottom: 20px;">
+                            <label style="font-weight: bold; margin-bottom: 5px; display: block;">Ürün Kodu</label>
+                            <input type="text" id="newProductArticleCode" placeholder="Örn: 910404" style="width: 100%; padding: 10px; box-sizing: border-box; border-radius: 8px; border: 1px solid #ccc;">
+                        </div>
+                        <div class="form-group" style="text-align: left; margin-bottom: 20px;">
+                            <label style="font-weight: bold; margin-bottom: 5px; display: block;">AB Tip Sertifikası</label>
+                            <input type="text" id="newProductCertificateCode" placeholder="Örn: OZO 1117-CPT004/26" style="width: 100%; padding: 10px; box-sizing: border-box; border-radius: 8px; border: 1px solid #ccc;">
+                        </div>
+                        <div class="form-group" style="text-align: left; margin-bottom: 20px;">
+                            <label style="font-weight: bold; margin-bottom: 10px; display: block;">Koruma Standartları</label>
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #ddd;">
+                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem; color: #111;">
+                                    <input type="checkbox" name="newStandards" value="EN 11611"> EN 11611 (Kaynakçı)
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem; color: #111;">
+                                    <input type="checkbox" name="newStandards" value="EN 11612"> EN 11612 (Isı ve Alev)
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem; color: #111;">
+                                    <input type="checkbox" name="newStandards" value="EN 1149-5"> EN 1149-5 (Antistatik)
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem; color: #111;">
+                                    <input type="checkbox" name="newStandards" value="EN 20471"> EN 20471 (Yüksek Görünürlük)
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem; color: #111;">
+                                    <input type="checkbox" name="newStandards" value="EN 17353"> EN 17353 (Geliştirilmiş)
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem; color: #111;">
+                                    <input type="checkbox" name="newStandards" value="EN 342"> EN 342 (Soğuk Hava)
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" style="text-align: left; margin-top: 30px;">
+                            <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                                <i class="fa-solid fa-plus" style="font-size: 1.5rem; cursor: pointer; color: white; margin-right: 15px;" onclick="addFeatureInput()"></i>
+                                <span style="font-weight: bold; font-size: 1.2rem; background-color: #6a9b91; padding: 8px 20px; border-radius: 20px; color: white;">Açıklama Ekle</span>
+                            </div>
+                            <div id="featuresContainer" style="margin-left: 40px; display: flex; flex-direction: column; gap: 10px;">
+                                <!-- Dinamik açıklamalar buraya eklenecek -->
+                            </div>
+                        </div>
+                        <div class="form-group" style="text-align: left; margin-top: 30px;">
+                            <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                                <i class="fa-solid fa-plus" style="font-size: 1.5rem; cursor: pointer; color: white; margin-right: 15px;" onclick="addColorInput()"></i>
+                                <span style="font-weight: bold; font-size: 1.2rem; background-color: #6a9b91; padding: 8px 20px; border-radius: 20px; color: white;">Renk Ekle</span>
+                            </div>
+                            <div id="colorsContainer" style="margin-left: 40px; display: flex; flex-direction: column; gap: 10px;">
+                                <!-- Dinamik renkler buraya eklenecek -->
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="custom-modal-actions" style="margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px;">
+                    <button type="button" class="btn-cancel" onclick="closeAddProductModal()">İptal</button>
+                    <button type="submit" class="btn-confirm" style="background-color: #27ae60; padding: 10px 30px; font-size: 1.1rem;">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Ürün Düzenle Modal -->
+    <div id="editProductModal" class="custom-modal-overlay">
+        <div class="custom-modal" style="max-width: 500px; max-height: 90vh; overflow-y: auto; padding-bottom: 30px;">
+            <div class="custom-modal-header" style="text-align: center; margin-bottom: 20px;">
+                <h3 style="margin: 0; padding-bottom: 10px; border-bottom: 1px solid #eee;">Ürün Düzenle</h3>
+            </div>
+            <form id="editProductForm" onsubmit="submitEditProduct(event)">
+                <input type="hidden" id="editProductId">
+                <div class="form-group" style="text-align: left; margin-bottom: 20px;">
+                    <label style="font-weight: bold; margin-bottom: 5px; display: block;">Ürün Adı (Katalogda Gösterilecek)</label>
+                    <input type="text" id="editProductName" required style="width: 100%; padding: 10px; box-sizing: border-box; border-radius: 8px; border: 1px solid #ccc;">
+                </div>
+                <div class="form-group" style="text-align: left; margin-bottom: 20px;">
+                    <label style="font-weight: bold; margin-bottom: 5px; display: block;">Alt Başlık</label>
+                    <input type="text" id="editProductSubtitle" style="width: 100%; padding: 10px; box-sizing: border-box; border-radius: 8px; border: 1px solid #ccc;">
+                </div>
+                <div class="form-group" style="text-align: left; margin-bottom: 20px;">
+                    <label style="font-weight: bold; margin-bottom: 5px; display: block;">Fiyat (€ Euro)</label>
+                    <input type="number" step="0.01" id="editProductPrice" required style="width: 100%; padding: 10px; box-sizing: border-box; border-radius: 8px; border: 1px solid #ccc;">
+                </div>
+                <div class="form-group" style="text-align: left; margin-bottom: 20px;">
+                    <label style="font-weight: bold; margin-bottom: 5px; display: block;">Stok Miktarı</label>
+                    <input type="number" id="editProductStock" required style="width: 100%; padding: 10px; box-sizing: border-box; border-radius: 8px; border: 1px solid #ccc;">
+                </div>
+                <div class="form-group" style="text-align: left; margin-bottom: 20px;">
+                    <label style="font-weight: bold; margin-bottom: 5px; display: block;">Ürün Kodu</label>
+                    <input type="text" id="editProductArticleCode" placeholder="Örn: 910404" style="width: 100%; padding: 10px; box-sizing: border-box; border-radius: 8px; border: 1px solid #ccc;">
+                </div>
+                <div class="form-group" style="text-align: left; margin-bottom: 20px;">
+                    <label style="font-weight: bold; margin-bottom: 5px; display: block;">AB Tip Sertifikası</label>
+                    <input type="text" id="editProductCertificateCode" placeholder="Örn: OZO 1117-CPT004/26" style="width: 100%; padding: 10px; box-sizing: border-box; border-radius: 8px; border: 1px solid #ccc;">
+                </div>
+                <div class="form-group" style="text-align: left; margin-bottom: 20px;">
+                    <label style="font-weight: bold; margin-bottom: 10px; display: block;">Koruma Standartları</label>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #ddd;">
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem; color: #111;">
+                            <input type="checkbox" name="editStandards" value="EN 11611"> EN 11611 (Kaynakçı)
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem; color: #111;">
+                            <input type="checkbox" name="editStandards" value="EN 11612"> EN 11612 (Isı ve Alev)
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem; color: #111;">
+                            <input type="checkbox" name="editStandards" value="EN 1149-5"> EN 1149-5 (Antistatik)
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem; color: #111;">
+                            <input type="checkbox" name="editStandards" value="EN 20471"> EN 20471 (Yüksek Görünürlük)
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem; color: #111;">
+                            <input type="checkbox" name="editStandards" value="EN 17353"> EN 17353 (Geliştirilmiş)
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem; color: #111;">
+                            <input type="checkbox" name="editStandards" value="EN 342"> EN 342 (Soğuk Hava)
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group" style="text-align: left; margin-bottom: 20px;">
+                    <label style="font-weight: bold; margin-bottom: 5px; display: block;">Yeni Ana Resim (Değiştirmek İstemiyorsanız Boş Bırakın)</label>
+                    <input type="file" id="editProductImage" accept="image/*" style="width: 100%; padding: 5px;">
+                </div>
+                <div class="form-group" style="text-align: left; margin-bottom: 20px;">
+                    <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                        <i class="fa-solid fa-plus" style="font-size: 1.5rem; cursor: pointer; color: white; margin-right: 15px;" onclick="addSubImageInput('edit')"></i>
+                        <span style="font-weight: bold; font-size: 1.1rem; background-color: #f39c12; padding: 8px 20px; border-radius: 20px; color: white;">Yeni Alt Resim Ekle</span>
+                    </div>
+                    <div id="editSubImagesContainer" style="display: flex; flex-direction: column; gap: 10px;">
+                        <div style="display: flex; align-items: center;">
+                            <input type="file" class="edit-sub-image-input" accept="image/*" style="flex: 1; padding: 5px;">
+                            <i class="fa-solid fa-trash" style="color: red; margin-left: 10px; cursor: pointer;" onclick="this.parentElement.remove()"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" style="text-align: left; margin-top: 30px;">
+                    <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                        <i class="fa-solid fa-plus" style="font-size: 1.5rem; cursor: pointer; color: white; margin-right: 15px;" onclick="addEditFeatureInput()"></i>
+                        <span style="font-weight: bold; font-size: 1.2rem; background-color: #f39c12; padding: 8px 20px; border-radius: 20px; color: white;">Açıklama Düzenle / Ekle</span>
+                    </div>
+                    <div id="editFeaturesContainer" style="margin-left: 40px; display: flex; flex-direction: column; gap: 10px;">
+                        <!-- Dinamik açıklamalar buraya eklenecek -->
+                    </div>
+                </div>
+                <div class="form-group" style="text-align: left; margin-top: 30px;">
+                    <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                        <i class="fa-solid fa-plus" style="font-size: 1.5rem; cursor: pointer; color: white; margin-right: 15px;" onclick="addEditColorInput()"></i>
+                        <span style="font-weight: bold; font-size: 1.2rem; background-color: #f39c12; padding: 8px 20px; border-radius: 20px; color: white;">Renk Düzenle / Ekle</span>
+                    </div>
+                    <div id="editColorsContainer" style="margin-left: 40px; display: flex; flex-direction: column; gap: 10px;">
+                        <!-- Dinamik renkler buraya eklenecek -->
+                    </div>
+                </div>
+
+                <div class="custom-modal-actions" style="margin-top: 30px;">
+                    <button type="button" class="btn-cancel" onclick="closeEditProductModal()">İptal</button>
+                    <button type="submit" class="btn-confirm" style="background-color: #f39c12;">Güncelle</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Özel Silme Onay Modal -->
+    <div id="deleteConfirmModal" class="custom-modal-overlay">
+        <div class="custom-modal" style="max-width: 400px; text-align: center;">
+            <i class="fa-solid fa-triangle-exclamation" style="font-size: 4rem; color: #e74c3c; margin-bottom: 20px;"></i>
+            <h3 style="margin-bottom: 10px;">Ürünü Silmek İstediğinize Emin Misiniz?</h3>
+            <p style="color: #7f8c8d; margin-bottom: 30px;">Bu işlem geri alınamaz ve ürün katalogdan anında kaldırılacaktır.</p>
+            <input type="hidden" id="deleteTargetId">
+            <div class="custom-modal-actions" style="justify-content: center; gap: 20px;">
+                <button type="button" class="btn-cancel" onclick="closeDeleteConfirmModal()">İptal</button>
+                <button type="button" class="btn-confirm" style="background-color: #e74c3c;" onclick="executeDeleteProduct()">Evet, Sil</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,253 @@
+:root {
+    --nav-bg: rgba(18, 18, 20, 0.85);
+    --nav-border: rgba(255, 255, 255, 0.08);
+    --text-color: #ffffff;
+    --text-muted: #a0a0a0;
+    --accent: #3498db; 
+    --hover-bg: rgba(255, 255, 255, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif;
+}
+
+body, html {
+    min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+    background-color: #050505;
+    color: var(--text-color);
+}
+
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Karanlık ve endüstriyel bir depo arka plan resmi */
+    background-image: url('../img/arkaplankaynakci.webp');
+    background-size: cover;
+    background-position: left center;
+    z-index: 0; /* Negatif z-index body arkaplanının arkasında kalmasına neden oluyordu */
+    transition: opacity 0.4s ease;
+}
+
+.background::after {
+    content: '';
+    position: absolute;
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
+    /* Masaüstünde sağdaki yazıları okutmak için karanlık bölge sağa doğru */
+    background: linear-gradient(to right, rgba(5, 5, 8, 0.1) 0%, rgba(5, 5, 8, 0.95) 100%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+@media (max-width: 1024px) {
+    .background::after {
+        /* Mobilde harika bir görünüm için: 
+           Üst taraf tamamen şeffaf (kıyafetin arkası net görünür),
+           Aşağıya (yazılara) doğru indikçe çok yumuşak bir şekilde koyulaşır. */
+        display: block;
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 25%, rgba(5, 5, 8, 0.95) 85%);
+    }
+}
+
+#tsparticles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; 
+    pointer-events: none;
+}
+
+*:focus-visible {
+    outline: 2px solid var(--accent, #e74c3c);
+    outline-offset: 2px;
+}
+
+#splash-screen {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100vh;
+    background: #09090b;
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease;
+}
+.splash-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+}
+.splash-logo {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.18em;
+    margin: 0;
+    text-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
+    animation: pulseLogo 2s ease-in-out infinite;
+    text-align: center;
+}
+.splash-loader {
+    width: 44px; height: 44px;
+    border: 3px solid rgba(255, 255, 255, 0.05);
+    border-top: 3px solid var(--accent, #3498db);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+:root {
+    --nav-bg: rgba(12, 12, 14, 0.85);
+    --nav-border: rgba(255, 255, 255, 0.08);
+    --text-color: #ffffff;
+    --text-muted: #a0a0a0;
+    --accent: #3498db; 
+    --hover-bg: rgba(255, 255, 255, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif;
+}
+
+body, html {
+    min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+    background-color: #050505;
+    color: var(--text-color);
+}
+
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Karanlık ve endüstriyel bir depo arka plan resmi */
+    background-image: url('../img/arkaplankaynakci.webp');
+    background-size: cover;
+    background-position: left center;
+    z-index: 0; /* Negatif z-index body arkaplanının arkasında kalmasına neden oluyordu */
+    transition: opacity 0.4s ease;
+}
+
+.background::after {
+    content: '';
+    position: absolute;
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
+    /* Masaüstünde sağdaki yazıları okutmak için karanlık bölge sağa doğru */
+    background: linear-gradient(to right, rgba(5, 5, 8, 0.1) 0%, rgba(5, 5, 8, 0.95) 100%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+@media (max-width: 1024px) {
+    .background::after {
+        /* Mobilde harika bir görünüm için: 
+           Üst taraf tamamen şeffaf (kıyafetin arkası net görünür),
+           Aşağıya (yazılara) doğru indikçe çok yumuşak bir şekilde koyulaşır. */
+        display: block;
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 25%, rgba(5, 5, 8, 0.95) 85%);
+    }
+}
+
+#tsparticles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; 
+    pointer-events: none;
+}
+
+*:focus-visible {
+    outline: 2px solid var(--accent, #e74c3c);
+    outline-offset: 2px;
+}
+
+#splash-screen {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100vh;
+    background: #09090b;
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease;
+}
+.splash-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+}
+.splash-logo {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.18em;
+    margin: 0;
+    text-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
+    animation: pulseLogo 2s ease-in-out infinite;
+    text-align: center;
+}
+.splash-loader {
+    width: 44px; height: 44px;
+    border: 3px solid rgba(255, 255, 255, 0.05);
+    border-top: 3px solid var(--accent, #3498db);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+@keyframes pulseLogo {
+    0%, 100% { opacity: 0.75; transform: scale(0.98); }
+    50% { opacity: 1; transform: scale(1); }
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Touch Targets & Accessibility Enhancements */
+@media (max-width: 768px) {
+    button, 
+    a.btn, 
+    .arc-icon, 
+    .details-btn, 
+    .swiper-button-prev, 
+    .swiper-button-next {
+        min-width: 44px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+}

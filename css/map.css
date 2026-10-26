@@ -1,0 +1,375 @@
+/* --- GLOBAL MAP SECTION --- */
+.global-map-section {
+    width: 100%;
+    min-height: 100vh;
+    background-color: #f5f5f7; /* Flash olmayan, zarif off-white (Apple grisi/beyazı) */
+    color: #121214;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 100px 0 100px 2%; /* SIFIR SAĞ BOŞLUK */
+    position: relative;
+    z-index: 10;
+    overflow: hidden;
+    border-top: 1px solid rgba(0, 0, 0, 0.06); /* Çok ince hafif gri çizgi */
+}
+
+.global-container {
+    max-width: 100%; /* Sınırı kaldırarak tam ekran sağa yaslanmasını sağladık */
+    width: 100%;
+    display: flex;
+    flex-direction: column; /* Yazı üstte, harita altta */
+    align-items: center;
+    gap: 4rem;
+}
+
+.global-header-center {
+    width: 100%;
+    max-width: 800px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 2;
+}
+
+.global-subtitle {
+    font-size: 0.9rem;
+    letter-spacing: 4px;
+    color: var(--accent);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.global-title {
+    font-size: 3.2rem;
+    font-weight: 700;
+    letter-spacing: -1px;
+    margin-bottom: 1rem;
+    color: #121214;
+    line-height: 1.15;
+}
+
+.global-line {
+    width: 60px;
+    height: 4px;
+    background-color: var(--accent);
+    margin-bottom: 2rem;
+    border-radius: 2px;
+}
+
+.global-desc {
+    font-size: 1.1rem;
+    color: #555555; /* Koyu gri okunabilir metin */
+    line-height: 1.7;
+    margin-bottom: 3rem;
+}
+
+/* Sol menü kaldırıldı */
+
+/* Harita Kısmı */
+.global-map-full {
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: flex-end; /* Haritayı sağa yaslar */
+    align-items: center;
+}
+
+.map-container {
+    position: relative;
+    width: 100%;
+    max-width: 1400px; /* Haritanın büyüklüğü */
+    margin: 0 0 0 auto; /* Tamamen sağa yaslanmasını sağlar */
+}
+
+.map-image-responsive {
+    width: 100%;
+    height: auto;
+    display: block;
+    opacity: 0.85; 
+}
+
+.map-pin {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    z-index: 5;
+    opacity: 0; /* JS ile animasyonlu gelecek */
+    transform: translate(-50%, -50%) scale(0);
+    transition: opacity 0.4s ease, filter 0.4s ease;
+}
+
+.map-pin.dimmed {
+    opacity: 0.15 !important;
+    filter: grayscale(100%);
+    z-index: 1;
+}
+
+.map-pin.highlighted {
+    z-index: 10;
+}
+.map-pin.highlighted .pin-dot {
+    background-color: #ffffff;
+    box-shadow: 0 0 20px #ffffff, 0 0 40px var(--accent);
+    transform: translate(-50%, -50%) scale(1.5);
+}
+
+.pin-dot {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background-color: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--accent);
+    transition: all 0.3s ease;
+}
+
+.pin-pulse {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    background-color: transparent;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1);
+    animation: mapPulse 2s infinite ease-out;
+    pointer-events: none;
+    will-change: transform, opacity;
+}
+
+@keyframes mapPulse {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(6); opacity: 0; }
+}
+
+.map-pin:hover .pin-dot {
+    transform: translate(-50%, -50%) scale(1.5);
+    background-color: #121214;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
+
+.pin-tooltip {
+    position: absolute;
+    bottom: 150%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 15px 20px;
+    border-radius: 8px;
+    width: max-content;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    z-index: 10;
+}
+
+.pin-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 0.95) transparent transparent transparent;
+}
+
+.map-pin:hover .pin-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+.pin-tooltip h4 {
+    font-size: 1.1rem;
+    color: #121214;
+    margin-bottom: 5px;
+}
+
+.pin-tooltip p {
+    font-size: 0.85rem;
+    color: #555555;
+}
+
+/* İhracat Listesi (Accordion) */
+.export-list-section {
+    width: 100%;
+    max-width: 1200px;
+    margin: 5rem auto 0 auto;
+    padding: 0 5%;
+}
+
+.export-list-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 3rem;
+    color: #121214;
+}
+
+.export-accordion-container {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    flex-wrap: wrap;
+}
+
+.export-accordion {
+    flex: 1;
+    min-width: 350px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.accordion-btn {
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 1.5rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #121214;
+    cursor: pointer;
+    transition: color 0.3s;
+    font-family: inherit;
+}
+
+.accordion-btn:hover {
+    color: var(--accent);
+}
+
+.accordion-btn .fas {
+    transition: transform 0.3s ease;
+}
+
+.accordion-btn.active .fas {
+    transform: rotate(180deg);
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.4s ease;
+}
+
+.accordion-content.open {
+    max-height: 300px; 
+    padding-bottom: 1.5rem;
+}
+
+.accordion-content p {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* İletişim CTA Alanı */
+.export-cta {
+    margin-top: 4rem;
+    text-align: center;
+    padding: 3rem 2rem;
+    background: #ffffff;
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+}
+
+.export-cta-text {
+    font-size: 1.15rem;
+    color: #333333;
+    font-weight: 500;
+    max-width: 700px;
+    line-height: 1.6;
+}
+
+.export-cta-btn {
+    font-size: 1.1rem;
+    padding: 15px 40px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+@media (max-width: 1024px) {
+    .global-container {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    .global-header-center {
+        max-width: 100%;
+        text-align: center;
+        padding: 0 5%;
+    }
+    .global-line {
+        margin: 0 auto 2rem auto;
+    }
+    .global-map-full {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .global-map-section {
+        padding: 60px 0;
+    }
+    .global-title {
+        font-size: 2.2rem;
+    }
+    .global-desc {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+    }
+    .export-list-title {
+        font-size: 1.6rem;
+    }
+    .export-accordion-container {
+        gap: 1rem;
+        padding: 0 10px;
+    }
+    .export-accordion {
+        min-width: 100%;
+    }
+    .accordion-btn {
+        font-size: 1.1rem;
+        padding: 1rem 0;
+    }
+    .map-pin {
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+    .map-pin.highlighted .pin-dot {
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+    .export-cta {
+        padding: 2rem 1.5rem;
+    }
+    .export-cta-text {
+        font-size: 1rem;
+    }
+    .export-cta-btn {
+        padding: 12px 30px;
+        font-size: 1rem;
+    }
+}
+

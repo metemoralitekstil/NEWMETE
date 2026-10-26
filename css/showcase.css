@@ -1,0 +1,352 @@
+/* Showcase Styles */
+.showcase-container {
+    padding-top: 85px; /* Adjust for navbar height */
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center; /* Merkezi hizalama ile sağ taraf sabit kalır */
+    align-items: center;
+    position: relative;
+    z-index: 10; /* Tüm içeriğin arkaplanın üstünde kalmasını garanti eder */
+    overflow: hidden;
+    padding-bottom: 100px; /* Room for arc */
+}
+
+.showcase-left {
+    width: 45%;
+    display: flex;
+    justify-content: center; /* Kıyafetleri sol kolonun tam ortasına alır */
+    align-items: center;
+    z-index: 2;
+    padding-left: 0; /* Eski sola dayama paddingi kaldırıldı */
+}
+
+.image-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Arkadan vuran hafif renkli spot ışığı (Ambient Glow) kaldırıldı */
+
+.product-image {
+    max-height: 65vh; 
+    max-width: 100%;
+    object-fit: contain;
+    z-index: 2;
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+}
+
+.floor-shadow {
+    width: 60%;
+    height: 30px;
+    background: radial-gradient(closest-side, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+    margin-top: -15px; 
+    border-radius: 50%;
+    filter: blur(4px);
+    z-index: 1; 
+    will-change: transform, opacity;
+    transform: translate3d(0, 0, 0);
+}
+
+.showcase-right {
+    width: 45%;
+    color: white;
+    text-align: left;
+    z-index: 2;
+    padding-left: 5%; /* Eski boşluğa dönüldü, yazı olduğu yerde kalacak */
+    margin-top: -120px; /* Moves text higher up */
+}
+
+.showcase-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 0.85rem;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    width: fit-content;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+    margin-top: 0;
+}
+
+.showcase-badge .badge-brand {
+    color: var(--accent);
+    font-weight: 700;
+    transition: color 0.3s ease;
+}
+
+.showcase-badge .badge-dot {
+    opacity: 0.45;
+    font-size: 0.7rem;
+}
+
+.showcase-badge .badge-desc {
+    letter-spacing: 1px;
+}
+
+.product-title {
+    font-size: 3.5rem;
+    font-weight: 600; /* Resimdeki gibi yarı kalın ve tok */
+    margin-bottom: 0.5rem;
+    color: var(--accent); /* Renk JS'ten gelecek */
+    letter-spacing: -0.5px; /* Resimdeki gibi birbirine yakın harfler */
+    /* Neon tamamen kaldırıldı, sadece okunaklılığı artıran çok güçlü koyu gölge bırakıldı */
+    text-shadow: 0 8px 20px rgba(0,0,0,0.95), 0 3px 6px rgba(0,0,0,0.9); 
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.product-subtitle {
+    font-size: 1.8rem;
+    font-weight: 400; /* Daha ince ve kibar alt başlık */
+    margin-bottom: 1.5rem;
+    color: #ffffff; /* Resimlerdeki gibi parlak ve net beyaz */
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    /* Alt başlık için estetik gölge */
+    text-shadow: 0 8px 20px rgba(0,0,0,0.9), 0 2px 8px rgba(0,0,0,0.8);
+}
+
+.product-desc p {
+    font-size: 1.33rem;
+    line-height: 1.6;
+    color: #f8f9fa; /* Resimlerdeki gibi açık ve okunaklı beyaz tonu */
+    margin-bottom: 2rem;
+    /* Açıklama metni için okunabilirliği artıran yoğun gölge */
+    text-shadow: 0 4px 15px rgba(0,0,0,0.95), 0 2px 5px rgba(0,0,0,0.8);
+}
+
+/* Transitions (Now using GSAP, removing CSS fade) */
+
+
+/* Arc Navigation */
+.arc-nav {
+    position: absolute;
+    bottom: 0;
+    width: 600px;
+    height: 250px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 10;
+}
+
+.arc-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.icons-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.arc-icon {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background-color: rgba(20, 20, 25, 0.8);
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    color: #fff;
+    cursor: pointer;
+    pointer-events: auto; /* Tıklamaların çalışması için eklendi (parent'ta none olduğu için) */
+    transition: all 0.3s ease;
+    z-index: 5;
+}
+
+.arc-icon:hover {
+    border-color: rgba(255,255,255,0.6);
+    background-color: rgba(255,255,255,0.1);
+}
+
+.arc-icon.active {
+    background-color: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 20px var(--accent);
+    transform: translate(-50%, -50%) scale(1.4); /* Seçili ikon diğerlerine göre çok daha büyük görünür */
+    color: #000;
+}
+
+/* Merkezdeki Buton (Göz) */
+.details-btn {
+    position: absolute;
+    bottom: 120px; /* Daha yukarı taşıdık (SVG Merkezine 300, 130) */
+    left: 50%;
+    transform: translate(-50%, 50%); 
+    width: 65px;
+    height: 65px;
+    background-color: rgba(255, 255, 255, 0.1); /* Dikkati dağıtmaması için şeffaf yapıldı */
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.6rem;
+    color: #fff;
+    text-decoration: none;
+    box-shadow: 0 0 10px rgba(255,255,255,0.1);
+    z-index: 10;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.details-btn:hover {
+    background-color: #fff;
+    color: #050505;
+    border-color: #fff;
+    transform: translate(-50%, 50%) scale(1.15);
+    box-shadow: 0 0 30px rgba(255,255,255,0.8), 0 0 60px var(--accent);
+}
+
+/* İkon Normal Görünüm */
+.details-icon {
+    transition: color 0.4s ease;
+}
+
+#connecting-line {
+    transition: stroke 0.4s ease;
+}
+
+.arc-label {
+    position: absolute;
+    bottom: 30px; /* Buton yukarı çıkınca yazıyı da biraz daha rahat bir alana aldık */
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.2rem;
+    font-weight: 300;
+    color: white;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.5);
+    padding: 5px 15px;
+    border-radius: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .showcase-container {
+        flex-direction: column;
+        justify-content: flex-start;
+        padding-top: 120px;
+    }
+    .showcase-left, .showcase-right {
+        position: relative;
+        left: 0;
+        right: 0;
+        top: 0;
+        transform: none;
+        width: 100%;
+        text-align: center;
+        margin: 0 auto;
+        justify-content: center;
+        padding-left: 0;
+    }
+    .product-image {
+        max-height: 40vh;
+    }
+    .showcase-right {
+        margin-top: 2rem;
+    }
+    .fade-transition {
+        transform: scale(1);
+    }
+    .fade-transition.hidden {
+        transform: scale(0.95);
+    }
+    .arc-nav {
+        bottom: -20px;
+        transform: translateX(-50%) scale(0.8);
+    }
+}
+
+@media (max-width: 768px) {
+    .showcase-container {
+        height: 100vh;
+        height: 100dvh; /* Yeni nesil tarayıcılarda URL barı hesaba katar */
+        min-height: unset; /* Kaydırmayı tamamen iptal etmek için */
+        padding-top: 85px;
+        padding-bottom: 190px; /* Yay için ayrılan alan */
+        justify-content: flex-start;
+        overflow: hidden; /* Taşmayı engelle */
+    }
+    .product-image {
+        max-height: 33vh; /* Resmi biraz küçülterek yazılara alan açtık */
+        margin: 0 auto;
+    }
+    .showcase-right {
+        margin-top: 0.5rem;
+        padding: 0 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    .showcase-badge {
+        font-size: clamp(9px, 2.5vw, 0.7rem);
+        padding: 3px 10px;
+        margin: 0 auto 0.35rem auto;
+        gap: 6px;
+        letter-spacing: 0.6px;
+    }
+    .product-title {
+        /* clamp(min, fluid, max): harf büyüklüğü %120+ olsa bile vw ile sınırlanır */
+        font-size: clamp(14px, 5.5vw, 2.1rem);
+        margin-bottom: 0.3rem;
+        line-height: 1.1;
+    }
+    .product-subtitle {
+        font-size: clamp(12px, 3.5vw, 1rem);
+        margin-bottom: 0.8rem;
+    }
+    .product-desc p {
+        font-size: clamp(13px, 3.5vw, 1.15rem);
+        line-height: 1.4;
+        margin-bottom: 0.2rem;
+    }
+    
+    /* 1, 2 ve 3. ürünler için daha büyük yazılar (mobilde daha fazla yerleri var) */
+    .showcase-right.large-typography .product-title {
+        font-size: clamp(16px, 7vw, 2.8rem);
+    }
+    .showcase-right.large-typography .product-subtitle {
+        font-size: clamp(13px, 4vw, 1.2rem);
+    }
+    .showcase-right.large-typography .product-desc p {
+        font-size: clamp(14px, 4vw, 1.35rem);
+    }
+    .arc-nav {
+        bottom: 0px;
+        transform: translateX(-50%) scale(0.65);
+        transform-origin: bottom center;
+    }
+    .arc-label {
+        display: none;
+    }
+}
+

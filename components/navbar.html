@@ -1,0 +1,49 @@
+<nav class="navbar">
+    <div class="nav-left">
+        <div class="menu-btn" title="Menü" role="button" tabindex="0" aria-label="Menü">
+            <i class="fa-solid fa-grip-vertical"></i>
+        </div>
+        <ul class="nav-links">
+            <li><a href="./" data-i18n="home">Ana Sayfa</a></li>
+            <li><a href="katalog" data-i18n="catalog">Katalog</a></li>
+            <li><a href="iletisim" data-i18n="contact">İletişim</a></li>
+            <li><a href="sertifikalar" data-i18n="certifications">Sertifikalarımız</a></li>
+        </ul>
+    </div>
+
+    <div class="nav-center">
+        <div class="logo-container" onclick="window.location.href='./'">
+            <picture class="logo-picture">
+                <source srcset="img/logo_gri.webp" type="image/webp">
+                <img src="img/logo_gri.png" alt="MeteMorali Logo" class="logo-img" width="36" height="36">
+            </picture>
+            <span class="logo-text">MeteMorali</span>
+        </div>
+    </div>
+
+    <div class="nav-right">
+        <!-- Dil Seçici -->
+        <div class="lang-selector">
+            <button class="lang-btn" aria-label="Dil Seçimi" aria-expanded="false">
+                <i class="fa-solid fa-globe"></i>
+                <span class="active-lang-code">TR</span>
+                <i class="fa-solid fa-chevron-down chevron-icon"></i>
+            </button>
+            <div class="lang-dropdown">
+                <a href="#" data-lang="tr">Türkçe</a>
+                <a href="#" data-lang="en">English</a>
+                <a href="#" data-lang="de">Deutsch</a>
+                <a href="#" data-lang="ru">Русский</a>
+                <a href="#" data-lang="nl">Nederlands</a>
+                <a href="#" data-lang="fr">Français</a>
+                <a href="#" data-lang="it">Italiano</a>
+            </div>
+        </div>
+
+        <a href="sepet" class="icon-btn cart-icon-container" title="Sepet" aria-label="Sepetim">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <span class="cart-badge" style="display:none;">0</span>
+        </a>
+        <a href="hesabim" class="icon-btn" id="user-login-btn" title="Hesabım" aria-label="Hesabım"><i class="fa-regular fa-user"></i></a>
+    </div>
+</nav>

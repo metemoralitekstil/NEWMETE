@@ -1,0 +1,176 @@
+/* =============================================
+   MeteMorali — Cookie Consent Banner Stilleri
+   ============================================= */
+
+#mm-cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 99999;
+    opacity: 0;
+    transform: translateY(120%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.4s ease;
+    background: rgba(15, 15, 20, 0.97);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.35);
+}
+
+.mm-cookie-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 20px 72px 20px 24px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+}
+
+.mm-cookie-close {
+    position: absolute;
+    top: 50%;
+    right: 24px;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.08);
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 1.2rem;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    line-height: 1;
+    padding: 0;
+}
+
+.mm-cookie-close:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+}
+
+.mm-cookie-content {
+    flex: 1;
+    margin-bottom: 0;
+    padding-right: 0;
+}
+
+.mm-cookie-title {
+    font-family: 'Outfit', 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 4px 0;
+    letter-spacing: -0.01em;
+}
+
+.mm-cookie-desc {
+    font-family: 'Inter', 'Outfit', sans-serif;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.5;
+    margin: 0;
+}
+
+.mm-cookie-link {
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    text-decoration-color: rgba(255, 255, 255, 0.3);
+    transition: text-decoration-color 0.2s;
+    font-weight: 500;
+}
+
+.mm-cookie-link:hover {
+    text-decoration-color: rgba(255, 255, 255, 0.8);
+}
+
+.mm-cookie-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.mm-cookie-btn {
+    font-family: 'Outfit', 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+}
+
+.mm-cookie-necessary {
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mm-cookie-necessary:hover {
+    background: rgba(255, 255, 255, 0.14);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.mm-cookie-accept {
+    background: #ffffff;
+    color: #0f172a;
+}
+
+.mm-cookie-accept:hover {
+    background: #f0f0f0;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.mm-cookie-accept:active,
+.mm-cookie-necessary:active {
+    transform: scale(0.97);
+}
+
+@media (max-width: 991px) {
+    .mm-cookie-inner {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+        padding: 24px 20px 20px 20px;
+    }
+
+    .mm-cookie-close {
+        top: 20px;
+        right: 20px;
+        transform: none;
+    }
+
+    .mm-cookie-content {
+        padding-right: 32px;
+    }
+
+    .mm-cookie-actions {
+        width: 100%;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .mm-cookie-btn {
+        width: 100%;
+        text-align: center;
+        padding: 12px 20px;
+    }
+
+    .mm-cookie-accept {
+        order: -1;
+    }
+}

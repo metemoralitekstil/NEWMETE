@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-88R5628V9H"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-88R5628V9H');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Ödeme Sonucu - MeteMorali</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap"></noscript>
+    
+    <link rel="preload" href="css/base.css?v=4.0" as="style">
+    <link rel="preload" href="css/navbar.css?v=4.0" as="style">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link rel="stylesheet" href="css/base.css?v=4.0">
+    <link rel="stylesheet" href="css/components.css?v=4.0">
+    <link rel="stylesheet" href="css/navbar.css?v=4.0">
+    <link rel="stylesheet" href="css/footer.css?v=4.0">
+    <link rel="stylesheet" href="css/pages.css?v=4.0">
+    
+    <script src="js/config.js?v=4.3"></script>
+    
+    <style>
+        .result-container {
+            min-height: 70vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 120px 20px 80px 20px;
+            font-family: 'Outfit', sans-serif;
+        }
+        .result-card {
+            background: #ffffff;
+            color: #121214;
+            padding: 3.5rem 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.03);
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+            border: 1px solid #f0f0f4;
+        }
+        .result-icon {
+            font-size: 4.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .result-icon.success { color: #2e7d32; }
+        .result-icon.error { color: #c62828; }
+        
+        .result-card h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .result-card p.desc {
+            color: #666;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        .details-box {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 30px;
+            text-align: left;
+            border: 1px solid #eee;
+        }
+        .details-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        .details-row:last-child { margin-bottom: 0; }
+        .details-row span.label { color: #888; font-weight: 500; }
+        .details-row span.val { color: #121214; font-weight: 600; }
+        
+        .result-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            width: 100%;
+            font-size: 1rem;
+        }
+        .result-btn.success-btn {
+            background: #2e7d32;
+            color: #fff;
+        }
+        .result-btn.success-btn:hover { background: #1b5e20; }
+        
+        .result-btn.error-btn {
+            background: #c62828;
+            color: #fff;
+        }
+        .result-btn.error-btn:hover { background: #b71c1c; }
+    </style>
+</head>
+<body class="simple-page">
+    
+    <!-- Navbar -->
+    <div id="navbar-placeholder" data-classes="scrolled simple-navbar-override navbar-dark-text"></div>
+    
+    <div class="result-container">
+        <div class="result-card" id="result-card-display">
+            <!-- Loading state by default -->
+            <div class="result-icon success" style="font-size: 3rem;"><i class="fa-solid fa-spinner fa-spin"></i></div>
+            <h1 data-i18n="checking_payment">Ödeme Durumu Kontrol Ediliyor</h1>
+            <p class="desc" data-i18n="checking_payment_desc">Lütfen bekleyin, ödeme sonucunuz alınıyor...</p>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <div id="footer-placeholder"></div>
+    
+    <div id="mobile-menu-placeholder"></div>
+    <div id="login-sidebar-placeholder"></div>
+    
+    <!-- Scripts -->
+    <script src="cart.js" defer></script>
+    <script src="components/loader.js" defer></script>
+    <script src="js/components.js" defer></script>
+    
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const status = urlParams.get('status');
+            const orderId = urlParams.get('oid') || 'MM-XXXXX';
+            const authCode = urlParams.get('auth') || '';
+            const errorMsg = urlParams.get('error') || 'İşlem banka tarafından reddedildi.';
+            const amount = urlParams.get('amount') ? '€' + parseFloat(urlParams.get('amount')).toFixed(2) : '';
+
+            const safeOrderId = escapeHtml(orderId);
+            const safeAuthCode = escapeHtml(authCode);
+            const safeErrorMsg = escapeHtml(errorMsg);
+            const safeAmount = escapeHtml(amount);
+
+            const displayCard = document.getElementById('result-card-display');
+            
+            setTimeout(() => {
+                if (status === 'success') {
+                    // Clear cart
+                    localStorage.removeItem('metemorali_cart');
+                    
+                    // Update last local order status
+                    const localOrders = JSON.parse(localStorage.getItem('metemorali_orders')) || [];
+                    let match = localOrders.find(o => o.id === orderId);
+                    
+                    if (!match && localOrders.length > 0) {
+                        const pendingOrder = [...localOrders].reverse().find(o => o.status === 'Ödeme Bekliyor' || o.id.startsWith('MM-'));
+                        if (pendingOrder) {
+                            pendingOrder.id = orderId;
+                            pendingOrder.apiId = orderId.replace('MM-', '');
+                            pendingOrder.status = 'Talep Alındı';
+                            match = pendingOrder;
+                            localStorage.setItem('metemorali_orders', JSON.stringify(localOrders));
+                        }
+                    } else if (match) {
+                        match.status = 'Talep Alındı';
+                        match.apiId = orderId.replace('MM-', '');
+                        localStorage.setItem('metemorali_orders', JSON.stringify(localOrders));
+                    }
+
+                    displayCard.innerHTML = `
+                        <div class="result-icon success"><i class="fa-solid fa-circle-check"></i></div>
+                        <h2 data-i18n="payment_success">Ödeme Başarılı!</h2>
+                        <p class="desc" data-i18n="payment_success_desc">Ödemeniz güvenli bir şekilde alınmış ve siparişiniz onaylanmıştır. Teşekkür ederiz.</p>
+                        
+                        <div class="details-box">
+                            <div class="details-row">
+                                <span class="label" data-i18n="order_no">Sipariş No</span>
+                                <span class="val">#${safeOrderId}</span>
+                            </div>
+                            ${safeAuthCode ? `
+                            <div class="details-row">
+                                <span class="label" data-i18n="auth_code">Onay Kodu</span>
+                                <span class="val">${safeAuthCode}</span>
+                            </div>
+                            ` : ''}
+                            ${safeAmount ? `
+                            <div class="details-row">
+                                <span class="label" data-i18n="total_amount">Ödenen Tutar</span>
+                                <span class="val">${safeAmount}</span>
+                            </div>
+                            ` : ''}
+                        </div>
+                        
+                        <a href="hesabim.html" class="result-btn success-btn" data-i18n="go_to_dashboard">
+                            <i class="fa-solid fa-user"></i> Hesabıma Git
+                        </a>
+                    `;
+                } else {
+                    // Payment failed
+                    displayCard.innerHTML = `
+                        <div class="result-icon error"><i class="fa-solid fa-circle-xmark"></i></div>
+                        <h2 data-i18n="payment_failed">Ödeme Başarısız</h2>
+                        <p class="desc" data-i18n="payment_failed_desc">Kredi kartı ile ödeme işlemi gerçekleştirilemedi. Lütfen bilgilerinizi kontrol edip tekrar deneyin.</p>
+                        
+                        <div class="details-box">
+                            <div class="details-row">
+                                <span class="label" data-i18n="error_reason">Hata Nedeni</span>
+                                <span class="val" style="color: #c62828;">${safeErrorMsg}</span>
+                            </div>
+                            <div class="details-row">
+                                <span class="label" data-i18n="order_no">Sipariş No</span>
+                                <span class="val">#${safeOrderId}</span>
+                            </div>
+                        </div>
+                        
+                        <a href="sepet.html" class="result-btn error-btn" data-i18n="try_again">
+                            <i class="fa-solid fa-rotate-left"></i> Sepete Dön ve Tekrar Dene
+                        </a>
+                    `;
+                }
+            }, 1000); // Small delay for visual premium feel spinner
+        });
+    </script>
+</body>
+</html>

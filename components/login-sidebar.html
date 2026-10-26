@@ -1,0 +1,224 @@
+<div class="login-sidebar-overlay" id="login-overlay"></div>
+<div class="login-sidebar" id="login-sidebar">
+    <button class="close-sidebar-btn" id="close-login-sidebar" aria-label="Giriş Panelini Kapat"><i class="fa-solid fa-xmark"></i></button>
+    
+    <!-- Loading overlay -->
+    <div class="auth-loading-overlay" id="auth-loading-overlay">
+        <div class="auth-spinner"></div>
+        <p>İşleminiz gerçekleştiriliyor...</p>
+    </div>
+
+    <!-- Success overlay -->
+    <div class="auth-success-overlay" id="auth-success-overlay">
+        <div class="success-icon"><i class="fa-regular fa-circle-check"></i></div>
+        <h3 id="auth-success-title">Başarılı!</h3>
+        <p id="auth-success-desc">Hesabınıza yönlendiriliyorsunuz...</p>
+    </div>
+
+    <!-- Phone Login Section -->
+    <div class="login-section hidden" id="phone-login-section">
+        <h2 class="login-title" data-i18n="login_title">Giriş yap veya kayıt ol</h2>
+        <p class="login-subtitle" data-i18n="phone_subtitle">Telefon numaranızı girin</p>
+        
+        <div class="phone-input-group">
+            <input type="tel" id="phone-login-input" class="phone-input">
+        </div>
+
+        <button class="login-submit-btn" data-i18n="phone_btn">Telefon ile giriş yap</button>
+
+        <div class="login-terms">
+            <input type="checkbox" id="terms-check">
+            <label for="terms-check" data-i18n="terms_check_html">
+                "Telefon ile giriş yap" butonuna tıklayarak, belirtilen numara ile giriş yapmayı onaylıyorum. <a href="sozlesmeler#aydinlatma" target="_blank">Aydınlatma Metni</a>'ni ve <a href="sozlesmeler#gizlilik" target="_blank">Gizlilik Politikası</a>'nı kabul ediyorum.
+            </label>
+        </div>
+
+        <div class="login-divider"><span data-i18n="or_lowercase">veya</span></div>
+
+        <button class="switch-login-btn" id="switch-to-email">
+            <i class="fa-regular fa-envelope"></i> <span data-i18n="email_btn">Email ile giriş yap</span>
+        </button>
+    </div>
+
+    <!-- Email Login Section (Initially hidden) -->
+    <div class="login-section" id="email-login-section">
+        <h2 class="login-title" data-i18n="login_title">Giriş yap veya kayıt ol</h2>
+        <p class="login-subtitle" data-i18n="email_subtitle">Email adresinizi girin</p>
+
+        <div class="input-group">
+            <label><i class="fa-regular fa-envelope"></i> <span data-i18n="email">EMAIL</span></label>
+            <input type="email" id="email-login-input" placeholder="ornek@mail.com">
+        </div>
+
+        <div class="input-group">
+            <label><i class="fa-solid fa-lock"></i> <span data-i18n="password">ŞİFRE</span></label>
+            <div class="password-wrapper">
+                <input type="password" id="email-login-password-input" placeholder="Şifrenizi girin" data-i18n="enter_password_placeholder">
+                <button type="button" class="password-toggle-btn" tabindex="-1"><i class="fa-regular fa-eye"></i></button>
+            </div>
+        </div>
+
+        <button class="login-submit-btn" data-i18n="continue_btn">Devam et</button>
+        <span id="email-login-general-error" style="color: #e74c3c; font-size: 0.85rem; font-weight: 500; display: none; margin-top: -1.5rem; margin-bottom: 1.5rem; text-align: center;"></span>
+
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <span style="color: #666; font-size: 0.95rem;">Hesabınız yok mu?</span>
+            <a href="#" id="go-to-register-link" style="color: #467a5e; text-decoration: none; font-weight: 600; margin-left: 5px;">Kayıt Ol</a>
+        </div>
+
+        <a href="#" class="forgot-password" id="forgot-password-link" data-i18n="forgot_password">Şifremi unuttum?</a>
+
+        <button class="switch-login-btn back-btn" id="switch-to-phone" style="display: none;">
+            <i class="fa-solid fa-arrow-left"></i> <span data-i18n="back_to_phone">Telefon ile girişe dön</span>
+        </button>
+    </div>
+
+    <!-- Phone Verification (SMS) Section (Initially hidden) -->
+    <div class="login-section hidden" id="phone-verify-section">
+        <h2 class="login-title" data-i18n="verify_title">Doğrulama Kodu</h2>
+        <p class="login-subtitle" id="phone-verify-subtitle">Telefonunuza gönderilen 6 haneli kodu girin</p>
+
+        <div class="input-group">
+            <label><i class="fa-solid fa-key"></i> <span>SMS KODU</span></label>
+            <input type="text" id="phone-verify-code-input" placeholder="123456" maxlength="6" style="text-align: center; letter-spacing: 5px; font-size: 1.3rem; font-weight: 600;">
+            <span id="phone-verify-error" style="color: #e74c3c; font-size: 0.85rem; font-weight: 500; display: none; margin-top: 8px; text-align: center;"></span>
+        </div>
+
+        <button class="login-submit-btn" id="phone-verify-submit-btn">Kodu Doğrula</button>
+
+        <button class="switch-login-btn back-btn" id="switch-back-to-phone-input">
+            <i class="fa-solid fa-arrow-left"></i> <span>Numarayı Değiştir</span>
+        </button>
+    </div>
+
+    <!-- Register Section (Initially hidden) -->
+    <div class="login-section hidden" id="register-section">
+        <h2 class="login-title" data-i18n="register_title">Kayıt Ol</h2>
+        <p class="login-subtitle" data-i18n="register_subtitle">Hesabınızı oluşturun</p>
+
+        <div class="input-group">
+            <label><i class="fa-regular fa-user"></i> <span data-i18n="fullname">AD SOYAD</span></label>
+            <input type="text" id="register-name-input" placeholder="Adınız Soyadınız">
+            <span id="register-name-error" style="color: #e74c3c; font-size: 0.85rem; font-weight: 500; display: none; margin-top: 8px;"></span>
+        </div>
+
+        <div class="input-group">
+            <label><i class="fa-regular fa-envelope"></i> <span data-i18n="email">EMAIL</span></label>
+            <input type="email" id="register-email-input" placeholder="ornek@mail.com">
+            <span id="register-email-error" style="color: #e74c3c; font-size: 0.85rem; font-weight: 500; display: none; margin-top: 8px;"></span>
+        </div>
+
+        <div class="input-group">
+            <label><i class="fa-solid fa-lock"></i> <span data-i18n="password">ŞİFRE</span></label>
+            <div class="password-wrapper">
+                <input type="password" id="register-password-input" placeholder="Şifreniz (En az 6 karakter)">
+                <button type="button" class="password-toggle-btn" tabindex="-1"><i class="fa-regular fa-eye"></i></button>
+            </div>
+            <span id="register-password-error" style="color: #e74c3c; font-size: 0.85rem; font-weight: 500; display: none; margin-top: 8px;"></span>
+        </div>
+
+        <div class="input-group">
+            <label><i class="fa-solid fa-lock"></i> <span>ŞİFRE TEKRARI</span></label>
+            <div class="password-wrapper">
+                <input type="password" id="register-confirm-input" placeholder="Şifrenizi tekrar girin">
+                <button type="button" class="password-toggle-btn" tabindex="-1"><i class="fa-regular fa-eye"></i></button>
+            </div>
+            <span id="register-confirm-error" style="color: #e74c3c; font-size: 0.85rem; font-weight: 500; display: none; margin-top: 8px;"></span>
+        </div>
+
+        <div class="login-terms">
+            <input type="checkbox" id="register-terms-check">
+            <label for="register-terms-check">
+                Kayıt olarak <a href="sozlesmeler#aydinlatma" target="_blank">Aydınlatma Metni</a>'ni ve <a href="sozlesmeler#gizlilik" target="_blank">Gizlilik Politikası</a>'nı kabul ediyorum.
+            </label>
+            <span id="register-terms-error" style="color: #e74c3c; font-size: 0.85rem; font-weight: 500; display: none; margin-top: 8px; text-align: center;"></span>
+        </div>
+
+        <button class="login-submit-btn" id="register-submit-btn" style="margin-top: 1rem;">Kayıt Ol</button>
+
+        <button class="switch-login-btn back-btn" id="switch-to-login-from-register">
+            <i class="fa-solid fa-arrow-left"></i> <span data-i18n="back_to_login">Giriş ekranına dön</span>
+        </button>
+    </div>
+
+    <!-- Email Verification Section (Initially hidden) -->
+    <div class="login-section hidden" id="email-verify-section">
+        <h2 class="login-title">E-posta Doğrulama</h2>
+        <p class="login-subtitle" id="email-verify-subtitle">Lütfen e-posta adresinize gönderilen onay kodunu girin.</p>
+
+        <div class="input-group">
+            <label><i class="fa-solid fa-key"></i> <span>ONAY KODU</span></label>
+            <input type="text" id="email-verify-code-input" placeholder="12345678" maxlength="8" style="text-align: center; letter-spacing: 5px; font-size: 1.3rem; font-weight: 600;">
+            <span id="email-verify-error" style="color: #e74c3c; font-size: 0.85rem; font-weight: 500; display: none; margin-top: 8px; text-align: center;"></span>
+        </div>
+
+        <button class="login-submit-btn" id="email-verify-submit-btn">Kodu Doğrula ve Kayıt Ol</button>
+
+        <button class="switch-login-btn back-btn" id="switch-back-to-register-input">
+            <i class="fa-solid fa-arrow-left"></i> <span>Bilgileri Düzenle</span>
+        </button>
+    </div>
+
+    <!-- Forgot Password Section (Initially hidden) -->
+    <div class="login-section hidden" id="forgot-password-section">
+        <h2 class="login-title" data-i18n="forgot_password">Şifremi Unuttum</h2>
+        <p class="login-subtitle" data-i18n="forgot_password_desc">Şifrenizi sıfırlamak için e-posta adresinizi girin.</p>
+
+        <div class="input-group">
+            <label><i class="fa-regular fa-envelope"></i> <span data-i18n="email">EMAIL</span></label>
+            <input type="email" id="forgot-email-input" placeholder="ornek@mail.com">
+            <span id="forgot-email-error" style="color: #e74c3c; font-size: 0.85rem; font-weight: 500; display: none; margin-top: 8px;">Lütfen geçerli bir e-posta adresi girin.</span>
+        </div>
+
+        <button class="login-submit-btn" id="send-reset-link-btn" data-i18n="send_reset_link">Sıfırlama Bağlantısı Gönder</button>
+
+        <button class="switch-login-btn back-btn" id="switch-to-email-from-forgot">
+            <i class="fa-solid fa-arrow-left"></i> <span data-i18n="back_to_login">Giriş ekranına dön</span>
+        </button>
+    </div>
+
+    <!-- Forgot Password Success / Reset Form Section (Initially hidden) -->
+    <div class="login-section hidden" id="forgot-password-success-section">
+        <h2 class="login-title">Şifreyi Sıfırla</h2>
+        <p class="login-subtitle" id="forgot-success-subtitle">E-posta adresinize gönderilen kodu ve yeni şifrenizi girin.</p>
+
+        <div class="input-group">
+            <label><i class="fa-solid fa-key"></i> <span>SIFIRLAMA KODU</span></label>
+            <input type="text" id="reset-code-input" placeholder="12345678" maxlength="8" style="text-align: center; letter-spacing: 5px; font-size: 1.3rem; font-weight: 600;">
+            <span id="reset-code-error" style="color: #e74c3c; font-size: 0.85rem; font-weight: 500; display: none; margin-top: 8px; text-align: center;"></span>
+        </div>
+
+        <div class="input-group">
+            <label><i class="fa-solid fa-lock"></i> <span>YENİ ŞİFRE</span></label>
+            <div class="password-wrapper">
+                <input type="password" id="reset-new-password-input" placeholder="En az 6 karakter">
+                <button type="button" class="password-toggle-btn" tabindex="-1"><i class="fa-regular fa-eye"></i></button>
+            </div>
+            <span id="reset-new-password-error" style="color: #e74c3c; font-size: 0.85rem; font-weight: 500; display: none; margin-top: 8px;"></span>
+        </div>
+
+        <button class="login-submit-btn" id="reset-password-submit-btn">Şifreyi Güncelle</button>
+
+        <button class="switch-login-btn back-btn" id="back-to-login-from-success">
+            <i class="fa-solid fa-arrow-left"></i> <span data-i18n="back_to_login">Giriş ekranına dön</span>
+        </button>
+    </div>
+    <!-- Email Login 2FA Verification Section (Initially hidden) -->
+    <div class="login-section hidden" id="email-login-verify-section">
+        <h2 class="login-title">Giriş Doğrulama</h2>
+        <p class="login-subtitle" id="email-login-verify-subtitle">Lütfen e-posta adresinize gönderilen onay kodunu girin.</p>
+
+        <div class="input-group">
+            <label><i class="fa-solid fa-key"></i> <span>ONAY KODU</span></label>
+            <input type="text" id="email-login-verify-code-input" placeholder="12345678" maxlength="8" style="text-align: center; letter-spacing: 5px; font-size: 1.3rem; font-weight: 600;">
+            <span id="email-login-verify-error" style="color: #e74c3c; font-size: 0.85rem; font-weight: 500; display: none; margin-top: 8px; text-align: center;"></span>
+        </div>
+
+        <button class="login-submit-btn" id="email-login-verify-submit-btn">Kodu Doğrula ve Giriş Yap</button>
+
+        <button class="switch-login-btn back-btn" id="switch-back-to-email-login">
+            <i class="fa-solid fa-arrow-left"></i> <span>Giriş Bilgilerini Düzenle</span>
+        </button>
+    </div>
+</div>
+

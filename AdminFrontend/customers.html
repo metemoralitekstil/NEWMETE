@@ -1,0 +1,163 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-88R5628V9H"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-88R5628V9H');
+</script>
+    <meta charset="UTF-8">
+    <title>Kayıtlı Müşteriler - Admin Panel</title>
+    <link rel="stylesheet" href="css/admin-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <div class="sidebar">
+            <div class="sidebar-menu">
+                <h3>Admin Panel</h3>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="products.html">Ürün Yönetimi</a></li>
+                    <li><a href="orders.html">Sipariş Yönetimi</a></li>
+                    <li><a href="customers.html" class="active">Kayıtlı Müşteriler</a></li>
+                    <li><a href="seo-analiz.html">SEO Analiz</a></li>
+                </ul>
+            </div>
+            <div class="logout-container">
+                <a href="#" onclick="confirmLogout(event)" class="logout-btn">Çıkış Yap <i class="fa-solid fa-door-open"></i></a>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="header">
+                <h2>Kayıtlı Müşteriler</h2>
+            </div>
+            
+            <div class="card" style="margin-bottom: 20px;">
+                <p>Sisteme kayıt olan tüm müşteriler ve verdikleri siparişler aşağıda listelenmektedir.</p>
+            </div>
+
+            <table id="customersTable">
+                <thead>
+                    <tr>
+                        <th>Kayıt Tarihi</th>
+                        <th>Email / Telefon</th>
+                        <th>Toplam Sipariş</th>
+                        <th>Sipariş Detayları</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Müşteri verileri API'den JS ile yüklenecek -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const token = localStorage.getItem('adminToken');
+            if (!token) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            try {
+                let customers = [];
+                let loadedFromSupabase = false;
+
+                if (typeof supabaseClient !== 'undefined' && supabaseClient !== null) {
+                    try {
+                        const { data: custData } = await supabaseClient.from('Customers').select('*');
+                        const { data: ordersData } = await supabaseClient.from('Orders').select('*');
+                        
+                        if (custData) {
+                            customers = custData.map(c => {
+                                const cPhone = c.Phone || c.phone || '';
+                                const cEmail = c.Email || c.email || '';
+                                const cName = c.FullName || c.fullName || c.fullname || '';
+                                const cOrders = (ordersData || []).filter(o => 
+                                    (o.CustomerPhone && o.CustomerPhone === cPhone) || 
+                                    (o.CustomerName && o.CustomerName.toLowerCase() === cName.toLowerCase())
+                                );
+
+                                return {
+                                    createdAt: c.CreatedAt || c.createdAt || new Date(),
+                                    email: cEmail,
+                                    phone: cPhone,
+                                    fullName: cName,
+                                    totalOrders: cOrders.length,
+                                    orders: cOrders.map(o => ({
+                                        orderId: o.Id || o.id,
+                                        orderDate: o.OrderDate || o.orderDate,
+                                        totalAmount: o.TotalAmount || o.totalAmount,
+                                        status: o.Status || o.status
+                                    }))
+                                };
+                            });
+                            loadedFromSupabase = true;
+                        }
+                    } catch (supabaseErr) {
+                        console.warn("Supabase'den müşteriler çekilemedi.", supabaseErr);
+                    }
+                }
+
+                if (!loadedFromSupabase) {
+                    const response = await fetch(API_BASE_URL + '/Customers', {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    if (response.ok) {
+                        customers = await response.json();
+                    } else {
+                        if (response.status === 401) {
+                            alert("Oturum süreniz dolmuş, lütfen tekrar giriş yapın.");
+                            window.location.href = 'index.html';
+                            return;
+                        } else {
+                            alert("Müşteri verileri alınırken bir hata oluştu.");
+                            return;
+                        }
+                    }
+                }
+
+                const tbody = document.querySelector('#customersTable tbody');
+                tbody.innerHTML = '';
+
+                customers.forEach(customer => {
+                    const tr = document.createElement('tr');
+                    
+                    let contactInfo = `<strong>${customer.fullName || ''}</strong><br>`;
+                    if (customer.email) contactInfo += `<i class="fa-solid fa-envelope"></i> ${customer.email}<br>`;
+                    if (customer.phone) contactInfo += `<i class="fa-solid fa-phone"></i> ${customer.phone}`;
+
+                    let orderDetailsHtml = '<em>Sipariş Yok</em>';
+                    if (customer.orders && customer.orders.length > 0) {
+                        orderDetailsHtml = `<ul style="margin: 0; padding-left: 15px;">`;
+                        customer.orders.forEach(o => {
+                            const d = new Date(o.orderDate).toLocaleDateString('tr-TR');
+                            orderDetailsHtml += `<li>#${o.orderId} - ${d} - ${o.totalAmount} € - <strong>${o.status}</strong></li>`;
+                        });
+                        orderDetailsHtml += `</ul>`;
+                    }
+
+                    tr.innerHTML = `
+                        <td>${new Date(customer.createdAt).toLocaleString('tr-TR')}</td>
+                        <td>${contactInfo || 'Bilinmiyor'}</td>
+                        <td><span class="badge ${customer.totalOrders > 0 ? 'badge-success' : 'badge-secondary'}">${customer.totalOrders} Adet</span></td>
+                        <td>${orderDetailsHtml}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (error) {
+                console.error("Fetch error:", error);
+                alert("Veriler yüklenirken bir bağlantı hatası oluştu.");
+            }
+        });
+    </script>
+</body>
+</html>

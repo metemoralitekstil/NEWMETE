@@ -1,0 +1,1905 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-88R5628V9H"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-88R5628V9H');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeteMorali Admin | SEO Denetim & Analiz</title>
+    <!-- Admin yetkilendirmesini sayfa yüklenmeden önce çalıştır -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js"></script>
+    <script src="js/auth.js"></script>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Admin Style & Custom SEO Style -->
+    <link rel="stylesheet" href="css/admin-style.css">
+    <style>
+        :root {
+            --bg-color: #08080c;
+            --panel-bg: #111116;
+            --panel-border: rgba(255, 255, 255, 0.07);
+            --panel-border-hover: rgba(255, 255, 255, 0.15);
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            
+            /* Accent Colors */
+            --primary: #f97316; /* Safety Orange */
+            --primary-glow: rgba(249, 115, 22, 0.15);
+            --secondary: #3b82f6; /* Electric Blue */
+            --secondary-glow: rgba(59, 130, 246, 0.15);
+            
+            /* Audit Status Colors */
+            --success: #10b981; /* Emerald Green */
+            --warning: #f59e0b; /* Amber Yellow */
+            --danger: #ef4444; /* Rose Red */
+            
+            --success-glow: rgba(16, 185, 129, 0.1);
+            --warning-glow: rgba(245, 158, 11, 0.1);
+            --danger-glow: rgba(239, 68, 68, 0.1);
+            
+            --font-main: 'Outfit', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Override Body Background to fit Admin Theme */
+        body {
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-primary);
+        }
+
+        /* SEO Specific Styles adapted for Admin Layout */
+        .seo-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .seo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--panel-border);
+            padding-bottom: 20px;
+        }
+
+        .brand-text h1 {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #ffffff, #d1d5db);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: #ffffff;
+        }
+
+        .brand-text p {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* Tabs Navigation */
+        .tabs-nav {
+            display: flex;
+            gap: 8px;
+            background-color: var(--panel-bg);
+            padding: 6px;
+            border-radius: 10px;
+            border: 1px solid var(--panel-border);
+            margin-bottom: 30px;
+            width: fit-content;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-family: var(--font-main);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-main);
+        }
+
+        .tab-btn.active {
+            background-color: rgba(255, 255, 255, 0.06);
+            color: white;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        /* Summary Panel / Cards */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .seo-card {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .seo-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background-color: transparent;
+        }
+
+        .seo-card.card-primary::before { background-color: var(--primary); }
+        .seo-card.card-success::before { background-color: var(--success); }
+        .seo-card.card-warning::before { background-color: var(--warning); }
+        .seo-card.card-danger::before { background-color: var(--danger); }
+
+        .card-title {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: white;
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+
+        .card-value span {
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+
+        .card-icon {
+            font-size: 20px;
+            opacity: 0.8;
+        }
+
+        /* Table & Lists layout */
+        .panel-container {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 16px;
+            padding: 24px;
+            position: relative;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .panel-title {
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            padding: 14px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            font-weight: 500;
+            color: var(--text-muted);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            font-size: 14px;
+            vertical-align: middle;
+        }
+
+        tr:hover td {
+            background-color: rgba(255, 255, 255, 0.01);
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .badge-success {
+            background-color: var(--success-glow);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .badge-warning {
+            background-color: var(--warning-glow);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        .badge-danger {
+            background-color: var(--danger-glow);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .badge-secondary {
+            background-color: rgba(255,255,255,0.05);
+            color: var(--text-muted);
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        /* Circle Progress Bar */
+        .score-circle {
+            position: relative;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        /* Search & Filters */
+        .filter-bar {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .search-wrapper {
+            position: relative;
+            flex: 1;
+            min-width: 260px;
+        }
+
+        .search-wrapper i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .search-input {
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--panel-border);
+            border-radius: 8px;
+            padding: 10px 14px 10px 40px;
+            color: white;
+            font-family: var(--font-main);
+            font-size: 14px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .select-filter {
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--panel-border);
+            border-radius: 8px;
+            padding: 10px 16px;
+            color: var(--text-main);
+            outline: none;
+            font-family: var(--font-main);
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .select-filter:focus {
+            border-color: var(--primary);
+        }
+
+        /* Codeblock styling */
+        pre {
+            background-color: #0b0b0f;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 8px;
+            padding: 16px;
+            overflow-x: auto;
+            color: #d1d5db;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* Detail Drawer */
+        .drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.72);
+            z-index: 999999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+            will-change: opacity;
+        }
+
+        .drawer-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .drawer {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            max-width: 650px;
+            height: 100vh;
+            background-color: #0e0e14;
+            border-left: 1px solid var(--panel-border);
+            z-index: 1000000;
+            transform: translate3d(100%, 0, 0);
+            transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.3, 1);
+            will-change: transform;
+            display: flex;
+            flex-direction: column;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+        }
+
+        .drawer.active {
+            transform: translate3d(0, 0, 0);
+        }
+
+        .drawer-header {
+            padding: 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .drawer-title {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .drawer-close {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .drawer-close:hover {
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        .drawer-body {
+            padding: 24px;
+            overflow-y: auto;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* SERP Google Preview */
+        .serp-preview {
+            background-color: white;
+            color: #1a0dab;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #dadce0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .serp-url {
+            color: #202124;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .serp-title {
+            font-size: 20px;
+            line-height: 1.3;
+            text-decoration: none;
+            color: #1a0dab;
+            cursor: pointer;
+            word-wrap: break-word;
+        }
+
+        .serp-title:hover {
+            text-decoration: underline;
+        }
+
+        .serp-desc {
+            color: #4d5156;
+            font-size: 14px;
+            line-height: 1.58;
+            word-wrap: break-word;
+        }
+
+        /* Audit Item cards in Drawer */
+        .audit-item-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .audit-row {
+            display: flex;
+            gap: 16px;
+            padding: 16px;
+            border-radius: 10px;
+            background-color: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .audit-icon-box {
+            font-size: 18px;
+            display: flex;
+            align-items: flex-start;
+            margin-top: 2px;
+        }
+
+        .audit-content-box h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .audit-content-box p {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .audit-content-box .fix-suggestion {
+            background-color: rgba(249, 115, 22, 0.07);
+            border-left: 3px solid var(--primary);
+            padding: 6px 10px;
+            border-radius: 0 6px 6px 0;
+            font-size: 12px;
+            color: #ffedd5;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Test editor in Drawer */
+        .seo-test-editor {
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--panel-border);
+            padding: 16px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .editor-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .editor-group label {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .editor-input {
+            background-color: #0b0b0f;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 6px;
+            padding: 10px;
+            color: white;
+            font-family: var(--font-main);
+            font-size: 14px;
+            outline: none;
+        }
+
+        .editor-textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        /* Simulation Card for Products */
+        .prod-sim-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .prod-card {
+            background-color: #121218;
+            border: 1px solid var(--panel-border);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .prod-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--panel-border-hover);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        }
+
+        .prod-img {
+            height: 160px;
+            background-color: #08080c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .prod-img img {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+        }
+
+        .prod-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background-color: rgba(0,0,0,0.7);
+            color: var(--primary);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            border: 1px solid var(--primary);
+        }
+
+        .prod-info {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex-grow: 1;
+        }
+
+        .prod-name {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .prod-meta-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-top: 4px;
+        }
+
+        .prod-meta-val {
+            font-size: 13px;
+            color: var(--text-main);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Tooltip style */
+        .tooltip {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .tooltip::after {
+            content: attr(data-tip);
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #1f2937;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.06);
+            z-index: 10;
+        }
+
+        .tooltip:hover::after {
+            opacity: 1;
+            bottom: 135%;
+        }
+
+        /* Loader Animation */
+        .scan-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(13, 13, 17, 0.95);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            z-index: 5;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        .scan-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 3px solid rgba(249, 115, 22, 0.1);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Copy Button inside pre */
+        .codeblock-container {
+            position: relative;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 4px 8px;
+            font-size: 11px;
+            background-color: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-muted);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .copy-btn:hover {
+            color: white;
+            background-color: rgba(255,255,255,0.15);
+        }
+        
+        .copy-btn.copied {
+            background-color: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
+
+        /* Dynamic alert panel */
+        .alert-box {
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .alert-box i {
+            font-size: 18px;
+            margin-top: 1px;
+        }
+        
+        .alert-box-info {
+            background-color: rgba(59, 130, 246, 0.08);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            color: #dbeafe;
+        }
+        .alert-box-warning {
+            background-color: rgba(245, 158, 11, 0.08);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            color: #fef3c7;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="admin-layout">
+        <!-- Sidebar Menu -->
+        <div class="sidebar">
+            <div class="sidebar-menu">
+                <h3>Admin Panel</h3>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="products.html">Ürün Yönetimi</a></li>
+                    <li><a href="orders.html">Sipariş Yönetimi</a></li>
+                    <li><a href="customers.html">Kayıtlı Müşteriler</a></li>
+                    <li><a href="seo-analiz.html" class="active">SEO Analiz</a></li>
+                </ul>
+            </div>
+            <div class="logout-container">
+                <a href="#" onclick="confirmLogout(event)" class="logout-btn">Çıkış Yap <i class="fa-solid fa-door-open"></i></a>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <div class="seo-container">
+                
+                <!-- Header -->
+                <div class="seo-header">
+                    <div class="brand-text">
+                        <h1>SEO Denetim & Analiz Paneli</h1>
+                        <p>MeteMorali Web Sitesi Arama Motoru Optimizasyonu Kontrol Paneli</p>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary" onclick="scanAllPages()" style="width: auto;">
+                            <i class="fa-solid fa-rotate"></i> Yeniden Tara
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Summary Cards -->
+                <div class="summary-grid">
+                    <div class="seo-card card-primary">
+                        <div class="card-title">Orjinal Ortalama SEO Puanı <i class="fa-solid fa-gauge-high card-icon" style="color: var(--primary)"></i></div>
+                        <div class="card-value" id="avg-score">-- <span>/100</span></div>
+                    </div>
+                    <div class="seo-card card-success">
+                        <div class="card-title">Taranan Sayfa <i class="fa-solid fa-file-code card-icon" style="color: var(--success)"></i></div>
+                        <div class="card-value" id="pages-count">--</div>
+                    </div>
+                    <div class="seo-card card-warning">
+                        <div class="card-title">Toplam Uyarı <i class="fa-solid fa-triangle-exclamation card-icon" style="color: var(--warning)"></i></div>
+                        <div class="card-value" id="warnings-count">--</div>
+                    </div>
+                    <div class="seo-card card-danger">
+                        <div class="card-title">Kritik Hatalar <i class="fa-solid fa-circle-xmark card-icon" style="color: var(--danger)"></i></div>
+                        <div class="card-value" id="errors-count">--</div>
+                    </div>
+                </div>
+
+                <!-- Tabbed Nav -->
+                <div class="tabs-nav">
+                    <button class="tab-btn active" onclick="switchTab('static-pages', this)">
+                        <i class="fa-solid fa-desktop"></i> Sayfa Denetimleri
+                    </button>
+                    <button class="tab-btn" onclick="switchTab('dynamic-products', this)">
+                        <i class="fa-solid fa-tags"></i> Ürün SEO Simülatörü
+                    </button>
+                    <button class="tab-btn" onclick="switchTab('sitemap-robots', this)">
+                        <i class="fa-solid fa-network-wired"></i> Robots & Sitemap
+                    </button>
+                </div>
+
+                <!-- Panel Body -->
+                <div class="panel-container">
+                    <!-- Scan overlay loader -->
+                    <div class="scan-overlay" id="scan-loader">
+                        <div class="spinner"></div>
+                        <div style="font-weight: 500;">Sayfa kodları çekiliyor ve analiz ediliyor...</div>
+                        <div style="color: var(--text-muted); font-size: 13px;" id="scan-progress">0%</div>
+                    </div>
+
+                    <!-- Tab 1: Static Pages -->
+                    <div id="tab-static-pages" class="tab-content">
+                        <div class="panel-header">
+                            <div class="panel-title">
+                                <i class="fa-solid fa-list-check" style="color: var(--primary)"></i> Sitedeki Sayfalar ve SEO Durumları
+                            </div>
+                        </div>
+
+                        <div class="filter-bar">
+                            <div class="search-wrapper">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="text" class="search-input" id="search-input" placeholder="Sayfa adına veya URL'ye göre ara..." oninput="filterPagesTable()">
+                            </div>
+                            <select class="select-filter" id="score-filter" onchange="filterPagesTable()">
+                                <option value="all">Tüm Skorlar</option>
+                                <option value="good">Mükemmel (90+)</option>
+                                <option value="medium">Geliştirilmeli (70-89)</option>
+                                <option value="poor">Zayıf (0-69)</option>
+                            </select>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th style="width: 15%">Sayfa Dosyası</th>
+                                        <th style="width: 25%">Arama Başlığı (Title)</th>
+                                        <th style="width: 35%">Açıklama (Meta Description)</th>
+                                        <th style="width: 10%">SEO Skoru</th>
+                                        <th style="width: 15% ; text-align: center;">Eylemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="pages-table-body">
+                                    <!-- Populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Tab 2: Dynamic Products -->
+                    <div id="tab-dynamic-products" class="tab-content" style="display: none;">
+                        <div class="panel-header">
+                            <div class="panel-title">
+                                <i class="fa-solid fa-shirt" style="color: var(--secondary)"></i> Dinamik Ürün SEO Simülatörü
+                            </div>
+                        </div>
+
+                        <div class="alert-box alert-box-warning">
+                            <i class="fa-solid fa-circle-exclamation" style="color: var(--warning)"></i>
+                            <div>
+                                <strong>Kritik SEO Tespiti:</strong> Ürün sayfalarımız dinamik olarak tek şablon üzerinden çalışır (`urun-detay.html?id=ID`). Sayfa yüklendiğinde JavaScript, ürün adını tarayıcı başlığına (`document.title`) yazar ve Open Graph etiketlerini (og:title, og:description, og:image) günceller. Ancak, klasik HTML meta etiketi olan <strong>&lt;meta name="description"&gt;</strong> etiketi ürün yüklenirken güncellenmemektedir! Arama motoru örümceklerinin dinamik sayfaları düzgün dizine eklemesi için bu etiketin de güncellenmesi önerilir.
+                            </div>
+                        </div>
+
+                        <div class="prod-sim-grid" id="products-sim-grid">
+                            <!-- Populated dynamically from mock data -->
+                        </div>
+                    </div>
+
+                    <!-- Tab 3: Robots & Sitemap -->
+                    <div id="tab-sitemap-robots" class="tab-content" style="display: none;">
+                        <div class="panel-header">
+                            <div class="panel-title">
+                                <i class="fa-solid fa-file-lines" style="color: var(--success)"></i> Arama Motoru İletişim Dosyaları
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                            <div>
+                                <div style="font-weight: 600; margin-bottom: 12px; display:flex; align-items:center; gap:8px;">
+                                    <span>robots.txt</span> 
+                                    <span class="badge badge-success" id="robots-badge">Kontrol ediliyor...</span>
+                                </div>
+                                <div class="codeblock-container">
+                                    <button class="copy-btn" onclick="copyCode('robots-content', this)">Kopyala</button>
+                                    <pre id="robots-content">Yükleniyor...</pre>
+                                </div>
+                                <div style="margin-top: 16px; font-size: 13px; color: var(--text-muted); line-height: 1.5;">
+                                    <strong>robots.txt Analizi:</strong>
+                                    <ul style="padding-left: 20px; margin-top: 6px; display: flex; flex-direction: column; gap: 4px;">
+                                        <li>Admin paneli (`/AdminFrontend/`) arama motorlarına kapatılmış. (Doğru)</li>
+                                        <li>Bileşenler ve test kodları (`/components/`, `/scratch/`) taranmaya kapatılmış. (Doğru)</li>
+                                        <li>Sitemap adresi tam URL olarak bildirilmiş. (Doğru)</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div style="font-weight: 600; margin-bottom: 12px; display:flex; align-items:center; gap:8px;">
+                                    <span>sitemap.xml</span> 
+                                    <span class="badge badge-success" id="sitemap-badge">Kontrol ediliyor...</span>
+                                </div>
+                                <div class="codeblock-container">
+                                    <button class="copy-btn" onclick="copyCode('sitemap-content', this)">Kopyala</button>
+                                    <pre id="sitemap-content" style="max-height: 250px;">Yükleniyor...</pre>
+                                </div>
+                                <div style="margin-top: 16px; font-size: 13px; color: var(--text-muted); line-height: 1.5;">
+                                    <strong>sitemap.xml Analizi:</strong>
+                                    <ul style="padding-left: 20px; margin-top: 6px; display: flex; flex-direction: column; gap: 4px;" id="sitemap-analysis-list">
+                                        <li>Sitemap dosyası başarıyla bulundu ve geçerli XML formatında.</li>
+                                        <li id="sitemap-links-count">Sitemap içinde toplam -- sayfa/adres listeleniyor.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Drawer Overlay -->
+    <div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
+
+    <!-- Details Drawer -->
+    <div class="drawer" id="drawer">
+        <div class="drawer-header">
+            <div class="drawer-title" id="drawer-page-name">sayfa.html Detayları</div>
+            <button class="drawer-close" onclick="closeDrawer()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="drawer-body">
+            
+            <!-- Tab Menu Inside Drawer (SERP vs Audit details) -->
+            <div>
+                <div style="font-weight: 600; margin-bottom: 10px; font-size: 14px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px;">Google SERP Önizlemesi (Canlı Arama Sonucu)</div>
+                <div class="serp-preview">
+                    <div class="serp-url" id="serp-preview-url">https://www.mete-morali.com/</div>
+                    <a class="serp-title" id="serp-preview-title" target="_blank">Sayfa Başlığı Buraya Gelecek</a>
+                    <div class="serp-desc" id="serp-preview-desc">Sayfa meta açıklaması buraya gelecek. Arama motorları bu metni kullanıcılara gösterir.</div>
+                </div>
+            </div>
+
+            <!-- SEO Test Area -->
+            <div class="seo-test-editor">
+                <div style="font-weight: 600; font-size: 14px; color: var(--text-main); display: flex; justify-content: space-between; align-items: center;">
+                    <span>Düzenleme & Karakter Uzunluğu Testi</span>
+                    <span class="badge badge-secondary" style="font-size: 11px;">Simülatör</span>
+                </div>
+                
+                <div class="editor-group">
+                    <label>
+                        <span>Meta Title (Başlık)</span>
+                        <span id="title-char-count">0 / 60 Karakter</span>
+                    </label>
+                    <input type="text" class="editor-input" id="editor-title-input" oninput="updateSerpPreview()">
+                </div>
+
+                <div class="editor-group">
+                    <label>
+                        <span>Meta Description (Açıklama)</span>
+                        <span id="desc-char-count">0 / 160 Karakter</span>
+                    </label>
+                    <textarea class="editor-input editor-textarea" id="editor-desc-input" oninput="updateSerpPreview()"></textarea>
+                </div>
+                
+                <div class="codeblock-container" style="margin-top: 4px;">
+                    <label style="font-size: 11px; color: var(--text-muted); margin-bottom: 6px; display: block;">Sayfanın &lt;head&gt; bloğu için kod çıktısı:</label>
+                    <button class="copy-btn" onclick="copyCode('generated-head-code', this)" style="top: 25px;">Kopyala</button>
+                    <pre id="generated-head-code" style="font-size: 12px; padding: 12px; background-color: #050507; margin-top: 4px;"></pre>
+                </div>
+            </div>
+
+            <!-- Audit Checklist -->
+            <div>
+                <div style="font-weight: 600; margin-bottom: 12px; font-size: 14px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px;">Denetim Maddeleri ve Puan Analizi</div>
+                <div class="audit-item-list" id="drawer-audit-list">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Product SEO Modal (Drawer style) -->
+    <div class="drawer" id="prod-drawer">
+        <div class="drawer-header">
+            <div class="drawer-title" id="prod-drawer-title">Ürün SEO Yönetimi</div>
+            <button class="drawer-close" onclick="closeProdDrawer()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="drawer-body">
+            <div>
+                <div style="font-weight: 600; margin-bottom: 10px; font-size: 14px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px;">Simüle Edilen Google Arama Sonucu</div>
+                <div class="serp-preview">
+                    <div class="serp-url" id="prod-serp-url">https://www.mete-morali.com/urun-detay.html?id=1</div>
+                    <a class="serp-title" id="prod-serp-title" target="_blank">Kışlık Parka - MeteMorali</a>
+                    <div class="serp-desc" id="prod-serp-desc">Alev almaz termal parka açıklaması...</div>
+                </div>
+            </div>
+
+            <!-- Product SEO Live Editor -->
+            <div class="seo-test-editor" style="margin-top: 15px; margin-bottom: 20px;">
+                <div style="font-weight: 600; font-size: 14px; color: var(--text-main); display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <span>Ürün SEO Bilgilerini Düzenle</span>
+                    <span class="badge badge-success" style="font-size: 11px;"><i class="fa-solid fa-database"></i> Canlı Veritabanı</span>
+                </div>
+                
+                <input type="hidden" id="prod-edit-id">
+                
+                <div class="editor-group">
+                    <label>
+                        <span>Ürün Adı / Meta Title (Başlık)</span>
+                        <span id="prod-title-char-count">0 / 60 Karakter</span>
+                    </label>
+                    <input type="text" class="editor-input" id="prod-edit-name" oninput="updateProdLivePreview()">
+                </div>
+
+                <div class="editor-group">
+                    <label>
+                        <span>SEO Alt Başlığı / Meta Description (Google Açıklaması)</span>
+                        <span id="prod-desc-char-count">0 / 160 Karakter</span>
+                    </label>
+                    <textarea class="editor-input editor-textarea" id="prod-edit-subtitle" oninput="updateProdLivePreview()" style="height: 65px;" placeholder="Google arama sonuçlarında çıkacak kısa açıklama"></textarea>
+                </div>
+
+                <div class="editor-group">
+                    <label>
+                        <span>Detaylı Açıklama (Ürün Sayfası & Schema.org)</span>
+                    </label>
+                    <textarea class="editor-input editor-textarea" id="prod-edit-desc" oninput="updateProdLivePreview()" style="height: 75px;" placeholder="Ürün detay sayfasındaki tam açıklama"></textarea>
+                </div>
+                
+                <button class="btn btn-primary" id="btn-save-prod-seo" onclick="saveProductSeo()" style="width: 100%; margin-top: 10px; padding: 12px; font-weight: 600; font-size: 14px;">
+                    <i class="fa-solid fa-floppy-disk"></i> Değişiklikleri Veritabanına Kaydet
+                </button>
+                <div id="prod-save-feedback" style="display: none; margin-top: 10px; text-align: center; font-size: 13px; font-weight: 600; padding: 8px; border-radius: 6px;"></div>
+            </div>
+
+            <div>
+                <div style="font-weight: 600; margin-bottom: 8px; font-size: 14px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px;">Dinamik Meta Etiket Çıktıları</div>
+                <div class="codeblock-container">
+                    <button class="copy-btn" onclick="copyCode('prod-meta-code', this)">Kopyala</button>
+                    <pre id="prod-meta-code"></pre>
+                </div>
+            </div>
+
+            <div>
+                <div style="font-weight: 600; margin-bottom: 8px; font-size: 14px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px;">Schema.org Yapılandırılmış Ürün Verisi (JSON-LD)</div>
+                <div style="color: var(--text-muted); font-size: 12px; margin-bottom: 10px; line-height: 1.4;">Bu JSON-LD kodu Google'ın arama sonuçlarında ürün fiyatını, stok bilgisini ve resmini "zengin sonuç (rich snippets)" olarak göstermesini sağlar.</div>
+                <div class="codeblock-container">
+                    <button class="copy-btn" onclick="copyCode('prod-jsonld-code', this)">Kopyala</button>
+                    <pre id="prod-jsonld-code" style="max-height: 350px;"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script loading pointing to parents -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js"></script>
+    <script src="../js/katalog-api.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        // Pages list in workspace to be scanned (pointed to parent directory relative to AdminFrontend)
+        const STATIC_PAGES = [
+            { path: '../index.html', name: 'Ana Sayfa (index.html)' },
+            { path: '../katalog.html', name: 'Ürün Kataloğu' },
+            { path: '../urun-detay.html', name: 'Ürün Detay Şablonu' },
+            { path: '../iletisim.html', name: 'İletişim' },
+            { path: '../sertifikalar.html', name: 'Sertifikalarımız' },
+            { path: '../sozlesmeler.html', name: 'Yasal Sözleşmeler' },
+            { path: '../sepet.html', name: 'Sepetim (NoIndex)' },
+            { path: '../hesabim.html', name: 'Hesabım (NoIndex)' }
+        ];
+
+        let scannedData = [];
+        let activeDrawerPagePath = '';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            scanAllPages();
+            loadRobotsTxt();
+            loadSitemapXml();
+            simulateProducts();
+        });
+
+        // Tab Switcher
+        function switchTab(tabId, btnElement) {
+            document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+            document.getElementById(`tab-${tabId}`).style.display = 'block';
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+        }
+
+        // Fetch & analyze robots.txt
+        // Fetch & analyze robots.txt
+        async function loadRobotsTxt() {
+            const pre = document.getElementById('robots-content');
+            const badge = document.getElementById('robots-badge');
+            const targetUrl = window.location.hostname.includes('admin') ? 'https://www.mete-morali.com/robots.txt' : '../robots.txt';
+            try {
+                const res = await fetch(targetUrl);
+                if(!res.ok) throw new Error(`HTTP ${res.status}`);
+                const text = await res.text();
+                pre.textContent = text;
+                badge.className = 'badge badge-success';
+                badge.innerHTML = '<i class="fa-solid fa-circle-check"></i> Aktif';
+            } catch (err) {
+                pre.textContent = "robots.txt bulunamadı veya okunamadı.";
+                badge.className = 'badge badge-danger';
+                badge.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Hata';
+            }
+        }
+
+        // Fetch & analyze sitemap.xml
+        async function loadSitemapXml() {
+            const pre = document.getElementById('sitemap-content');
+            const badge = document.getElementById('sitemap-badge');
+            const countEl = document.getElementById('sitemap-links-count');
+            const targetUrl = window.location.hostname.includes('admin') ? 'https://www.mete-morali.com/sitemap.xml' : '../sitemap.xml';
+            try {
+                const res = await fetch(targetUrl);
+                if(!res.ok) throw new Error(`HTTP ${res.status}`);
+                const xmlText = await res.text();
+                pre.textContent = xmlText;
+                
+                // Parse sitemap links count
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(xmlText, 'application/xml');
+                const locs = xmlDoc.querySelectorAll('loc');
+                countEl.innerHTML = `Sitemap içinde toplam <strong>${locs.length}</strong> sayfa/adres listeleniyor.`;
+                
+                badge.className = 'badge badge-success';
+                badge.innerHTML = '<i class="fa-solid fa-circle-check"></i> Aktif';
+            } catch (err) {
+                pre.textContent = "sitemap.xml bulunamadı veya okunamadı.";
+                badge.className = 'badge badge-danger';
+                badge.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Hata';
+                countEl.innerHTML = `Sitemap okunamadığı için link sayısı hesaplanamadı.`;
+            }
+        }
+
+        // Scan all static pages
+        async function scanAllPages() {
+            const loader = document.getElementById('scan-loader');
+            const progress = document.getElementById('scan-progress');
+            loader.classList.add('active');
+            scannedData = [];
+
+            const isProdAdmin = window.location.hostname.includes('admin');
+            const baseUrl = isProdAdmin ? 'https://www.mete-morali.com/' : '../';
+
+            let scannedCount = 0;
+            for(let i = 0; i < STATIC_PAGES.length; i++) {
+                const page = STATIC_PAGES[i];
+                const cleanRelativePath = page.path.replace('../', '');
+                const fetchUrl = isProdAdmin ? (baseUrl + cleanRelativePath) : page.path;
+                try {
+                    const response = await fetch(fetchUrl);
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    const html = await response.text();
+                    
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    
+                    const pageAudit = runAudit(page.path, page.name, doc);
+                    scannedData.push(pageAudit);
+                } catch (err) {
+                    console.error(`Error scanning ${fetchUrl}:`, err);
+                    scannedData.push({
+                        path: page.path,
+                        name: page.name,
+                        title: 'Okunamadı',
+                        description: 'Dosya okunurken hata oluştu veya dosya mevcut değil.',
+                        canonical: '',
+                        h1Count: 0,
+                        ogTitle: '',
+                        ogDesc: '',
+                        ogImg: '',
+                        imagesMissingAlt: 0,
+                        score: 0,
+                        hasLang: false,
+                        error: true,
+                        errorMessage: err.message,
+                        audits: []
+                    });
+                }
+                scannedCount++;
+                progress.textContent = Math.round((scannedCount / STATIC_PAGES.length) * 100) + '%';
+            }
+
+            renderPagesTable();
+            updateSummaryCards();
+            
+            setTimeout(() => {
+                loader.classList.remove('active');
+            }, 500);
+        }
+
+        // Scraper and Audit Engine
+        function runAudit(path, displayName, doc) {
+            const title = doc.title || '';
+            const descMeta = doc.querySelector('meta[name="description"]');
+            const description = descMeta ? descMeta.getAttribute('content') || '' : '';
+            const canonicalLink = doc.querySelector('link[rel="canonical"]');
+            const canonical = canonicalLink ? canonicalLink.getAttribute('href') || '' : '';
+            
+            // OG tags
+            const ogTitleEl = doc.querySelector('meta[property="og:title"]');
+            const ogTitle = ogTitleEl ? ogTitleEl.getAttribute('content') || '' : '';
+            
+            const ogDescEl = doc.querySelector('meta[property="og:description"]');
+            const ogDesc = ogDescEl ? ogDescEl.getAttribute('content') || '' : '';
+            
+            const ogImgEl = doc.querySelector('meta[property="og:image"]');
+            const ogImg = ogImgEl ? ogImgEl.getAttribute('content') || '' : '';
+
+            // H1 count
+            const h1s = doc.querySelectorAll('h1');
+            const h1Count = h1s.length;
+            const h1Text = Array.from(h1s).map(h => h.innerText.trim()).join(', ');
+
+            // Language
+            const lang = doc.documentElement.getAttribute('lang') || '';
+            const hasLang = lang !== '';
+
+            // Images with missing Alt tags
+            const imgs = doc.querySelectorAll('img');
+            const imagesMissingAlt = Array.from(imgs).filter(img => !img.getAttribute('alt')).length;
+
+            const audits = [];
+            let score = 100;
+
+            // Audit rule: Title
+            if (!title) {
+                audits.push({ key: 'title', status: 'danger', score: -20, title: 'Sayfa başlığı (title) eksik', desc: 'Google arama sonuçlarında sayfanın tıklanabilir ana başlığı olarak title etiketini gösterir. Eksik olması SEO açısından kritik bir hatadır.', fix: 'Sayfanın <head> bloğuna <title>Sayfa Başlığı</title> etiketi ekleyin.' });
+                score -= 20;
+            } else if (title.length < 35) {
+                audits.push({ key: 'title', status: 'warning', score: -8, title: `Başlık çok kısa (${title.length} karakter)`, desc: `Başlığınız "${title}" çok kısa. Google aramalarında daha fazla dikkat çekmesi için ideal başlık 40-60 karakter arasındadır.`, fix: 'Başlığı içeriğe uygun anahtar kelimeler ekleyerek genişletin.' });
+                score -= 8;
+            } else if (title.length > 65) {
+                audits.push({ key: 'title', status: 'warning', score: -8, title: `Başlık çok uzun (${title.length} karakter)`, desc: `Başlığınız "${title}" çok uzun. 65 karakterden uzun başlıklar Google arama listelerinde sonuna "..." eklenerek kırpılır.`, fix: 'Başlığı daha vurucu ve kısa tutarak 60 karakter sınırına indirin.' });
+                score -= 8;
+            } else {
+                audits.push({ key: 'title', status: 'success', score: 0, title: `Başlık optimize edilmiş (${title.length} karakter)`, desc: `"${title}" başlığı uzunluk ve içerik olarak ideal ölçülerde.` });
+            }
+
+            // Audit rule: Description
+            if (!description) {
+                audits.push({ key: 'desc', status: 'danger', score: -20, title: 'Meta description açıklaması eksik', desc: 'Sayfanın arama sonuçlarında başlığın altında çıkan özet metnidir. Eksik olması kullanıcıların tıklama oranını olumsuz etkiler.', fix: 'Sayfanın <head> bloğuna <meta name="description" content="Sayfa özeti..."> ekleyin.' });
+                score -= 20;
+            } else if (description.length < 80) {
+                audits.push({ key: 'desc', status: 'warning', score: -8, title: `Meta açıklama çok kısa (${description.length} karakter)`, desc: `Açıklamanız çok kısa. Google'da en iyi görünüm için 100-160 karakter arası bir özet yazılmalıdır.`, fix: 'Açıklamaya sayfa detaylarını anlatan daha açıklayıcı bir cümle ekleyin.' });
+                score -= 8;
+            } else if (description.length > 165) {
+                audits.push({ key: 'desc', status: 'warning', score: -8, title: `Meta açıklama çok uzun (${description.length} karakter)`, desc: `Açıklamanız çok uzun. Google arama sayfalarında sadece ilk ~155-160 karakter gösterilir, gerisi kesilir.`, fix: 'Açıklamayı sadeleştirerek en önemli cümlelerle 150 karaktere sığdırın.' });
+                score -= 8;
+            } else {
+                audits.push({ key: 'desc', status: 'success', score: 0, title: `Meta açıklama optimize edilmiş (${description.length} karakter)`, desc: `Açıklama metniniz ideal uzunlukta ve kullanıcılara iyi bir özet sunuyor.` });
+            }
+
+            // Audit rule: H1
+            if (h1Count === 0) {
+                audits.push({ key: 'h1', status: 'danger', score: -15, title: 'Sayfada H1 başlığı bulunamadı', desc: 'Her sayfada, sayfanın ana konusunu belirten tam olarak 1 adet <h1> başlığı bulunmalıdır.', fix: 'Sayfanın ana başlığını <h1> etiketi içine alın (örneğin: <h1>Koleksiyonumuzu Keşfedin</h1>).' });
+                score -= 15;
+            } else if (h1Count > 1) {
+                audits.push({ key: 'h1', status: 'warning', score: -10, title: `Birden fazla H1 başlığı var (${h1Count} adet)`, desc: `Sayfada birden fazla H1 etiketi olması arama motorlarının hiyerarşiyi anlamasını zorlaştırır. Bulunan başlıklar: "${h1Text}"`, fix: 'Sadece en önemli başlığı H1 olarak bırakın, diğerlerini H2 veya H3 yapın.' });
+                score -= 10;
+            } else {
+                audits.push({ key: 'h1', status: 'success', score: 0, title: `Tek H1 başlığı mevcut: "${h1Text}"`, desc: 'Sayfada ideal hiyerarşi için gereken 1 adet H1 başlığı mevcut.' });
+            }
+
+            // Audit rule: Canonical URL
+            if (!canonical) {
+                audits.push({ key: 'canonical', status: 'warning', score: -10, title: 'Canonical (Özgün URL) etiketi eksik', desc: 'Arama motorlarına sayfanın orjinal kopyasının hangi URL olduğunu bildirerek kopya içerik cezası almanızı engeller.', fix: `<head> alanına <link rel="canonical" href="https://www.mete-morali.com/${path.replace('../', '')}"> ekleyin.` });
+                score -= 10;
+            } else {
+                audits.push({ key: 'canonical', status: 'success', score: 0, title: `Canonical URL tanımlı: "${canonical}"`, desc: 'Kopya içerik riskine karşı canonical URL doğru şekilde eklenmiş.' });
+            }
+
+            // Audit rule: HTML Lang
+            if (!hasLang) {
+                audits.push({ key: 'lang', status: 'danger', score: -10, title: 'HTML lang özniteliği eksik', desc: 'Arama motorlarının ve tarayıcıların sayfa dilini otomatik tespit etmesi için gereklidir.', fix: '<html> etiketini <html lang="tr"> olarak değiştirin.' });
+                score -= 10;
+            } else {
+                audits.push({ key: 'lang', status: 'success', score: 0, title: `HTML sayfa dili tanımlanmış: "${lang}"`, desc: 'Sayfa dili arama motorları için doğru belirtilmiş.' });
+            }
+
+            // Audit rule: OG Tags
+            const missingOg = [];
+            if (!ogTitle) missingOg.push('og:title');
+            if (!ogDesc) missingOg.push('og:description');
+            if (!ogImg) missingOg.push('og:image');
+
+            if (missingOg.length > 0) {
+                const deduction = missingOg.length * 5;
+                audits.push({ key: 'og', status: 'warning', score: -deduction, title: `Eksik sosyal medya paylaşım etiketleri: ${missingOg.join(', ')}`, desc: 'Open Graph (OG) etiketleri, sayfa WhatsApp, LinkedIn, Facebook gibi platformlarda paylaşıldığında kart biçiminde güzel görünmesini sağlar.', fix: `Sayfanın <head> bloğuna eksik olan <meta property="og:..." content="..."> etiketlerini ekleyin.` });
+                score -= deduction;
+            } else {
+                audits.push({ key: 'og', status: 'success', score: 0, title: 'Open Graph (sosyal medya) etiketleri tam', desc: 'og:title, og:description ve og:image etiketleri doğru şekilde yapılandırılmış.' });
+            }
+
+            // Audit rule: Image Alt tags
+            if (imagesMissingAlt > 0) {
+                const deduction = Math.min(imagesMissingAlt * 2, 10);
+                audits.push({ key: 'alt', status: 'warning', score: -deduction, title: `${imagesMissingAlt} görselde "alt" etiketi eksik`, desc: 'Arama motorları resimlerin neyle ilgili olduğunu "alt" metinlerinden okur. Görsel aramalarında çıkmak için kritiktir.', fix: 'Sayfadaki görsel (<img>) etiketlerine alt="Görsel Açıklaması" özniteliğini ekleyin.' });
+                score -= deduction;
+            } else {
+                audits.push({ key: 'alt', status: 'success', score: 0, title: 'Sitedeki tüm görseller alt etiketine sahip', desc: 'Görsel aramaları için tüm resimler doğru etiketlenmiş.' });
+            }
+
+            // Norm score
+            score = Math.max(score, 0);
+
+            return {
+                path,
+                name: displayName,
+                title,
+                description,
+                canonical,
+                ogTitle,
+                ogDesc,
+                ogImg,
+                h1Count,
+                h1Text,
+                imagesMissingAlt,
+                score,
+                hasLang,
+                error: false,
+                audits
+            };
+        }
+
+        // Render Page Table in HTML
+        function renderPagesTable() {
+            const tbody = document.getElementById('pages-table-body');
+            tbody.innerHTML = '';
+
+            scannedData.forEach(p => {
+                let scoreBg = '';
+                
+                if (p.score >= 90) {
+                    scoreBg = 'conic-gradient(var(--success) ' + p.score + '%, rgba(255,255,255,0.08) 0%)';
+                } else if (p.score >= 70) {
+                    scoreBg = 'conic-gradient(var(--warning) ' + p.score + '%, rgba(255,255,255,0.08) 0%)';
+                } else {
+                    scoreBg = 'conic-gradient(var(--danger) ' + p.score + '%, rgba(255,255,255,0.08) 0%)';
+                }
+
+                const cleanPath = p.path.replace('../', '');
+
+                let trHTML = `
+                <tr data-path="${p.path}" data-score="${p.score}">
+                    <td>
+                        <div style="font-weight: 600;">${p.name}</div>
+                        <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px; font-family: var(--font-mono);">${cleanPath}</div>
+                    </td>
+                    <td>
+                        <div style="max-height: 50px; overflow: hidden; text-overflow: ellipsis; line-height: 1.4;" class="val-title">${escapeHTML(p.title || 'EKSİK / TANIMSIZ')}</div>
+                        ${p.title ? `<span style="font-size: 11px; color: var(--text-muted);">${p.title.length} karakter</span>` : '<span class="badge badge-danger" style="padding: 2px 6px; font-size:10px; margin-top:4px;">HATA</span>'}
+                    </td>
+                    <td>
+                        <div style="max-height: 50px; overflow: hidden; text-overflow: ellipsis; line-height: 1.4; font-size:13px;" class="val-desc">${escapeHTML(p.description || 'EKSİK / TANIMSIZ')}</div>
+                        ${p.description ? `<span style="font-size: 11px; color: var(--text-muted);">${p.description.length} karakter</span>` : '<span class="badge badge-danger" style="padding: 2px 6px; font-size:10px; margin-top:4px;">HATA</span>'}
+                    </td>
+                    <td>
+                        <div class="score-circle" style="background: ${scoreBg}; box-shadow: 0 0 10px rgba(0,0,0,0.3)">
+                            <div style="position: absolute; width: 38px; height: 38px; background-color: var(--panel-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                ${p.score}
+                            </div>
+                        </div>
+                    </td>
+                    <td style="text-align: center;">
+                        <button class="btn" onclick="openDrawer('${p.path}')" style="width: auto;">
+                            <i class="fa-solid fa-magnifying-glass-chart"></i> İncele & Düzenle
+                        </button>
+                    </td>
+                </tr>`;
+                
+                tbody.innerHTML += trHTML;
+            });
+        }
+
+        // Summary Cards updating
+        function updateSummaryCards() {
+            if(scannedData.length === 0) return;
+
+            const totalPages = scannedData.length;
+            let sumScore = 0;
+            let totalWarnings = 0;
+            let totalErrors = 0;
+
+            scannedData.forEach(p => {
+                sumScore += p.score;
+                if(p.error) {
+                    totalErrors += 1;
+                    return;
+                }
+                
+                p.audits.forEach(a => {
+                    if (a.status === 'warning') totalWarnings++;
+                    if (a.status === 'danger') totalErrors++;
+                });
+            });
+
+            const avgScore = Math.round(sumScore / totalPages);
+
+            document.getElementById('avg-score').innerHTML = `${avgScore} <span>/100</span>`;
+            document.getElementById('pages-count').textContent = totalPages;
+            document.getElementById('warnings-count').textContent = totalWarnings;
+            document.getElementById('errors-count').textContent = totalErrors;
+            
+            // Set average color ring or card accent
+            const avgCard = document.getElementById('avg-score').closest('.seo-card');
+            avgCard.className = 'seo-card';
+            if (avgScore >= 90) avgCard.classList.add('card-success');
+            else if (avgScore >= 70) avgCard.classList.add('card-warning');
+            else avgCard.classList.add('card-danger');
+        }
+
+        // Filter search input in Table
+        function filterPagesTable() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const scoreFilter = document.getElementById('score-filter').value;
+            const rows = document.querySelectorAll('#pages-table-body tr');
+
+            rows.forEach(row => {
+                const path = row.getAttribute('data-path').toLowerCase();
+                const titleText = row.querySelector('.val-title').textContent.toLowerCase();
+                const score = parseInt(row.getAttribute('data-score'));
+                
+                let matchesSearch = path.includes(query) || titleText.includes(query);
+                let matchesScore = false;
+
+                if (scoreFilter === 'all') {
+                    matchesScore = true;
+                } else if (scoreFilter === 'good' && score >= 90) {
+                    matchesScore = true;
+                } else if (scoreFilter === 'medium' && score >= 70 && score < 90) {
+                    matchesScore = true;
+                } else if (scoreFilter === 'poor' && score < 70) {
+                    matchesScore = true;
+                }
+
+                if (matchesSearch && matchesScore) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        // Open drawer with page details
+        function openDrawer(pagePath) {
+            const page = scannedData.find(p => p.path === pagePath);
+            if (!page) return;
+
+            activeDrawerPagePath = pagePath;
+            document.getElementById('drawer-page-name').textContent = `${page.name} Detayları`;
+            
+            // Populate Test Inputs
+            document.getElementById('editor-title-input').value = page.title;
+            document.getElementById('editor-desc-input').value = page.description;
+            
+            const cleanPath = page.path.replace('../', '');
+            document.getElementById('serp-preview-url').textContent = `https://www.mete-morali.com/${cleanPath}`;
+
+            // Initial preview calculation
+            updateSerpPreview();
+
+            // Populate Audits Checklist
+            const auditList = document.getElementById('drawer-audit-list');
+            auditList.innerHTML = '';
+
+            if (page.error) {
+                auditList.innerHTML = `
+                <div class="audit-row" style="border-color: var(--danger)">
+                    <div class="audit-icon-box" style="color: var(--danger)"><i class="fa-solid fa-circle-xmark"></i></div>
+                    <div class="audit-content-box">
+                        <h4 style="color: var(--danger)">Dosya Yüklenemedi</h4>
+                        <p>${escapeHTML(page.errorMessage)}</p>
+                    </div>
+                </div>`;
+            } else {
+                page.audits.forEach(a => {
+                    let icon = '';
+                    let statusColor = '';
+                    if (a.status === 'success') {
+                        icon = '<i class="fa-solid fa-circle-check"></i>';
+                        statusColor = 'var(--success)';
+                    } else if (a.status === 'warning') {
+                        icon = '<i class="fa-solid fa-triangle-exclamation"></i>';
+                        statusColor = 'var(--warning)';
+                    } else {
+                        icon = '<i class="fa-solid fa-circle-xmark"></i>';
+                        statusColor = 'var(--danger)';
+                    }
+
+                    let rowHTML = `
+                    <div class="audit-row" style="border-left: 3px solid ${statusColor}">
+                        <div class="audit-icon-box" style="color: ${statusColor}">${icon}</div>
+                        <div class="audit-content-box">
+                            <h4 style="color: ${statusColor === 'var(--success)' ? 'white' : statusColor}">${escapeHTML(a.title)}</h4>
+                            <p>${escapeHTML(a.desc)}</p>
+                            ${a.fix ? `<div class="fix-suggestion"><i class="fa-solid fa-lightbulb"></i> <strong>Çözüm:</strong> ${escapeHTML(a.fix)}</div>` : ''}
+                        </div>
+                    </div>`;
+                    
+                    auditList.innerHTML += rowHTML;
+                });
+            }
+
+            document.getElementById('drawer-overlay').classList.add('active');
+            document.getElementById('drawer').classList.add('active');
+        }
+
+        function closeDrawer() {
+            document.getElementById('drawer-overlay').classList.remove('active');
+            document.getElementById('drawer').classList.remove('active');
+        }
+
+        // Live SERP Preview Updater
+        function updateSerpPreview() {
+            const titleInput = document.getElementById('editor-title-input');
+            const descInput = document.getElementById('editor-desc-input');
+            
+            const titleVal = titleInput.value;
+            const descVal = descInput.value;
+
+            // Update Preview Texts
+            const previewTitle = document.getElementById('serp-preview-title');
+            const previewDesc = document.getElementById('serp-preview-desc');
+
+            previewTitle.textContent = titleVal || 'Başlık yazılmadı';
+            previewDesc.textContent = descVal || 'Açıklama girilmedi. Google sayfa içeriğinden rastgele bir bölüm gösterecektir.';
+
+            // Character Counts
+            const titleChar = document.getElementById('title-char-count');
+            const descChar = document.getElementById('desc-char-count');
+
+            titleChar.textContent = `${titleVal.length} / 60 Karakter`;
+            descChar.textContent = `${descVal.length} / 160 Karakter`;
+
+            // Style lengths
+            if (titleVal.length >= 40 && titleVal.length <= 60) {
+                titleChar.style.color = 'var(--success)';
+            } else if (titleVal.length === 0) {
+                titleChar.style.color = 'var(--danger)';
+            } else {
+                titleChar.style.color = 'var(--warning)';
+            }
+
+            if (descVal.length >= 100 && descVal.length <= 160) {
+                descChar.style.color = 'var(--success)';
+            } else if (descVal.length === 0) {
+                descChar.style.color = 'var(--danger)';
+            } else {
+                descChar.style.color = 'var(--warning)';
+            }
+
+            // Generate Copyable HTML
+            const headPre = document.getElementById('generated-head-code');
+            const cleanPath = activeDrawerPagePath.replace('../', '');
+            const canonicalUrl = `https://www.mete-morali.com/${cleanPath}`;
+            
+            const codeOutput = 
+`<!-- SEO Meta Tags -->
+<title>${escapeHTML(titleVal)}</title>
+<meta name="description" content="${escapeHTML(descVal)}">
+<link rel="canonical" href="${canonicalUrl}">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="${canonicalUrl}">
+<meta property="og:title" content="${escapeHTML(titleVal)}">
+<meta property="og:description" content="${escapeHTML(descVal)}">
+<meta property="og:image" content="https://www.mete-morali.com/img/logo_gri.webp">`;
+
+            headPre.textContent = codeOutput;
+        }
+
+        // Product SEO Simulator Renderer
+        let liveProducts = [];
+        async function simulateProducts() {
+            const grid = document.getElementById('products-sim-grid');
+            grid.innerHTML = '<p style="color:var(--text-muted)">Ürünler yükleniyor...</p>';
+
+            try {
+                if (typeof supabaseClient !== 'undefined' && supabaseClient !== null) {
+                    const { data, error } = await supabaseClient.from('Products').select('*').order('Id');
+                    if (data && data.length > 0) {
+                        liveProducts = data.map(p => {
+                            const fallbackMock = (typeof MOCK_PRODUCTS !== 'undefined' ? MOCK_PRODUCTS.find(m => m.id == (p.Id || p.id)) : null);
+                            return {
+                                id: p.Id || p.id,
+                                name: p.Name || p.name || (fallbackMock ? (fallbackMock.name.tr || fallbackMock.name.en) : 'İsimsiz Ürün'),
+                                subtitle: p.Subtitle || p.subtitle || (fallbackMock ? (fallbackMock.subtitle.tr || fallbackMock.description.tr) : ''),
+                                description: p.Description || p.description || (fallbackMock ? fallbackMock.description.tr : ''),
+                                price: Number(p.Price || p.price || (fallbackMock ? fallbackMock.price : 0)),
+                                imageUrl: p.ImageUrl || p.image_url || p.imageUrl || (fallbackMock ? fallbackMock.imageUrl : 'img/kislikceketon.webp'),
+                                articleCode: p.ArticleCode || p.article_code || p.articleCode || ''
+                            };
+                        });
+                    }
+                }
+            } catch (e) {
+                console.warn("Supabase ürünleri çekilemedi, fallback mock kullanılıyor:", e);
+            }
+
+            if (liveProducts.length === 0 && typeof MOCK_PRODUCTS !== 'undefined' && MOCK_PRODUCTS) {
+                liveProducts = MOCK_PRODUCTS.map(p => ({
+                    id: p.id,
+                    name: p.name.tr || p.name.en || 'İsimsiz Ürün',
+                    subtitle: p.subtitle.tr || p.description.tr || '',
+                    description: p.description.tr || '',
+                    price: p.price || 0,
+                    imageUrl: p.imageUrl || '',
+                    articleCode: p.articleCode || ''
+                }));
+            }
+
+            grid.innerHTML = '';
+            liveProducts.forEach(p => {
+                const trName = typeof p.name === 'object' ? (p.name.tr || p.name.en) : p.name;
+                const trSubtitle = typeof p.subtitle === 'object' ? (p.subtitle.tr || p.subtitle.en) : p.subtitle;
+                const trDesc = typeof p.description === 'object' ? (p.description.tr || p.description.en) : p.description;
+
+                const cardHTML = `
+                <div class="prod-card" onclick="openProdDrawer(${p.id})">
+                    <div class="prod-img">
+                        <img src="../${p.imageUrl}" alt="${escapeHTML(trName)}">
+                        <div class="prod-badge">ID: ${p.id}</div>
+                    </div>
+                    <div class="prod-info">
+                        <div class="prod-name">${escapeHTML(trName)}</div>
+                        <div style="font-size:12px; color:var(--text-muted); line-height:1.4; max-height: 40px; overflow:hidden; text-overflow:ellipsis;">${escapeHTML(trSubtitle || trDesc)}</div>
+                        
+                        <div class="prod-meta-label">Dinamik Başlık (Title)</div>
+                        <div class="prod-meta-val">${escapeHTML(trName)} - MeteMorali</div>
+                        
+                        <div class="prod-meta-label">Dinamik Açıklama (Meta Description)</div>
+                        <div class="prod-meta-val">${escapeHTML(trSubtitle || trDesc)}</div>
+                        
+                        <button class="btn btn-primary" style="margin-top: 14px; font-size:12px; padding: 6px 12px; align-self: flex-start; width: auto;">
+                            <i class="fa-solid fa-pen-to-square"></i> SEO Düzenle & Detay
+                        </button>
+                    </div>
+                </div>`;
+                
+                grid.innerHTML += cardHTML;
+            });
+        }
+
+        // Open/Close Product Details Drawer
+        let currentEditingProduct = null;
+        function openProdDrawer(prodId) {
+            const product = liveProducts.find(p => p.id == prodId) || (typeof MOCK_PRODUCTS !== 'undefined' ? MOCK_PRODUCTS.find(p => p.id == prodId) : null);
+            if (!product) return;
+            currentEditingProduct = product;
+
+            const trName = typeof product.name === 'object' ? (product.name.tr || product.name.en) : product.name;
+            const trSubtitle = typeof product.subtitle === 'object' ? (product.subtitle.tr || product.subtitle.en) : (product.subtitle || '');
+            const trDesc = typeof product.description === 'object' ? (product.description.tr || product.description.en) : (product.description || '');
+
+            document.getElementById('prod-drawer-title').textContent = `${trName} - SEO Yönetimi`;
+            document.getElementById('prod-edit-id').value = product.id;
+            document.getElementById('prod-edit-name').value = trName;
+            document.getElementById('prod-edit-subtitle').value = trSubtitle || trDesc;
+            document.getElementById('prod-edit-desc').value = trDesc;
+
+            const feedback = document.getElementById('prod-save-feedback');
+            if (feedback) feedback.style.display = 'none';
+
+            updateProdLivePreview();
+
+            document.getElementById('drawer-overlay').classList.add('active');
+            document.getElementById('prod-drawer').classList.add('active');
+        }
+
+        function updateProdLivePreview() {
+            if (!currentEditingProduct) return;
+
+            const nameVal = document.getElementById('prod-edit-name').value.trim() || 'İsimsiz Ürün';
+            const subtitleVal = document.getElementById('prod-edit-subtitle').value.trim();
+            const descVal = document.getElementById('prod-edit-desc').value.trim();
+
+            // Char counts
+            const titleCountEl = document.getElementById('prod-title-char-count');
+            if (titleCountEl) {
+                const len = `${nameVal} - MeteMorali`.length;
+                titleCountEl.textContent = `${len} / 60 Karakter`;
+                titleCountEl.style.color = (len >= 30 && len <= 60) ? 'var(--success)' : (len > 60 ? 'var(--danger)' : 'var(--warning)');
+            }
+
+            const descCountEl = document.getElementById('prod-desc-char-count');
+            if (descCountEl) {
+                const len = subtitleVal.length;
+                descCountEl.textContent = `${len} / 160 Karakter`;
+                descCountEl.style.color = (len >= 50 && len <= 160) ? 'var(--success)' : (len > 160 ? 'var(--danger)' : 'var(--warning)');
+            }
+
+            // SERP Preview
+            document.getElementById('prod-serp-url').textContent = `https://www.mete-morali.com/urun-detay.html?id=${currentEditingProduct.id}`;
+            document.getElementById('prod-serp-title').textContent = `${nameVal} - MeteMorali`;
+            document.getElementById('prod-serp-desc').textContent = subtitleVal || descVal || 'Ürün açıklaması buraya gelecek.';
+
+            // Dynamic Meta Output
+            const metaPre = document.getElementById('prod-meta-code');
+            metaPre.textContent = 
+`// urun-detay.html sayfasında JavaScript tarafından güncellenen meta çıktısı:
+document.title = "${nameVal} - MeteMorali";
+
+<meta name="description" content="${subtitleVal || descVal}">
+<meta property="og:title" content="${nameVal} | MeteMorali">
+<meta property="og:description" content="${subtitleVal || descVal}">
+<meta property="og:image" content="https://www.mete-morali.com/${currentEditingProduct.imageUrl}">
+<link rel="canonical" href="https://www.mete-morali.com/urun-detay?id=${currentEditingProduct.id}">`;
+
+            // Schema.org JSON-LD
+            const jsonldPre = document.getElementById('prod-jsonld-code');
+            const productSchema = {
+                "@context": "https://schema.org",
+                "@type": "Product",
+                "name": nameVal,
+                "description": descVal || subtitleVal,
+                "image": `https://www.mete-morali.com/${currentEditingProduct.imageUrl}`,
+                "sku": currentEditingProduct.articleCode || '',
+                "brand": {
+                    "@type": "Brand",
+                    "name": "MeteMorali"
+                },
+                "offers": {
+                    "@type": "Offer",
+                    "url": `https://www.mete-morali.com/urun-detay.html?id=${currentEditingProduct.id}`,
+                    "priceCurrency": "EUR",
+                    "price": currentEditingProduct.price || 0,
+                    "availability": "https://schema.org/InStock",
+                    "itemCondition": "https://schema.org/NewCondition"
+                }
+            };
+            jsonldPre.textContent = JSON.stringify(productSchema, null, 4);
+        }
+
+        async function saveProductSeo() {
+            const prodId = parseInt(document.getElementById('prod-edit-id').value);
+            const newName = document.getElementById('prod-edit-name').value.trim();
+            const newSubtitle = document.getElementById('prod-edit-subtitle').value.trim();
+            const newDesc = document.getElementById('prod-edit-desc').value.trim();
+
+            const saveBtn = document.getElementById('btn-save-prod-seo');
+            const feedback = document.getElementById('prod-save-feedback');
+
+            if (!newName) {
+                alert('Lütfen ürün başlığı girin.');
+                return;
+            }
+
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Kaydediliyor...';
+
+            try {
+                if (typeof supabaseClient !== 'undefined' && supabaseClient !== null) {
+                    const { error } = await supabaseClient
+                        .from('Products')
+                        .update({
+                            Name: newName,
+                            Subtitle: newSubtitle,
+                            Description: newDesc
+                        })
+                        .eq('Id', prodId);
+
+                    if (error) throw error;
+                }
+
+                // Update local memory
+                const matched = liveProducts.find(p => p.id == prodId);
+                if (matched) {
+                    matched.name = newName;
+                    matched.subtitle = newSubtitle;
+                    matched.description = newDesc;
+                }
+
+                document.getElementById('prod-drawer-title').textContent = `${newName} - SEO Yönetimi`;
+
+                feedback.style.display = 'block';
+                feedback.style.backgroundColor = 'rgba(46, 204, 113, 0.15)';
+                feedback.style.color = '#2ecc71';
+                feedback.style.border = '1px solid #2ecc71';
+                feedback.innerHTML = '<i class="fa-solid fa-circle-check"></i> SEO bilgileri veritabanına başarıyla kaydedildi!';
+
+                // Re-render simulator grid
+                simulateProducts();
+            } catch (err) {
+                console.error("SEO kaydetme hatası:", err);
+                feedback.style.display = 'block';
+                feedback.style.backgroundColor = 'rgba(231, 76, 60, 0.15)';
+                feedback.style.color = '#e74c3c';
+                feedback.style.border = '1px solid #e74c3c';
+                feedback.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Kaydedilirken hata oluştu: ' + (err.message || 'Bağlantı hatası');
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Değişiklikleri Veritabanına Kaydet';
+            }
+        }
+
+        // Close Product Details Drawer
+        function closeProdDrawer() {
+            document.getElementById('prod-drawer').classList.remove('active');
+            if(!document.getElementById('drawer').classList.contains('active')) {
+                document.getElementById('drawer-overlay').classList.remove('active');
+            }
+        }
+
+        // Copy Code utility helper
+        function copyCode(preId, btnElement) {
+            const pre = document.getElementById(preId);
+            const text = pre.textContent;
+
+            navigator.clipboard.writeText(text).then(() => {
+                const origText = btnElement.innerText;
+                btnElement.innerText = "Kopyalandı!";
+                btnElement.classList.add('copied');
+                
+                setTimeout(() => {
+                    btnElement.innerText = origText;
+                    btnElement.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Kopyalama başarısız:', err);
+            });
+        }
+
+        // Escape HTML
+        function escapeHTML(str) {
+            if (!str) return '';
+            return str
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+    </script>
+</body>
+</html>

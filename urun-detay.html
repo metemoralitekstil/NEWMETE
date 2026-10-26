@@ -1,0 +1,1807 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-88R5628V9H"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-88R5628V9H');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MeteMorali ürün detayı. Teknik özellikler, sertifikalar ve sipariş seçenekleri.">
+    <meta property="og:title" content="MeteMorali - Endüstriyel Güvenlikte Yeni Standart">
+    <meta property="og:description" content="MeteMorali ürün detayı. Teknik özellikler, sertifikalar ve sipariş seçenekleri.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="MeteMorali">
+    <meta property="og:image" content="https://www.mete-morali.com/img/logo_gri.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MeteMorali | Endüstriyel Güvenlikte Yeni Standart">
+    <meta name="twitter:description" content="MeteMorali ürün detayı. Teknik özellikler, sertifikalar ve sipariş seçenekleri.">
+    <script>
+    (function() {
+        var params = new URLSearchParams(window.location.search);
+        var id = params.get('id');
+        var lang = params.get('lang') || 'tr';
+        var parts = [];
+        if (id) parts.push('id=' + encodeURIComponent(id));
+        if (lang && lang !== 'tr') parts.push('lang=' + encodeURIComponent(lang));
+        var canonicalUrl = 'https://www.mete-morali.com/urun-detay' + (parts.length > 0 ? '?' + parts.join('&') : '');
+        var link = document.createElement('link');
+        link.rel = 'canonical';
+        link.href = canonicalUrl;
+        document.head.appendChild(link);
+        var ogMeta = document.createElement('meta');
+        ogMeta.setAttribute('property', 'og:url');
+        ogMeta.setAttribute('content', canonicalUrl);
+        document.head.appendChild(ogMeta);
+
+        // Senkron Ürün SEO & Google Rich Snippets Schema (Googlebot & Sosyal Paylaşım İçin)
+        var productsMeta = {
+            "1": {
+                name: "Alev Almaz Termal Kışlık Parka",
+                desc: "Zorlu kış şartlarında ve patlayıcı ortamlarda alev geciktirici, su geçirmez ve antistatik koruma sağlayan, reflektörlü yüksek korumalı termal kışlık iş parkası.",
+                price: 290.00,
+                img: "https://www.mete-morali.com/img/kislikceketon.webp",
+                sku: "910404"
+            },
+            "2": {
+                name: "Supervisor Alev Almaz Yönetici Takımı",
+                desc: "Rafineriler, kimya tesisleri ve enerji santralleri gibi yüksek riskli endüstriyel tesislerdeki mühendis ve yöneticiler için alev almaz, antistatik ve reflektörlü koruyucu iş takımı.",
+                price: 280.00,
+                img: "https://www.mete-morali.com/img/sari_cokboydan.webp",
+                sku: "910403"
+            },
+            "3": {
+                name: "Hi-Vis Alev Almaz Kaynakçı Takımı",
+                desc: "Loş ve karanlık sahalarda yüksek görünürlük sağlayan reflektörlü şeritlere sahip, alev almaz ve erimiş metal çapaklarına karşı koruma sunan kaynakçı iş takımı.",
+                price: 275.00,
+                img: "https://www.mete-morali.com/img/macivok_boydan.png",
+                sku: "910401"
+            },
+            "4": {
+                name: "Alev Almaz Profesyonel Kaynakçı Takımı",
+                desc: "Yoğun kaynak operasyonlarında kıvılcım, alev ve ısı transferine karşı tam güvenlik sağlayan, reflektörlü şeritli dayanıklı alev almaz ve antistatik kaynakçı iş takımı.",
+                price: 250.00,
+                img: "https://www.mete-morali.com/img/mavi_boydan.webp",
+                sku: "910402"
+            },
+            "5": {
+                name: "Alev Almaz Antistatik Kaynakçı Takımı (Mat Mavi)",
+                desc: "Ağır sanayi, kaynak ve metal işleme atölyelerinde açık alev, yüksek ısı ve statik elektrik risklerine karşı maksimum koruma sağlayan, reflektörsüz alev almaz iş takımı.",
+                price: 240.00,
+                img: "https://www.mete-morali.com/img/reflektorsuzmavion.webp",
+                sku: "910405"
+            },
+            "6": {
+                name: "Supervisor Alev Almaz Mühendis Takımı",
+                desc: "Endüstriyel tesislerdeki mühendis ve saha yöneticileri için çoklu risk koruması, alev almazlık ve antistatik özellik sunan, konforlu kesime sahip reflektörsüz yönetici iş takımı.",
+                price: 270.00,
+                img: "https://www.mete-morali.com/img/saricokreflektorsuzon.webp",
+                sku: "910406"
+            },
+            "7": {
+                name: "Ağır Sanayi Alev Almaz Kaynakçı Takımı",
+                desc: "Ağır kaynak, döküm ve metal eritme süreçlerinde yüksek sıcaklık, açık alev ve erimiş metal sıçramalarına karşı dayanıklı, alev almaz ve antistatik reflektörsüz kaynakçı iş takımı.",
+                price: 260.00,
+                img: "https://www.mete-morali.com/img/reflektorsuzmavicokon.webp",
+                sku: "910407"
+            }
+        };
+
+        var cur = id && productsMeta[id];
+        if (cur) {
+            document.title = cur.name + " - MeteMorali";
+            var mDesc = document.querySelector('meta[name="description"]');
+            if (mDesc) mDesc.setAttribute('content', cur.desc);
+            var ogT = document.querySelector('meta[property="og:title"]');
+            if (ogT) ogT.setAttribute('content', cur.name + " - MeteMorali");
+            var ogD = document.querySelector('meta[property="og:description"]');
+            if (ogD) ogD.setAttribute('content', cur.desc);
+            var ogI = document.querySelector('meta[property="og:image"]');
+            if (ogI) ogI.setAttribute('content', cur.img);
+            var twT = document.querySelector('meta[name="twitter:title"]');
+            if (twT) twT.setAttribute('content', cur.name + " - MeteMorali");
+            var twD = document.querySelector('meta[name="twitter:description"]');
+            if (twD) twD.setAttribute('content', cur.desc);
+            var twI = document.querySelector('meta[name="twitter:image"]');
+            if (twI) twI.setAttribute('content', cur.img);
+
+            var s = document.createElement('script');
+            s.id = 'product-schema-ld';
+            s.type = 'application/ld+json';
+            s.textContent = JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "Product",
+                "name": cur.name,
+                "description": cur.desc,
+                "image": [cur.img],
+                "sku": cur.sku,
+                "brand": {
+                    "@type": "Brand",
+                    "name": "MeteMorali"
+                },
+                "offers": {
+                    "@type": "Offer",
+                    "priceCurrency": "EUR",
+                    "price": cur.price,
+                    "priceValidUntil": "2027-12-31",
+                    "availability": "https://schema.org/InStock",
+                    "itemCondition": "https://schema.org/NewCondition",
+                    "url": canonicalUrl,
+                    "seller": {
+                        "@type": "Organization",
+                        "name": "MeteMorali"
+                    }
+                }
+            });
+            document.head.appendChild(s);
+        }
+    })();
+    </script>
+    <!-- Uluslararası Çok Dilli SEO (Hreflang) -->
+    <link rel="alternate" hreflang="tr" href="https://www.mete-morali.com/urun-detay?lang=tr">
+    <link rel="alternate" hreflang="en" href="https://www.mete-morali.com/urun-detay?lang=en">
+    <link rel="alternate" hreflang="de" href="https://www.mete-morali.com/urun-detay?lang=de">
+    <link rel="alternate" hreflang="ru" href="https://www.mete-morali.com/urun-detay?lang=ru">
+    <link rel="alternate" hreflang="fr" href="https://www.mete-morali.com/urun-detay?lang=fr">
+    <link rel="alternate" hreflang="nl" href="https://www.mete-morali.com/urun-detay?lang=nl">
+    <link rel="alternate" hreflang="it" href="https://www.mete-morali.com/urun-detay?lang=it">
+    <link rel="alternate" hreflang="x-default" href="https://www.mete-morali.com/urun-detay?lang=en">
+    <link rel="icon" type="image/webp" href="img/logo_gri.webp">
+    <link rel="apple-touch-icon" href="img/logo_gri.webp">
+    <script src="js/config.js?v=4.3" defer></script>
+    <title>Ürün Detayı - MeteMorali</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap"></noscript>
+    
+    <link rel="preload" href="css/base.css?v=4.0" as="style">
+    <link rel="preload" href="css/navbar.css?v=4.0" as="style">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
+    
+    <link rel="stylesheet" href="css/base.css?v=4.0">
+    <link rel="stylesheet" href="css/components.css?v=4.0">
+    <link rel="stylesheet" href="css/navbar.css?v=4.0">
+    <link rel="stylesheet" href="css/footer.css?v=4.0">
+    <link rel="stylesheet" href="css/pages.css?v=4.0">
+    <style>
+        /* Sertifikalar ve Standartlar Bölümü */
+        .standards-section-container {
+            max-width: 1200px;
+            margin: 50px auto 100px auto;
+            padding: 50px;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.02);
+            font-family: 'Outfit', sans-serif;
+            border: 1px solid #f0f0f4;
+        }
+
+        .standards-section-container h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #0f172a;
+            border-bottom: 1px solid #eef0f6;
+            padding-bottom: 22px;
+            margin-bottom: 45px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-family: 'Outfit', sans-serif;
+            position: relative;
+            text-transform: none;
+        }
+
+        .standards-section-container h3::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: #2c3e50;
+            border-radius: 3px;
+        }
+
+        .standards-section-container h3 i {
+            color: #2c3e50;
+            font-size: 1.3rem;
+        }
+
+        .pictograms-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+
+        @media (max-width: 1200px) {
+            .pictograms-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .standard-card {
+            background: #ffffff;
+            border: 1px solid #eef0f6;
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 20px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.01);
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        .standard-card:hover {
+            transform: translateY(-5px);
+            border-color: #cbd5e1;
+            box-shadow: 0 15px 35px rgba(15,23,42,0.04);
+        }
+
+        .standard-icon-wrapper {
+            flex-shrink: 0;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .standard-card:hover .standard-icon-wrapper {
+            transform: scale(1.05) rotate(-3deg);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+            background: #ffffff;
+            border-color: #cbd5e1;
+        }
+
+        .standard-icon-wrapper svg {
+            width: 72px;
+            height: 72px;
+        }
+
+        .standard-info {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .standard-code-badge {
+            align-self: flex-start;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #475569;
+            background: #f1f5f9;
+            padding: 4px 10px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid #e2e8f0;
+            font-family: 'Outfit', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .standard-card:hover .standard-code-badge {
+            background: #0f172a;
+            color: #ffffff;
+            border-color: #0f172a;
+        }
+
+        .standard-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 8px;
+            line-height: 1.4;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .standard-desc {
+            font-size: 0.88rem;
+            color: #64748b;
+            line-height: 1.6;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        @media (max-width: 768px) {
+            .standards-section-container {
+                padding: 30px 20px;
+                margin: 20px 15px 60px 15px;
+                border-radius: 16px;
+            }
+            .pictograms-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .standard-card {
+                padding: 24px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            .standard-icon-wrapper {
+                width: 70px;
+                height: 70px;
+            }
+            .standard-icon-wrapper svg {
+                width: 62px;
+                height: 62px;
+            }
+        }
+        .back-btn:hover {
+            background: #e2e8f0 !important;
+            color: #111 !important;
+        }
+    
+        /* Lightbox / Zoom Modal Stilleri */
+        .main-image-container {
+            cursor: zoom-in;
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .main-image-container::after {
+            content: '\f00e';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(8, 8, 12, 0.7);
+            color: #fff;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: scale(0.8);
+            pointer-events: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            font-size: 1.1rem;
+        }
+
+        .main-image-container:hover::after {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .image-lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .image-lightbox.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(6, 6, 9, 0.97);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 100001;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .lightbox-close:hover {
+            background: #cf1b1b;
+            border-color: #cf1b1b;
+            transform: scale(1.05) rotate(90deg);
+        }
+
+        .lightbox-content {
+            position: relative;
+            width: 90%;
+            height: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100000;
+        }
+
+        .lightbox-img-wrapper {
+            position: relative;
+            overflow: visible;
+            cursor: grab;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            max-width: 100%;
+            max-height: 100%;
+            touch-action: none; /* CRITICAL: Prevent browser navigation/scrolling gestures on mobile while dragging/zooming */
+        }
+
+        .lightbox-img-wrapper.dragging {
+            cursor: grabbing;
+        }
+
+        .lightbox-img-wrapper img {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            transform-origin: center center;
+            transform: scale(1) translate(0px, 0px);
+            pointer-events: none;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smooth zooming/panning transitions */
+        }
+
+        .lightbox-controls {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px 20px;
+            border-radius: 40px;
+            z-index: 100001;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .control-btn {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 1.25rem;
+            cursor: pointer;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0.8;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+            opacity: 1;
+            transform: scale(1.08);
+        }
+
+        /* Lightbox Gallery Navigation Buttons */
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            font-size: 1.3rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 100001;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .lightbox-nav:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-50%) scale(1.08);
+        }
+
+        .lightbox-nav.prev {
+            left: 30px;
+        }
+
+        .lightbox-nav.next {
+            right: 30px;
+        }
+
+        /* Zoom Level Indicator */
+        .lightbox-zoom-indicator {
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+            letter-spacing: 0.5px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 100002;
+            pointer-events: none;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .lightbox-zoom-indicator.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Responsive Improvements for Mobile Zoom experience */
+        @media (max-width: 768px) {
+            .lightbox-close {
+                top: 20px;
+                right: 20px;
+                width: 44px;
+                height: 44px;
+                font-size: 1.25rem;
+            }
+            .lightbox-controls {
+                bottom: max(20px, env(safe-area-inset-bottom, 20px));
+                padding: 6px 14px;
+                gap: 8px;
+            }
+            .control-btn {
+                width: 38px;
+                height: 38px;
+                font-size: 1.1rem;
+            }
+            .lightbox-nav {
+                width: 44px;
+                height: 44px;
+                font-size: 1.1rem;
+            }
+            .lightbox-nav.prev {
+                left: 15px;
+            }
+            .lightbox-nav.next {
+                right: 15px;
+            }
+            .lightbox-content {
+                width: 100%;
+                height: 100%;
+            }
+            .lightbox-img-wrapper img {
+                max-height: 85vh;
+                border-radius: 0;
+                box-shadow: none;
+            }
+            .lightbox-zoom-indicator {
+                top: 30px;
+            }
+        }
+
+    </style>
+</head>
+<body class="catalog-theme" style="background: #f8f9fa;">
+
+    <!-- Navbar -->
+    <div id="navbar-placeholder"></div>
+
+    <div class="product-detail-container" id="loading-container">
+        <h2 style="width: 100%; text-align: center;">Ürün Yükleniyor...</h2>
+    </div>
+
+    <!-- Ürün Detay Konteyneri -->
+    <div class="product-detail-container" id="detail-container" style="display: none; flex-wrap: wrap;">
+        
+        <div class="back-nav" style="width: 100%; margin-bottom: 20px; display: flex; align-items: center;">
+            <a href="katalog" class="back-btn" data-i18n="back_to_catalog" style="display: inline-flex; align-items: center; gap: 8px; color: #555; text-decoration: none; font-size: 0.95rem; padding: 8px 16px; border-radius: 8px; transition: all 0.3s ease; background: #f0f0f0;">
+                <i class="fa-solid fa-arrow-left"></i> Kataloğa Dön
+            </a>
+        </div>
+
+        <div class="gallery-section">
+            <div class="main-image-container">
+                <img fetchpriority="high" id="main-image" src="" alt="Ürün Resmi">
+            </div>
+            <div class="thumbnails-container" id="thumbnails-container">
+                
+            </div>
+        </div>
+
+        <div class="info-section">
+            <span class="category-label" id="product-category" data-i18n="collection_title">METE MORALI KOLEKSİYON</span>
+            <h1 class="product-title" id="product-title">Ürün Başlığı</h1>
+            <p class="product-subtitle" id="product-subtitle">Ürün alt başlığı</p>
+            
+            <div class="product-meta-info" style="margin-top: 15px; margin-bottom: 25px; font-size: 0.95rem; color: #555; border-left: 3px solid #e74c3c; padding-left: 12px; line-height: 1.8; font-family: 'Outfit', sans-serif;">
+                <div><span id="meta-code-label">Ürün Kodu</span>: <strong id="product-code" style="color: #111;">-</strong></div>
+                <div><span id="meta-cert-label">AB Tip Sertifikası</span>: <strong id="product-certificate" style="color: #111;">-</strong></div>
+            </div>
+
+            <ul class="features-list" id="features-list">
+                
+            </ul>
+
+            <div class="price-tag" id="product-price">€0.00</div>
+
+            <div class="size-section">
+                <div class="color-selection-wrapper" id="color-header-selection" style="display: none; margin-bottom: 25px;">
+                    <span class="size-title" data-i18n="color_select">Renk Seçimi</span>
+                    <div class="color-options" id="color-options"></div>
+                </div>
+
+                <div class="size-selection-wrapper">
+                    <span class="size-title" data-i18n="size_select">Beden Seçimi</span>
+                    <div class="size-options">
+                        <button class="size-btn">48</button>
+                        <button class="size-btn active">50</button>
+                        <button class="size-btn">52</button>
+                        <button class="size-btn">54</button>
+                        <button class="size-btn">56</button>
+                        <button class="size-btn">58</button>
+                        <button class="size-btn">60</button>
+                        <button class="size-btn">62</button>
+                        <button class="size-btn">64</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-row">
+                <div class="qty-selector">
+                    <button class="qty-btn" onclick="updateQty(-1)">−</button>
+                    <input type="text" id="qty-input" class="qty-input" value="1" readonly>
+                    <button class="qty-btn" onclick="updateQty(1)">+</button>
+                </div>
+                <button class="add-to-cart-btn" onclick="addToCartAnimation()">
+                    <i class="fa-solid fa-cart-shopping"></i> <span data-i18n="add_to_cart">SEPETE EKLE</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sertifikalar & Standartlar Bölümü -->
+    <div class="standards-section-container" id="standards-section" style="display: none;">
+        <h3><i class="fa-solid fa-shield-halved"></i> <span id="standards-title-label">Koruma Standartları & Sertifikalar</span></h3>
+        <div class="pictograms-grid" id="pictograms-grid">
+            
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div id="footer-placeholder"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js"></script>
+    <script src="js/katalog-api.js" charset="utf-8" defer></script>
+    <script src="cart.js" defer></script>
+    <script>
+        let currentProductData = null;
+
+        function updateQty(change) {
+            const input = document.getElementById('qty-input');
+            let val = parseInt(input.value) + change;
+            if (val < 1) val = 1;
+            input.value = val;
+        }
+
+        function getColorCssValue(colorName) {
+            const name = colorName.trim().toLowerCase();
+            const colorMap = {
+                'mavi': '#1e3799',
+                'lacivert': '#0c2461',
+                'sarı': '#f1c40f',
+                'turuncu': '#e67e22',
+                'gri': '#7f8c8d',
+                'siyah': '#1e272e',
+                'kırmızı': '#cf1b1b',
+                'yeşil': '#27ae60',
+                'beyaz': '#ffffff',
+                'saks': '#2980b9'
+            };
+
+            if (colorMap[name]) return colorMap[name];
+
+            if (name.includes('/')) {
+                const parts = name.split('/');
+                const color1 = colorMap[parts[0].trim()] || '#ccc';
+                const color2 = colorMap[parts[1].trim()] || '#ccc';
+                
+                // Kışlık Parka (ID 1) ve Supervisor Takım (ID 2) için sarı/mavi veya sarı/lacivert oranını %70'e %30 yap
+                if (currentProductData && 
+                    (currentProductData.id == 1 || currentProductData.id == 2 ||
+                     (currentProductData.name && typeof currentProductData.name === 'string' && (currentProductData.name.toLowerCase().includes('parka') || currentProductData.name.toLowerCase().includes('supervisor'))) ||
+                     (currentProductData.name && typeof currentProductData.name === 'object' && currentProductData.name.tr && (currentProductData.name.tr.toLowerCase().includes('parka') || currentProductData.name.tr.toLowerCase().includes('supervisor'))))
+                ) {
+                    if (parts[0].trim() === 'sarı' && (parts[1].trim() === 'lacivert' || parts[1].trim() === 'mavi')) {
+                        return `linear-gradient(135deg, ${color1} 70%, ${color2} 70%)`;
+                    }
+                }
+                
+                // Hi-Vis Kaynakçı (ID 3 ve 7) için mavi/sarı oranını %65'e %35 yap
+                if (currentProductData && 
+                    (currentProductData.id == 3 || currentProductData.id == 7 ||
+                     (currentProductData.name && typeof currentProductData.name === 'string' && currentProductData.name.toLowerCase().includes('kaynakçı')) ||
+                     (currentProductData.name && typeof currentProductData.name === 'object' && currentProductData.name.tr && currentProductData.name.tr.toLowerCase().includes('kaynakçı')))
+                ) {
+                    if (parts[0].trim() === 'mavi' && parts[1].trim() === 'sarı') {
+                        return `linear-gradient(135deg, ${color1} 65%, ${color2} 65%)`;
+                    }
+                }
+                
+                return `linear-gradient(135deg, ${color1} 50%, ${color2} 50%)`;
+            }
+
+            return '#cccccc';
+        }
+
+        function addToCartAnimation() {
+            if (!currentProductData) return;
+
+            const activeSizeBtn = document.querySelector('.size-btn.active');
+            const size = activeSizeBtn ? activeSizeBtn.textContent : 'Standart';
+            const activeColorBtn = document.querySelector('.color-btn.active');
+            const color = activeColorBtn ? activeColorBtn.getAttribute('data-color') : '';
+            const qtyInput = document.getElementById('qty-input');
+            const quantity = qtyInput ? parseInt(qtyInput.value) : 1;
+
+            addToCart({
+                id: currentProductData.id.toString(),
+                title: currentProductData.name,
+                image: currentProductData.imageUrl,
+                size: size,
+                color: color,
+                quantity: quantity,
+                price: currentProductData.price
+            });
+        }
+
+        function changeMainImage(src, element) {
+            document.getElementById('main-image').style.opacity = 0;
+            setTimeout(() => {
+                document.getElementById('main-image').src = src;
+                document.getElementById('main-image').style.opacity = 1;
+            }, 150);
+
+            // Thumbnail aktif classını güncelle
+            document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+            if(element) element.classList.add('active');
+        }
+
+        async function loadProductDetail() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+
+            if (!productId) {
+                document.getElementById('loading-container').innerHTML = '<h2 style="width: 100%; text-align: center; color: red;">Ürün bulunamadı!</h2>';
+                return;
+            }
+
+            try {
+                const mockProduct = MOCK_PRODUCTS.find(p => p.id == productId);
+                let product = null;
+
+                try {
+                    if (typeof supabaseClient !== 'undefined' && supabaseClient !== null) {
+                        try {
+                            if (mockProduct) {
+                                const { data, error } = await supabaseClient.from('Products').select('*').eq('ArticleCode', mockProduct.articleCode).maybeSingle();
+                                if (data) {
+                                    product = {
+                                        id: data.Id || data.id,
+                                        name: data.Name || data.name,
+                                        subtitle: data.Subtitle || data.subtitle,
+                                        description: data.Description || data.description,
+                                        price: Number(data.Price || data.price),
+                                        imageUrl: data.ImageUrl || data.image_url || data.imageUrl,
+                                        subImages: data.SubImages || data.sub_images || data.subImages,
+                                        articleCode: data.ArticleCode || data.article_code || data.articleCode,
+                                                                        standards: data.Standards || data.standards,
+                                        colors: data.Colors || data.colors,
+                                        features: data.Features || data.features,
+                                        stockQuantity: (data.StockQuantity !== undefined ? data.StockQuantity : (data.stockQuantity !== undefined ? data.stockQuantity : (data.stock_quantity !== undefined ? data.stock_quantity : 100)))
+                                    };
+                                }
+                            } else {
+                                const idVal = parseInt(productId);
+                                if (!isNaN(idVal)) {
+                                    const { data, error } = await supabaseClient.from('Products').select('*').eq('Id', idVal).maybeSingle();
+                                    if (data) {
+                                        product = {
+                                            id: data.Id || data.id,
+                                            name: data.Name || data.name,
+                                            subtitle: data.Subtitle || data.subtitle,
+                                            description: data.Description || data.description,
+                                            price: Number(data.Price || data.price),
+                                            imageUrl: data.ImageUrl || data.image_url || data.imageUrl,
+                                            subImages: data.SubImages || data.sub_images || data.subImages,
+                                            articleCode: data.ArticleCode || data.article_code || data.articleCode,
+                                            certificateCode: data.CertificateCode || data.certificate_code || data.certificateCode,
+                                            standards: data.Standards || data.standards,
+                                            colors: data.Colors || data.colors,
+                                            features: data.Features || data.features,
+                                            stockQuantity: (data.StockQuantity !== undefined ? data.StockQuantity : (data.stockQuantity !== undefined ? data.stockQuantity : (data.stock_quantity !== undefined ? data.stock_quantity : 100)))
+                                        };
+                                    }
+                                }
+                            }
+                        } catch (err) {
+                            console.warn("Supabase'den ürün detayı çekilemedi.", err);
+                        }
+                    }
+
+                    if (!product) {
+                        const apiBase = (typeof SITE_CONFIG !== 'undefined' ? SITE_CONFIG.apiBase : 'http://localhost:5055');
+                        if (mockProduct) {
+                            const response = await fetch(`${apiBase}/api/Products`);
+                            if (response.ok) {
+                                const apiProducts = await response.json();
+                                product = apiProducts.find(p => p.articleCode === mockProduct.articleCode);
+                            }
+                        } else {
+                            const response = await fetch(`${apiBase}/api/Products/${productId}`);
+                            if (response.ok) {
+                                product = await response.json();
+                            }
+                        }
+                    }
+                } catch (e) {
+                    console.warn("Veritabanı bağlantısı kurulamadı, fallback olarak mock veriler kullanılacak.", e);
+                }
+
+                if (!product) {
+                    product = mockProduct;
+                }
+
+                if (!product) throw new Error('Ürün yüklenemedi');
+                
+                currentProductData = product;
+
+                // Bilgileri Doldur
+                const lang = localStorage.getItem('metemorali_lang') || 'tr';
+                const productName = getProductTranslation(product, 'name', lang);
+                const productDesc = getProductTranslation(product, 'subtitle', lang) || getProductTranslation(product, 'description', lang);
+                
+                document.getElementById('product-title').textContent = productName;
+                document.getElementById('product-subtitle').textContent = productDesc;
+                document.getElementById('product-price').textContent = '€' + product.price.toFixed(2);
+                
+                // Dinamik SEO: Title + Meta Description + Canonical + OG Tags güncelle
+                document.title = `${productName} - MeteMorali`;
+                
+                const metaDesc = document.querySelector('meta[name="description"]');
+                const ogTitle = document.querySelector('meta[property="og:title"]');
+                const ogDesc = document.querySelector('meta[property="og:description"]');
+                const ogImg = document.querySelector('meta[property="og:image"]');
+                const ogUrl = document.querySelector('meta[property="og:url"]');
+                const twTitle = document.querySelector('meta[name="twitter:title"]');
+                const twDesc = document.querySelector('meta[name="twitter:description"]');
+                const twImg = document.querySelector('meta[name="twitter:image"]');
+                const canonicalLink = document.querySelector('link[rel="canonical"]');
+                
+                const currentProductUrl = `https://www.mete-morali.com/urun-detay?id=${product.id}`;
+
+                if (metaDesc) metaDesc.setAttribute('content', productDesc);
+                if (ogTitle) ogTitle.setAttribute('content', `${productName} | MeteMorali`);
+                if (ogDesc) ogDesc.setAttribute('content', productDesc);
+                if (ogImg && product.imageUrl) ogImg.setAttribute('content', `https://www.mete-morali.com/${product.imageUrl}`);
+                if (ogUrl) ogUrl.setAttribute('content', currentProductUrl);
+                if (twTitle) twTitle.setAttribute('content', `${productName} | MeteMorali`);
+                if (twDesc) twDesc.setAttribute('content', productDesc);
+                if (twImg && product.imageUrl) twImg.setAttribute('content', `https://www.mete-morali.com/${product.imageUrl}`);
+                if (canonicalLink) canonicalLink.setAttribute('href', currentProductUrl);
+                
+                // Schema.org Product JSON-LD
+                const existingSchema = document.getElementById('product-schema-ld');
+                if (existingSchema) existingSchema.remove();
+                
+                const stockVal = (product.stockQuantity !== undefined && product.stockQuantity !== null) ? Number(product.stockQuantity) : 100;
+                const isAvailable = stockVal > 0;
+
+                const schemaScript = document.createElement('script');
+                schemaScript.id = 'product-schema-ld';
+                schemaScript.type = 'application/ld+json';
+                schemaScript.textContent = JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@type": "Product",
+                    "name": productName,
+                    "description": productDesc,
+                    "image": `https://www.mete-morali.com/${product.imageUrl}`,
+                    "sku": product.articleCode || '',
+                    "brand": {
+                        "@type": "Brand",
+                        "name": "MeteMorali"
+                    },
+                    "offers": {
+                        "@type": "Offer",
+                        "priceCurrency": "EUR",
+                        "price": product.price,
+                        "priceValidUntil": "2027-12-31",
+                        "availability": isAvailable ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+                        "itemCondition": "https://schema.org/NewCondition",
+                        "url": `https://www.mete-morali.com/urun-detay?id=${product.id}`,
+                        "seller": {
+                            "@type": "Organization",
+                            "name": "MeteMorali"
+                        }
+                    }
+                });
+                document.head.appendChild(schemaScript);
+
+                // Schema.org BreadcrumbList JSON-LD
+                const existingBreadcrumbSchema = document.getElementById('breadcrumb-schema-ld');
+                if (existingBreadcrumbSchema) existingBreadcrumbSchema.remove();
+                const breadcrumbScript = document.createElement('script');
+                breadcrumbScript.id = 'breadcrumb-schema-ld';
+                breadcrumbScript.type = 'application/ld+json';
+                breadcrumbScript.textContent = JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@type": "BreadcrumbList",
+                    "itemListElement": [
+                        {
+                            "@type": "ListItem",
+                            "position": 1,
+                            "name": "Ana Sayfa",
+                            "item": "https://www.mete-morali.com/"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 2,
+                            "name": "Katalog",
+                            "item": "https://www.mete-morali.com/katalog"
+                        },
+                        {
+                            "@type": "ListItem",
+                            "position": 3,
+                            "name": productName,
+                            "item": currentProductUrl
+                        }
+                    ]
+                });
+                document.head.appendChild(breadcrumbScript);
+
+                // Sertifika ve Ürün Kodu Bilgileri
+                const metaTranslations = {
+                    tr: { code: "Ürün Kodu", cert: "AB Tip Sertifikası" },
+                    en: { code: "Article Code", cert: "EU Type-Examination Certificate" },
+                    de: { code: "Artikelnummer", cert: "EU-Baumusterprüfbescheinigung" },
+                    ru: { code: "Артикул", cert: "Сертификат ЕС" },
+                    nl: { code: "Artikelcode", cert: "EU-typeonderzoekscertificaat" },
+                    fr: { code: "Code de l'article", cert: "Certificat d'examen UE" },
+                    it: { code: "Codice articolo", cert: "Certificato UE del tipo" }
+                };
+                const tMeta = metaTranslations[lang] || metaTranslations['tr'];
+                document.getElementById('meta-code-label').textContent = tMeta.code;
+                document.getElementById('meta-cert-label').textContent = tMeta.cert;
+                document.getElementById('product-code').textContent = product.articleCode || '-';
+                document.getElementById('product-certificate').textContent = product.certificateCode || '-';
+                
+                // Ana Resim
+                document.getElementById('main-image').src = product.imageUrl;
+
+                // Küçük Resimler (Galeri)
+                const thumbnailsContainer = document.getElementById('thumbnails-container');
+                let subImages = [];
+                try {
+                    if (product.subImages) {
+                        subImages = JSON.parse(product.subImages);
+                    }
+                } catch(e) {}
+                
+                // Ana resmi de galeriye ekleyelim ki tıklanınca geri dönülebilsin
+                let validSubImages = subImages.filter(imgUrl => imgUrl !== product.imageUrl);
+                
+                // Populate global image list for lightbox navigation
+                lightboxImages = [product.imageUrl, ...validSubImages];
+                
+                if (validSubImages.length > 0) {
+                    let galleryHtml = `<div class="thumbnail active" onclick="changeMainImage('${product.imageUrl}', this)">
+                                          <img loading="lazy" src="${product.imageUrl}" alt="Ana Resim">
+                                       </div>`;
+                                       
+                    validSubImages.forEach(imgUrl => {
+                        galleryHtml += `<div class="thumbnail" onclick="changeMainImage('${imgUrl}', this)">
+                                          <img loading="lazy" src="${imgUrl}" alt="Alt Resim">
+                                        </div>`;
+                    });
+                    thumbnailsContainer.innerHTML = galleryHtml;
+                    thumbnailsContainer.style.display = 'flex';
+                } else {
+                    thumbnailsContainer.style.display = 'none';
+                }
+
+                // Tikli Özellikler (Features)
+                const featuresList = document.getElementById('features-list');
+                const features = getProductFeatures(product, lang);
+
+                let featuresHtml = '';
+                features.forEach(f => {
+                    featuresHtml += `<li><i class="fa-solid fa-check"></i> ${f}</li>`;
+                });
+                featuresList.innerHTML = featuresHtml;
+
+                // Koruma Standartları ve Sertifikalar Ekleme
+                const standardsContainer = document.getElementById('standards-section');
+                const pictogramsGrid = document.getElementById('pictograms-grid');
+                
+                const standardsTitleTranslations = {
+                    tr: "Uluslararası Koruma Standartları & Sertifikalar",
+                    en: "International Protection Standards & Certifications",
+                    de: "Internationale Schutzstandards & Zertifikate",
+                    ru: "Международные стандарты защиты и сертификаты",
+                    nl: "Internationale Beschermingsnormen & Certificaten",
+                    fr: "Normes de Protection Internationales & Certificats",
+                    it: "Standard di Protezione Internazionali e Certificazioni"
+                };
+                
+                const standardsTitleLabel = document.getElementById('standards-title-label');
+                if (standardsTitleLabel) {
+                    standardsTitleLabel.textContent = standardsTitleTranslations[lang] || standardsTitleTranslations['tr'];
+                }
+                
+                const STANDARDS_DATA = {
+                    "EN 11611": {
+                        svg: `
+<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M 20 15 L 80 15 L 80 50 C 80 68 50 85 50 85 C 50 85 20 68 20 50 Z" fill="#ffbe00" stroke="#0f172a" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M 33 28 L 47 42" stroke="#0f172a" stroke-width="5" stroke-linecap="round"/>
+    <path d="M 45 40 L 49 44" stroke="#0f172a" stroke-width="6.5" stroke-linecap="round"/>
+    <path d="M 48 43 L 56 51" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M 26 65 H 74" stroke="#0f172a" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M 48 65 H 56" stroke="#ffbe00" stroke-width="2" stroke-linecap="round"/>
+    <path d="M 54 47 L 60 53 M 60 47 L 54 53" stroke="#0f172a" stroke-width="2" stroke-linecap="round"/>
+    <path d="M 43 55 L 47 59 M 47 55 L 43 59" stroke="#0f172a" stroke-width="1.5" stroke-linecap="round"/>
+    <circle cx="36" cy="48" r="1.5" fill="#0f172a"/>
+    <circle cx="64" cy="44" r="2" fill="#0f172a"/>
+    <circle cx="62" cy="58" r="1.5" fill="#0f172a"/>
+</svg>`,
+                        name: {
+                            tr: "Kaynakçı Koruması",
+                            en: "Welder Protection",
+                            de: "Schweißerschutz",
+                            ru: "Защита сварщика",
+                            nl: "Lassersbescherming",
+                            fr: "Protection du Soudeur",
+                            it: "Protezione del Saldatore"
+                        },
+                        desc: {
+                            tr: "Kaynak işlemlerinde sıçrayan erimiş metallere ve kıvılcımlara karşı koruma standardı.",
+                            en: "Protection standard against molten metal splashes and sparks during welding operations.",
+                            de: "Schutzstandard gegen geschmolzene Metallspritzer und Funken bei Schweißarbeiten.",
+                            ru: "Стандарт защиты от брызг расплавленного металла и искр при сварочных работах.",
+                            nl: "Beschermingsnorm tegen spatten van gesmolten metaal en vonken tijdens het lassen.",
+                            fr: "Norme de protection contre les projections de métal fondu et les étincelles lors du soudage.",
+                            it: "Standard di protezione contre les projections de métal fondu et les étincelles lors du soudage."
+                        }
+                    },
+                    "EN 11612": {
+                        svg: `
+<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M 20 15 L 80 15 L 80 50 C 80 68 50 85 50 85 C 50 85 20 68 20 50 Z" fill="#ffbe00" stroke="#0f172a" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M 50 68 C 41 68, 33 60, 33 50 C 33 42, 39 36, 41 33 C 41 37, 43 41, 46 43 C 46 43, 47 28, 50 22 C 53 28, 54 43, 54 43 C 57 41, 59 37, 59 33 C 61 36, 67 42, 67 50 C 67 60, 59 68, 50 68 Z" fill="none" stroke="#0f172a" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M 50 60 C 45 60, 41 55, 41 48 C 41 43, 45 40, 47 38 C 47 40, 48 42, 50 43 C 52 42, 53 40, 53 38 C 55 40, 59 43, 59 48 C 59 55, 55 60, 50 60 Z" fill="#0f172a"/>
+</svg>`,
+                        name: {
+                            tr: "Isı ve Alev Koruması",
+                            en: "Heat & Flame Protection",
+                            de: "Hitze- und Flammschutz",
+                            ru: "Защита от тепла и пламени",
+                            nl: "Hitte- ve Vlammenscherm",
+                            fr: "Chaleur et Flammes",
+                            it: "Calore e Fiamme"
+                        },
+                        desc: {
+                            tr: "Açık alev teması, radyan ısı ve yüksek sıcaklıklar altında kumaşın alev almasını önleyen koruma.",
+                            en: "Protection preventing the fabric from igniting under open flame contact, radiant heat, and high temperatures.",
+                            de: "Schutz, der verhindert, dass sich das Gewebe bei kontakt mit offener Flamme, Strahlungswärme und hohen Temperaturen entzündet.",
+                            ru: "Защита, предотвращающая воспламенение ткани при контакте с открытым пламенем, тепловом излучении и высоких температурах.",
+                            nl: "Bescherming die voorkomt dat de stof ontbrandt bij contact met open vuur, stralingshitte en hoge temperaturen.",
+                            fr: "Protection empêchant le tissu de s'enflammer au contact d'une flamme nue, d'une chaleur radiante et de températures élevées.",
+                            it: "Protezione che impedisce al tessuto di infiammarsi a contatto con fiamme libere, calore radiante ed elevate temperature."
+                        }
+                    },
+                    "EN 1149-5": {
+                        svg: `
+<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M 20 15 L 80 15 L 80 50 C 80 68 50 85 50 85 C 50 85 20 68 20 50 Z" fill="#ffbe00" stroke="#0f172a" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M 55 24 L 37 46 H 48 L 44 65 L 63 41 H 52 L 55 24 Z" fill="#0f172a" stroke="#0f172a" stroke-width="1.5" stroke-linejoin="round"/>
+</svg>`,
+                        name: {
+                            tr: "Antistatik Koruma",
+                            en: "Antistatic Protection",
+                            de: "Antistatischer Schutz",
+                            ru: "Антистатическая защита",
+                            nl: "Antistatische Bescherming",
+                            fr: "Protection Antistatique",
+                            it: "Protezione Antistatica"
+                        },
+                        desc: {
+                            tr: "Sürtünme kaynaklı elektriklenmeyi önleyerek patlayıcı/parlayıcı ortamlarda kıvılcım oluşmasını engelleyen karbon lif yapısı.",
+                            en: "Carbon fiber structure that prevents spark formation in explosive/flammable environments by preventing static electricity buildup.",
+                            de: "Kohlefaserstruktur, die Funkenbildung in explosionsgefährdeten/brennbaren Umgebungen durch Vermeidung statischer Elektrizität verhindert.",
+                            ru: "Углеродная структура, предотвращающая искрообразование во взрывоопасных средах за счет исключения накопления статического электричества.",
+                            nl: "Koolstofvezelstructuur die vonkvorming in explosieve/brandbare omgevingen voorkomt door statische elektriciteit te vermijden.",
+                            fr: "Structure en fibre de carbone empêchant la formation d'étincelles dans les zones explosives en évitant l'électricité statique.",
+                            it: "Struttura in fibre di carbonio che previene la formazione di scintille in ambienti esplosivi prevenendo l'accumulo di elettricità statica."
+                        }
+                    },
+                    "EN 20471": {
+                        svg: `
+<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M 20 15 L 80 15 L 80 50 C 80 68 50 85 50 85 C 50 85 20 68 20 50 Z" fill="#ffbe00" stroke="#0f172a" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M 36 28 L 43 28 C 45 32 55 32 57 28 L 64 28 L 68 36 L 64 39 V 64 H 36 V 39 L 32 36 L 36 28 Z" fill="none" stroke="#0f172a" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M 50 32 V 64" stroke="#0f172a" stroke-width="1.5" stroke-dasharray="2 2"/>
+    <path d="M 43 28 V 64" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M 57 28 V 64" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M 36 46 H 64" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M 36 55 H 64" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round"/>
+</svg>`,
+                        name: {
+                            tr: "Yüksek Görünürlük",
+                            en: "High Visibility",
+                            de: "Hohe Sichtbarkeit",
+                            ru: "Высокая видимость",
+                            nl: "Hoge Zichtbaarheid",
+                            fr: "Haute Visibilité",
+                            it: "Alta Visibilità"
+                        },
+                        desc: {
+                            tr: "Gündüz ve gece araç farı ışığı altında çalışanın en yüksek düzeyde fark edilmesini sağlayan reflektif donanım.",
+                            en: "Reflective equipment ensuring maximum visibility of the worker under daylight and vehicle headlights at night.",
+                            de: "Reflektierende Ausrüstung zur Gewährleistung maximaler Sichtbarkeit des Arbeiters bei Tageslicht und Scheinwerferlicht bei Nacht.",
+                            ru: "Светоотражающая экипировка для максимальной видимости работника при дневном и ночном свете фар.",
+                            nl: "Reflecterende uitrusting die zorgt voor maximale zichtbaarheid van de werknemer bij daglicht en onder koplampen in de nacht.",
+                            fr: "Équipement réfléchissant assurant une visibilité maximale du travailleur de jour comme de nuit sous les phares.",
+                            it: "Equipaggiamento riflettente che garantisce la massima visibilità del lavoratore di giorno e di notte sotto i fari."
+                        }
+                    },
+                    "EN 17353": {
+                        svg: `
+<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M 20 15 L 80 15 L 80 50 C 80 68 50 85 50 85 C 50 85 20 68 20 50 Z" fill="#ffbe00" stroke="#0f172a" stroke-width="3" stroke-linejoin="round"/>
+    <circle cx="34" cy="30" r="5" stroke="#0f172a" stroke-width="2" fill="none"/>
+    <path d="M 34 21 V 23 M 34 37 V 39 M 25 30 H 27 M 41 30 H 43" stroke="#0f172a" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M 61 25 C 65 25, 68 28, 68 32 C 68 36, 64 39, 60 39 C 62 36, 62 30, 60 26 C 60.3 25.5, 60.6 25, 61 25 Z" fill="#0f172a"/>
+    <path d="M 40 45 L 45 45 C 47 48, 53 48, 55 45 L 60 45 L 63 51 L 60 53 V 70 H 40 V 53 L 37 51 L 40 45 Z" fill="none" stroke="#0f172a" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M 44 45 V 70" stroke="#0f172a" stroke-width="2" stroke-dasharray="3 3"/>
+    <path d="M 56 45 V 70" stroke="#0f172a" stroke-width="2" stroke-dasharray="3 3"/>
+    <path d="M 40 56 H 60" stroke="#0f172a" stroke-width="2" stroke-dasharray="3 3"/>
+</svg>`,
+                        name: {
+                            tr: "Geliştirilmiş Görünürlük",
+                            en: "Enhanced Visibility",
+                            de: "Geliştirte Sichtbarkeit",
+                            ru: "Повышенная видимость",
+                            nl: "Verbeterde Zichtbaarheid",
+                            fr: "Visibilité Accrue",
+                            it: "Visibilità Migliorata"
+                        },
+                        desc: {
+                            tr: "Düşük ışıklı ve orta riskli endüstriyel ortamlarda çalışanın görünürlüğünü artıran geliştirilmiş yansıtıcı tasarım standardı.",
+                            en: "Enhanced reflective design standard increasing worker visibility in low-light and medium-risk industrial environments.",
+                            de: "Verbesserter Standard für reflektierendes Design zur Erhöhung the Sichtbarkeit der Mitarbeiter in industriellen Umgebungen mit geringem Lichtrisiko.",
+                            ru: "Улучшенный стандарт светоотражающего дизайна, повышающий видимость работников в промышленных условиях со средним уровнем риска.",
+                            nl: "Verbeterde reflecterende ontwerpnorm die de zichtbaarheid van werknemers verhoogt in industriële omgevingen met weinig licht en een gemiddeld risico.",
+                            fr: "Norme de conception réfléchissante améliorée augmentant la visibilité des travailleurs dans des environnements industriels à faible luminosité.",
+                            it: "Standard di progettazione riflettente migliorato che aumenta la visibilità del lavoratore in ambienti industriali a bassa luminosità."
+                        }
+                    },
+                    "EN 342": {
+                        svg: `
+<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M 20 15 L 80 15 L 80 50 C 80 68 50 85 50 85 C 50 85 20 68 20 50 Z" fill="#ffbe00" stroke="#0f172a" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M 50 25 V 65" stroke="#0f172a" stroke-width="3" stroke-linecap="round"/>
+    <path d="M 33 35 L 67 55" stroke="#0f172a" stroke-width="3" stroke-linecap="round"/>
+    <path d="M 33 55 L 67 35" stroke="#0f172a" stroke-width="3" stroke-linecap="round"/>
+    <path d="M 45 30 L 50 25 L 55 30" stroke="#0f172a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 45 60 L 50 65 L 55 60" stroke="#0f172a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 34 42 L 33 35 L 40 36" stroke="#0f172a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 60 54 L 67 55 L 66 48" stroke="#0f172a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 40 54 L 33 55 L 34 48" stroke="#0f172a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 66 42 L 67 35 L 60 36" stroke="#0f172a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="50" cy="45" r="4.5" stroke="#0f172a" stroke-width="2" fill="#ffbe00"/>
+</svg>`,
+                        name: {
+                            tr: "Soğuk Hava Koruması",
+                            en: "Cold Weather Protection",
+                            de: "Kälteschutz",
+                            ru: "Защита от холода",
+                            nl: "Koudeweerscherm",
+                            fr: "Froid et Intempéries",
+                            it: "Calore e Freddo"
+                        },
+                        desc: {
+                            tr: "Dondurucu soğuklar ve sert rüzgarlar altında vücut ısısını korurken terlemeyi önleyen yalıtım standardı.",
+                            en: "Insulation standard preventing sweating while maintaining body temperature under freezing cold and harsh winds.",
+                            de: "Isolierungsstandard, der das Schwitzen verhindert, während die Körpertemperatur bei eiskaltem und rauem Wind gehalten wird.",
+                            ru: "Стандарт изоляции, предотвращающий потоотделение при сохранении температуры тела при сильном холоде и ветре.",
+                            nl: "Isolatienorm die zweten voorkomt en tegelijkertijd de lichaamstemperatuur handhaaft onder ijskoude en gure wind.",
+                            fr: "Norme d'isolation empêchant la transpiration tout en maintenant la température corporelle par grand froid et vents violents.",
+                            it: "Standard di isolamento che previene la sudorazione mantenendo la temperatura corporea sotto il freddo gelido e venti sferzanti."
+                        }
+                    }
+                };
+
+                let standardsList = [];
+                if (product.standards) {
+                    try {
+                        if (typeof product.standards === 'string') {
+                            standardsList = JSON.parse(product.standards);
+                        } else if (Array.isArray(product.standards)) {
+                            standardsList = product.standards;
+                        }
+                    } catch (e) {
+                        console.error("Standartlar ayrıştırılamadı:", e);
+                    }
+                }
+
+                if (standardsList && standardsList.length > 0) {
+                    let standardsHtml = '';
+                    standardsList.forEach(stdCode => {
+                        const std = STANDARDS_DATA[stdCode];
+                        if (std) {
+                            const name = std.name[lang] || std.name['tr'];
+                            const desc = std.desc[lang] || std.desc['tr'];
+                            standardsHtml += `
+                            <div class="standard-card">
+                                <div class="standard-icon-wrapper">
+                                    ${std.svg}
+                                </div>
+                                <div class="standard-info">
+                                    <span class="standard-code-badge">${stdCode}</span>
+                                    <div class="standard-name">${name}</div>
+                                    <div class="standard-desc">${desc}</div>
+                                </div>
+                            </div>`;
+                        }
+                    });
+                    pictogramsGrid.innerHTML = standardsHtml;
+                    standardsContainer.style.display = 'block';
+                } else {
+                    standardsContainer.style.display = 'none';
+                }
+
+                // Görünürlüğü Ayarla
+                document.getElementById('loading-container').style.display = 'none';
+                document.getElementById('detail-container').style.display = 'flex';
+
+                // Beden seçimi butonlarına tıklama
+                document.querySelectorAll('.size-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                    });
+                });
+
+                // Renk Seçimi butonlarını dinamik doldur (Renk halkası olarak)
+                const colorSection = document.getElementById('color-header-selection');
+                const colorOptions = document.getElementById('color-options');
+                const activeColorNameEl = document.getElementById('active-color-name');
+                if (colorSection && colorOptions) {
+                    let colors = [];
+                    if (product.colors) {
+                        try {
+                            if (typeof product.colors === 'string') {
+                                colors = JSON.parse(product.colors);
+                            } else if (Array.isArray(product.colors)) {
+                                colors = product.colors;
+                            }
+                        } catch (e) {
+                            console.error("Renkler ayrıştırılamadı:", e);
+                        }
+                    }
+                    if (colors && colors.length > 0) {
+                        let colorHtml = '';
+                        colors.forEach((col, idx) => {
+                            const activeClass = idx === 0 ? 'active' : '';
+                            const bgValue = getColorCssValue(col);
+                            colorHtml += `<button class="color-btn ${activeClass}" data-color="${col}" title="${col}" style="background: ${bgValue};"></button>`;
+                        });
+                        colorOptions.innerHTML = colorHtml;
+                        colorSection.style.display = 'block';
+                        
+                        if (activeColorNameEl) {
+                            activeColorNameEl.textContent = colors[0];
+                        }
+
+                        // Renk butonu tıklama olayları
+                        document.querySelectorAll('.color-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                if (activeColorNameEl) {
+                                    activeColorNameEl.textContent = this.getAttribute('data-color');
+                                }
+                            });
+                        });
+                    } else {
+                        colorSection.style.display = 'none';
+                    }
+                }
+
+            } catch (err) {
+                console.error(err);
+                document.getElementById('loading-container').innerHTML = '<h2 style="width: 100%; text-align: center; color: red;">API Bağlantı Hatası!</h2>';
+            }
+        }
+
+        
+        // --- Lightbox / Büyüteç Modal İşlevleri ---
+        let zoomScale = 1;
+        let isDragging = false;
+        let startX, startY;
+        let translateX = 0, translateY = 0;
+        let currentTranslateX = 0, currentTranslateY = 0;
+        let tpDistStart = 0;
+        let tpZoomStart = 1;
+        
+        let lightboxImages = [];
+        let currentLightboxIndex = 0;
+        
+        let lastTap = 0;
+        let swipeStartX = 0;
+        let swipeStartY = 0;
+        let isSwipeRegistered = false;
+        let indicatorTimeout;
+
+        function showZoomIndicator() {
+            const indicator = document.getElementById('lightbox-zoom-indicator');
+            if (indicator) {
+                indicator.textContent = `${zoomScale.toFixed(1)}x`;
+                indicator.classList.add('visible');
+                clearTimeout(indicatorTimeout);
+                indicatorTimeout = setTimeout(() => {
+                    indicator.classList.remove('visible');
+                }, 1500);
+            }
+        }
+
+        function updateLightboxNavigation() {
+            const prevBtn = document.getElementById('lightbox-prev-btn');
+            const nextBtn = document.getElementById('lightbox-next-btn');
+            if (prevBtn && nextBtn) {
+                prevBtn.style.display = currentLightboxIndex > 0 ? 'flex' : 'none';
+                nextBtn.style.display = currentLightboxIndex < lightboxImages.length - 1 ? 'flex' : 'none';
+            }
+        }
+
+        function lightboxPrev() {
+            if (currentLightboxIndex > 0) {
+                currentLightboxIndex--;
+                updateLightboxImage();
+            }
+        }
+
+        function lightboxNext() {
+            if (currentLightboxIndex < lightboxImages.length - 1) {
+                currentLightboxIndex++;
+                updateLightboxImage();
+            }
+        }
+
+        function updateLightboxImage() {
+            const lightboxImg = document.getElementById('lightbox-image');
+            if (lightboxImg && lightboxImages[currentLightboxIndex]) {
+                lightboxImg.style.opacity = 0;
+                setTimeout(() => {
+                    lightboxImg.src = lightboxImages[currentLightboxIndex];
+                    lightboxImg.style.opacity = 1;
+                    resetZoom();
+                    updateLightboxNavigation();
+                }, 150);
+            }
+        }
+
+        function openLightbox() {
+            const mainImg = document.getElementById('main-image');
+            const lightbox = document.getElementById('image-lightbox');
+            const lightboxImg = document.getElementById('lightbox-image');
+            
+            if (!mainImg || !lightbox || !lightboxImg) return;
+            
+            // Sync lightbox image list and current index
+            const currentSrc = mainImg.getAttribute('src');
+            currentLightboxIndex = lightboxImages.indexOf(currentSrc);
+            if (currentLightboxIndex === -1) {
+                currentLightboxIndex = 0;
+            }
+            
+            lightboxImg.src = mainImg.src;
+            lightbox.style.display = 'flex';
+            
+            setTimeout(() => {
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }, 10);
+            
+            resetZoom();
+            updateLightboxNavigation();
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('image-lightbox');
+            if (!lightbox) return;
+            
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+            
+            setTimeout(() => {
+                lightbox.style.display = 'none';
+                ticking = false;
+            }, 300);
+        }
+
+        let ticking = false;
+        function updateImageTransform() {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    const img = document.getElementById('lightbox-image');
+                    if (img) {
+                        img.style.transform = `scale(${zoomScale}) translate(${translateX / zoomScale}px, ${translateY / zoomScale}px)`;
+                    }
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }
+
+        function clampTransitions() {
+            const img = document.getElementById('lightbox-image');
+            if (!img) return;
+
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+
+            const rect = img.getBoundingClientRect();
+            
+            // Image dimensions at scale 1
+            const widthAtScale1 = rect.width / zoomScale;
+            const heightAtScale1 = rect.height / zoomScale;
+
+            const zoomedWidth = widthAtScale1 * zoomScale;
+            const zoomedHeight = heightAtScale1 * zoomScale;
+
+            let maxTx = 0;
+            if (zoomedWidth > viewportWidth) {
+                maxTx = (zoomedWidth - viewportWidth) / 2;
+            }
+            
+            let maxTy = 0;
+            if (zoomedHeight > viewportHeight) {
+                maxTy = (zoomedHeight - viewportHeight) / 2;
+            }
+
+            translateX = Math.min(Math.max(translateX, -maxTx), maxTx);
+            translateY = Math.min(Math.max(translateY, -maxTy), maxTy);
+        }
+
+        function zoomImage(amount) {
+            const oldZoomScale = zoomScale;
+            zoomScale += amount;
+            if (zoomScale < 1) zoomScale = 1;
+            if (zoomScale > 6) zoomScale = 6;
+            
+            if (zoomScale <= 1) {
+                translateX = 0;
+                translateY = 0;
+                currentTranslateX = 0;
+                currentTranslateY = 0;
+            } else {
+                // Adjust translate to keep zooming centered
+                const ratio = zoomScale / oldZoomScale;
+                translateX = translateX * ratio;
+                translateY = translateY * ratio;
+                clampTransitions();
+                currentTranslateX = translateX;
+                currentTranslateY = translateY;
+            }
+            updateImageTransform();
+            showZoomIndicator();
+        }
+
+        function resetZoom() {
+            zoomScale = 1;
+            translateX = 0;
+            translateY = 0;
+            currentTranslateX = 0;
+            currentTranslateY = 0;
+            updateImageTransform();
+            showZoomIndicator();
+        }
+
+        // Double-tap zoom logic centered at tap location
+        function handleDoubleTap(e) {
+            const img = document.getElementById('lightbox-image');
+            if (!img) return;
+
+            if (zoomScale > 1) {
+                resetZoom();
+            } else {
+                zoomScale = 2.5;
+                
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                
+                const rect = img.getBoundingClientRect();
+                const imgCenterX = rect.left + rect.width / 2;
+                const imgCenterY = rect.top + rect.height / 2;
+                
+                // Calculate translation to focus on tapped point
+                translateX = (clientX - imgCenterX) * (1 - zoomScale);
+                translateY = (clientY - imgCenterY) * (1 - zoomScale);
+                
+                clampTransitions();
+                currentTranslateX = translateX;
+                currentTranslateY = translateY;
+                
+                updateImageTransform();
+                showZoomIndicator();
+            }
+        }
+
+        // Initialize Lightbox Events
+        document.addEventListener('DOMContentLoaded', () => {
+            const lightbox = document.getElementById('image-lightbox');
+            const wrapper = document.getElementById('lightbox-img-wrapper');
+            const mainImg = document.getElementById('main-image');
+            
+            if (mainImg) {
+                mainImg.parentElement.addEventListener('click', openLightbox);
+            }
+            
+            if (lightbox) {
+                document.addEventListener('keydown', (e) => {
+                    if (lightbox.classList.contains('active')) {
+                        if (e.key === 'Escape') {
+                            closeLightbox();
+                        } else if (e.key === 'ArrowLeft') {
+                            lightboxPrev();
+                        } else if (e.key === 'ArrowRight') {
+                            lightboxNext();
+                        }
+                    }
+                });
+
+                lightbox.addEventListener('wheel', (e) => {
+                    e.preventDefault();
+                    const delta = e.deltaY < 0 ? 0.25 : -0.25;
+                    zoomImage(delta);
+                }, { passive: false });
+            }
+
+            if (wrapper) {
+                const startDrag = (e) => {
+                    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+                    if (zoomScale <= 1) {
+                        // Register swipe gesture on 1x scale
+                        swipeStartX = clientX;
+                        swipeStartY = clientY;
+                        isSwipeRegistered = true;
+                        return;
+                    }
+                    
+                    if (e.touches && e.touches.length > 1) return;
+                    
+                    isDragging = true;
+                    wrapper.classList.add('dragging');
+                    
+                    startX = clientX - currentTranslateX;
+                    startY = clientY - currentTranslateY;
+                };
+
+                const doDrag = (e) => {
+                    if (zoomScale <= 1) return;
+                    if (!isDragging) return;
+                    if (e.touches && e.touches.length > 1) return;
+                    e.preventDefault();
+                    
+                    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                    
+                    translateX = clientX - startX;
+                    translateY = clientY - startY;
+                    
+                    clampTransitions();
+                    updateImageTransform();
+                };
+
+                const stopDrag = (e) => {
+                    if (isSwipeRegistered && zoomScale <= 1) {
+                        const clientX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
+                        const clientY = e.changedTouches ? e.changedTouches[0].clientY : e.clientY;
+                        
+                        const deltaX = clientX - swipeStartX;
+                        const deltaY = clientY - swipeStartY;
+                        
+                        // Swipe threshold
+                        if (Math.abs(deltaX) > 60 && Math.abs(deltaY) < 45) {
+                            if (deltaX > 0) {
+                                lightboxPrev();
+                            } else {
+                                lightboxNext();
+                            }
+                        }
+                    }
+                    isSwipeRegistered = false;
+
+                    if (!isDragging) return;
+                    isDragging = false;
+                    wrapper.classList.remove('dragging');
+                    currentTranslateX = translateX;
+                    currentTranslateY = translateY;
+                };
+
+                wrapper.addEventListener('mousedown', startDrag);
+                wrapper.addEventListener('mousemove', doDrag);
+                document.addEventListener('mouseup', stopDrag);
+                wrapper.addEventListener('mouseleave', stopDrag);
+
+                // Touch double-tap and swipe/drag init
+                wrapper.addEventListener('touchstart', (e) => {
+                    if (e.touches.length === 1) {
+                        const currentTime = new Date().getTime();
+                        const tapLength = currentTime - lastTap;
+                        if (tapLength < 300 && tapLength > 0) {
+                            e.preventDefault(); // Prevent double tap zoom default action in Safari
+                            handleDoubleTap(e);
+                        }
+                        lastTap = currentTime;
+                    }
+                    
+                    if (e.touches.length !== 2) {
+                        tpDistStart = 0;
+                    }
+                    startDrag(e);
+                }, { passive: false });
+                
+                wrapper.addEventListener('touchmove', (e) => {
+                    if (zoomScale > 1) {
+                        doDrag(e);
+                    }
+                }, { passive: false });
+                
+                wrapper.addEventListener('touchend', stopDrag);
+
+                // Touch pinch-to-zoom with midpoint centering
+                wrapper.addEventListener('touchmove', (e) => {
+                    if (e.touches.length === 2) {
+                        e.preventDefault();
+                        
+                        const touch1 = e.touches[0];
+                        const touch2 = e.touches[1];
+                        
+                        const dist = Math.hypot(
+                            touch1.clientX - touch2.clientX,
+                            touch1.clientY - touch2.clientY
+                        );
+                        const midX = (touch1.clientX + touch2.clientX) / 2;
+                        const midY = (touch1.clientY + touch2.clientY) / 2;
+
+                        if (tpDistStart === 0) {
+                            tpDistStart = dist;
+                            tpZoomStart = zoomScale;
+                        } else {
+                            const factor = dist / tpDistStart;
+                            const newZoomScale = Math.min(Math.max(tpZoomStart * factor, 1), 6);
+                            
+                            if (newZoomScale !== zoomScale) {
+                                // Adjust translation so the midpoint is maintained relative to current zoom origin
+                                const ratio = newZoomScale / zoomScale;
+                                translateX = midX - (midX - translateX) * ratio;
+                                translateY = midY - (midY - translateY) * ratio;
+                                
+                                zoomScale = newZoomScale;
+                                
+                                clampTransitions();
+                                updateImageTransform();
+                            }
+                        }
+                    }
+                }, { passive: false });
+
+                wrapper.addEventListener('touchend', (e) => {
+                    if (e.touches.length < 2) {
+                        tpDistStart = 0;
+                        currentTranslateX = translateX;
+                        currentTranslateY = translateY;
+                    }
+                });
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', loadProductDetail);
+    </script>
+
+    
+    <!-- Lightbox / Büyüteç Modal Arayüzü -->
+    <div class="image-lightbox" id="image-lightbox" style="display: none;">
+        <div class="lightbox-overlay" onclick="closeLightbox()"></div>
+        <button class="lightbox-close" onclick="closeLightbox()" title="Kapat">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <button class="lightbox-nav prev" id="lightbox-prev-btn" onclick="lightboxPrev()" title="Önceki">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button class="lightbox-nav next" id="lightbox-next-btn" onclick="lightboxNext()" title="Sonraki">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+        <div class="lightbox-zoom-indicator" id="lightbox-zoom-indicator">1.0x</div>
+        <div class="lightbox-content">
+            <div class="lightbox-img-wrapper" id="lightbox-img-wrapper">
+                <img id="lightbox-image" src="" alt="Büyütülmüş Ürün Resmi" draggable="false">
+            </div>
+        </div>
+        <div class="lightbox-controls">
+            <button class="control-btn" onclick="zoomImage(0.25)" title="Yakınlaştır">
+                <i class="fa-solid fa-magnifying-glass-plus"></i>
+            </button>
+            <button class="control-btn" onclick="zoomImage(-0.25)" title="Uzaklaştır">
+                <i class="fa-solid fa-magnifying-glass-minus"></i>
+            </button>
+            <button class="control-btn" onclick="resetZoom()" title="Sıfırla">
+                <i class="fa-solid fa-rotate-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <div id="mobile-menu-placeholder"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+    <script src="components/loader.js" defer></script>
+    <script src="js/components.js" defer></script>
+</body>
+</html>

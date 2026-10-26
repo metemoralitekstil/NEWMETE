@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-88R5628V9H"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-88R5628V9H');
+</script>
+    <meta charset="UTF-8">
+    <title>Sipariş Yönetimi</title>
+    <link rel="stylesheet" href="css/admin-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <div class="sidebar">
+            <div class="sidebar-menu">
+                <h3>Admin Panel</h3>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="products.html">Ürün Yönetimi</a></li>
+                    <li><a href="orders.html" class="active">Sipariş Yönetimi</a></li>
+                    <li><a href="customers.html">Kayıtlı Müşteriler</a></li>
+                    <li><a href="seo-analiz.html">SEO Analiz</a></li>
+                </ul>
+            </div>
+            <div class="logout-container">
+                <a href="#" onclick="confirmLogout(event)" class="logout-btn">Çıkış Yap <i class="fa-solid fa-door-open"></i></a>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="header">
+                <h2>Tüm Siparişler</h2>
+            </div>
+            <table id="ordersTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Müşteri Adı</th>
+                        <th>Tarih</th>
+                        <th>Tutar</th>
+                        <th>Durum</th>
+                        <th>İşlem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadOrders();
+            // Her 10 saniyede bir siparişleri otomatik yenile (F5 gerekmemesi için)
+            setInterval(loadOrders, 10000);
+        });
+    </script>
+</body>
+</html>

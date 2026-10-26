@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
+  <channel>
+    <title>MeteMorali Endüstriyel İş Kıyafetleri</title>
+    <link>https://www.mete-morali.com/</link>
+    <description>Alev Almaz, Antistatik ve Yüksek Görünürlüklü Sertifikalı Endüstriyel İş ve Güvenlik Kıyafetleri</description>
+    
+    <!-- Ürün 1 -->
+    <item>
+      <g:id>1</g:id>
+      <g:title>Alev Almaz Termal Kışlık Parka</g:title>
+      <g:description>Zorlu kış şartlarında ve patlayıcı ortamlarda alev geciktirici, su geçirmez ve antistatik koruma sağlayan, reflektörlü yüksek korumalı termal kışlık iş parkası.</g:description>
+      <g:link>https://www.mete-morali.com/urun-detay?id=1</g:link>
+      <g:image_link>https://www.mete-morali.com/img/kislikceketon.webp</g:image_link>
+      <g:additional_image_link>https://www.mete-morali.com/img/kislikceketarka.webp</g:additional_image_link>
+      <g:additional_image_link>https://www.mete-morali.com/img/kislikceketic.webp</g:additional_image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>290.00 EUR</g:price>
+      <g:brand>MeteMorali</g:brand>
+      <g:mpn>910404</g:mpn>
+      <g:gender>unisex</g:gender>
+      <g:age_group>adult</g:age_group>
+      <g:color>Sarı/Lacivert</g:color>
+      <g:size>M</g:size>
+      <g:google_product_category>1604</g:google_product_category>
+      <g:product_type>İş Kıyafetleri &gt; Alev Almaz Parkalar</g:product_type>
+      <g:shipping>
+        <g:country>TR</g:country>
+        <g:service>Standart Kargo</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- Ürün 2 -->
+    <item>
+      <g:id>2</g:id>
+      <g:title>Supervisor Alev Almaz Yönetici Takımı</g:title>
+      <g:description>Rafineriler, kimya tesisleri ve enerji santralleri gibi yüksek riskli endüstriyel tesislerdeki mühendis ve yöneticiler için alev almaz, antistatik ve reflektörlü koruyucu iş takımı.</g:description>
+      <g:link>https://www.mete-morali.com/urun-detay?id=2</g:link>
+      <g:image_link>https://www.mete-morali.com/img/sari_cokboydan.webp</g:image_link>
+      <g:additional_image_link>https://www.mete-morali.com/img/saricokreflektorluon.webp</g:additional_image_link>
+      <g:additional_image_link>https://www.mete-morali.com/img/saricokreflektorluarka.webp</g:additional_image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>280.00 EUR</g:price>
+      <g:brand>MeteMorali</g:brand>
+      <g:mpn>910403</g:mpn>
+      <g:gender>unisex</g:gender>
+      <g:age_group>adult</g:age_group>
+      <g:color>Sarı/Mavi</g:color>
+      <g:size>M</g:size>
+      <g:google_product_category>1604</g:google_product_category>
+      <g:product_type>İş Kıyafetleri &gt; Yönetici Takımları</g:product_type>
+      <g:shipping>
+        <g:country>TR</g:country>
+        <g:service>Standart Kargo</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- Ürün 3 -->
+    <item>
+      <g:id>3</g:id>
+      <g:title>Hi-Vis Alev Almaz Kaynakçı Takımı</g:title>
+      <g:description>Loş ve karanlık sahalarda yüksek görünürlük sağlayan reflektörlü şeritlere sahip, alev almaz ve erimiş metal çapaklarına karşı koruma sunan kaynakçı iş takımı.</g:description>
+      <g:link>https://www.mete-morali.com/urun-detay?id=3</g:link>
+      <g:image_link>https://www.mete-morali.com/img/macivok_boydan.png</g:image_link>
+      <g:additional_image_link>https://www.mete-morali.com/img/reflektorlumavicokon.webp</g:additional_image_link>
+      <g:additional_image_link>https://www.mete-morali.com/img/reflektorlumavicokarka.webp</g:additional_image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>275.00 EUR</g:price>
+      <g:brand>MeteMorali</g:brand>
+      <g:mpn>910401</g:mpn>
+      <g:gender>unisex</g:gender>
+      <g:age_group>adult</g:age_group>
+      <g:color>Saks Mavi / Sarı</g:color>
+      <g:size>M</g:size>
+      <g:google_product_category>1604</g:google_product_category>
+      <g:product_type>İş Kıyafetleri &gt; Kaynakçı Takımları</g:product_type>
+      <g:shipping>
+        <g:country>TR</g:country>
+        <g:service>Standart Kargo</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- Ürün 4 -->
+    <item>
+      <g:id>4</g:id>
+      <g:title>Alev Almaz Profesyonel Kaynakçı Takımı</g:title>
+      <g:description>Yoğun kaynak operasyonlarında kıvılcım, alev ve ısı transferine karşı tam güvenlik sağlayan, reflektörlü şeritli dayanıklı alev almaz ve antistatik kaynakçı iş takımı.</g:description>
+      <g:link>https://www.mete-morali.com/urun-detay?id=4</g:link>
+      <g:image_link>https://www.mete-morali.com/img/mavi_boydan.webp</g:image_link>
+      <g:additional_image_link>https://www.mete-morali.com/img/reflektorulumavion.webp</g:additional_image_link>
+      <g:additional_image_link>https://www.mete-morali.com/img/reflektorulumaviarka.webp</g:additional_image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>250.00 EUR</g:price>
+      <g:brand>MeteMorali</g:brand>
+      <g:mpn>910402</g:mpn>
+      <g:gender>unisex</g:gender>
+      <g:age_group>adult</g:age_group>
+      <g:color>Mat Mavi</g:color>
+      <g:size>M</g:size>
+      <g:google_product_category>1604</g:google_product_category>
+      <g:product_type>İş Kıyafetleri &gt; Kaynakçı Takımları</g:product_type>
+      <g:shipping>
+        <g:country>TR</g:country>
+        <g:service>Standart Kargo</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- Ürün 5 -->
+    <item>
+      <g:id>5</g:id>
+      <g:title>Alev Almaz Antistatik Kaynakçı Takımı (Mat Mavi)</g:title>
+      <g:description>Ağır sanayi, kaynak ve metal işleme atölyelerinde açık alev, yüksek ısı ve statik elektrik risklerine karşı maksimum koruma sağlayan, reflektörsüz alev almaz iş takımı.</g:description>
+      <g:link>https://www.mete-morali.com/urun-detay?id=5</g:link>
+      <g:image_link>https://www.mete-morali.com/img/reflektorsuzmavion.webp</g:image_link>
+      <g:additional_image_link>https://www.mete-morali.com/img/reflektorsuzmaviarka.webp</g:additional_image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>240.00 EUR</g:price>
+      <g:brand>MeteMorali</g:brand>
+      <g:mpn>910405</g:mpn>
+      <g:gender>unisex</g:gender>
+      <g:age_group>adult</g:age_group>
+      <g:color>Mat Mavi</g:color>
+      <g:size>M</g:size>
+      <g:google_product_category>1604</g:google_product_category>
+      <g:product_type>İş Kıyafetleri &gt; Kaynakçı Takımları</g:product_type>
+      <g:shipping>
+        <g:country>TR</g:country>
+        <g:service>Standart Kargo</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- Ürün 6 -->
+    <item>
+      <g:id>6</g:id>
+      <g:title>Supervisor Alev Almaz Mühendis Takımı</g:title>
+      <g:description>Endüstriyel tesislerdeki mühendis ve saha yöneticileri için çoklu risk koruması, alev almazlık ve antistatik özellik sunan, konforlu kesime sahip reflektörsüz yönetici iş takımı.</g:description>
+      <g:link>https://www.mete-morali.com/urun-detay?id=6</g:link>
+      <g:image_link>https://www.mete-morali.com/img/saricokreflektorsuzon.webp</g:image_link>
+      <g:additional_image_link>https://www.mete-morali.com/img/saricokreflektorsuzarka.webp</g:additional_image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>270.00 EUR</g:price>
+      <g:brand>MeteMorali</g:brand>
+      <g:mpn>910406</g:mpn>
+      <g:gender>unisex</g:gender>
+      <g:age_group>adult</g:age_group>
+      <g:color>Sarı/Mavi</g:color>
+      <g:size>M</g:size>
+      <g:google_product_category>1604</g:google_product_category>
+      <g:product_type>İş Kıyafetleri &gt; Yönetici Takımları</g:product_type>
+      <g:shipping>
+        <g:country>TR</g:country>
+        <g:service>Standart Kargo</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+    </item>
+
+    <!-- Ürün 7 -->
+    <item>
+      <g:id>7</g:id>
+      <g:title>Ağır Sanayi Alev Almaz Kaynakçı Takımı</g:title>
+      <g:description>Ağır kaynak, döküm ve metal eritme süreçlerinde yüksek sıcaklık, açık alev ve erimiş metal sıçramalarına karşı dayanıklı, alev almaz ve antistatik reflektörsüz kaynakçı iş takımı.</g:description>
+      <g:link>https://www.mete-morali.com/urun-detay?id=7</g:link>
+      <g:image_link>https://www.mete-morali.com/img/reflektorsuzmavicokon.webp</g:image_link>
+      <g:additional_image_link>https://www.mete-morali.com/img/reflektorsuzmavicokarka.webp</g:additional_image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>260.00 EUR</g:price>
+      <g:brand>MeteMorali</g:brand>
+      <g:mpn>910407</g:mpn>
+      <g:gender>unisex</g:gender>
+      <g:age_group>adult</g:age_group>
+      <g:color>Koyu Mavi</g:color>
+      <g:size>M</g:size>
+      <g:google_product_category>1604</g:google_product_category>
+      <g:product_type>İş Kıyafetleri &gt; Kaynakçı Takımları</g:product_type>
+      <g:shipping>
+        <g:country>TR</g:country>
+        <g:service>Standart Kargo</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+    </item>
+  </channel>
+</rss>
