@@ -1,0 +1,148 @@
+/* ==========================================================================
+   METEMORALI ADMIN SUITE: LOGIN PAGE (CRISP, FLAT ENTERPRISE ARCHITECTURE)
+   ========================================================================== */
+.login-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #07090e;
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    background-size: 32px 32px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+.login-card {
+    width: 440px;
+    max-width: 100%;
+    background: #0f131c;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-top: 3px solid var(--brand-gold);
+    border-radius: 4px; /* Keskin, düz kurumsal hatlar - Baloncuk yok */
+    padding: 40px 36px;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
+    position: relative;
+    z-index: 10;
+}
+
+.login-header {
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.login-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 12px;
+}
+
+.login-brand-logo {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+}
+
+.login-brand h2 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+.login-brand span {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--brand-gold);
+    font-weight: 600;
+    display: block;
+    margin-top: 2px;
+}
+
+.login-subtitle {
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.login-card .form-group {
+    margin-bottom: 18px;
+}
+
+.login-card .form-group label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.login-card .form-input {
+    border-radius: 4px;
+    background: #141a26;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 12px 14px;
+}
+
+.login-card .form-input:focus {
+    border-color: var(--brand-gold);
+    box-shadow: 0 0 0 1px var(--brand-gold);
+    background: #182030;
+}
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-toggle-btn {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 0.95rem;
+    padding: 4px;
+}
+
+.password-toggle-btn:hover {
+    color: var(--text-primary);
+}
+
+/* Brute-force countdown banner */
+.lockout-banner {
+    display: none;
+    padding: 12px 16px;
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    border-radius: var(--radius-md);
+    color: #fca5a5;
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.error-banner {
+    display: none;
+    padding: 10px 14px;
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: var(--radius-md);
+    color: #f87171;
+    font-size: 0.84rem;
+    margin-bottom: 18px;
+    text-align: center;
+}
