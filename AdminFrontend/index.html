@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
     <title>Yönetici Girişi — MeteMorali</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/admin-style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="icon" type="image/webp" href="../img/logo_gri.webp">
@@ -13,20 +18,23 @@
 
     <div class="login-card">
         <div class="login-header">
-            <div class="login-emblem">
-                <i class="fa-solid fa-shield-halved"></i>
+            <div class="login-brand">
+                <img src="../img/logo_gri.webp" alt="MeteMorali" class="login-brand-logo" onerror="this.src='../img/logo_gri.png'">
+                <div>
+                    <h2>MeteMorali</h2>
+                    <span>Admin Portalı</span>
+                </div>
             </div>
-            <h2>MeteMorali</h2>
-            <p>Yönetim & Güvenlik Portalı</p>
+            <p class="login-subtitle">Lütfen yetkili kullanıcı bilgilerinizi giriniz</p>
         </div>
 
         <!-- Bot & Brute-Force Kilit Bildirimi -->
-        <div id="lockoutBanner" class="lockout-banner">
+        <div id="lockoutBanner" class="lockout-banner" style="border-radius: 4px;">
             <i class="fa-solid fa-lock" style="margin-right: 6px;"></i>
             Çok fazla hatalı deneme! Lütfen <strong id="lockoutTimer">300</strong> saniye bekleyin.
         </div>
 
-        <div id="errorBanner" class="error-banner">
+        <div id="errorBanner" class="error-banner" style="border-radius: 4px;">
             <i class="fa-solid fa-circle-exclamation" style="margin-right: 6px;"></i>
             <span id="errorMsg">Hatalı kullanıcı adı veya şifre!</span>
         </div>
@@ -50,14 +58,14 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary" id="loginSubmitBtn" style="width: 100%; margin-top: 10px; padding: 13px;">
+            <button type="submit" class="btn btn-primary" id="loginSubmitBtn" style="width: 100%; margin-top: 10px; padding: 13px; border-radius: 4px;">
                 <span id="btnText">Güvenli Giriş Yap</span>
                 <i class="fa-solid fa-arrow-right" id="btnIcon"></i>
             </button>
         </form>
 
-        <div style="margin-top: 24px; text-align: center; font-size: 0.78rem; color: var(--text-muted);">
-            <i class="fa-solid fa-lock" style="font-size: 0.7rem; margin-right: 4px;"></i> 256-Bit SSL & Şifreli Oturum Koruması
+        <div style="margin-top: 24px; text-align: center; font-size: 0.78rem; color: var(--text-muted); border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 16px;">
+            <i class="fa-solid fa-lock" style="font-size: 0.7rem; margin-right: 4px; color: var(--brand-gold);"></i> 256-Bit SSL & SHA-256 Şifreli Oturum Koruması
         </div>
     </div>
 
