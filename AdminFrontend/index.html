@@ -16,30 +16,25 @@
 </head>
 <body class="login-body">
 
-    <div class="login-card">
+    <div class="login-container">
         <div class="login-header">
-            <div class="login-brand">
-                <img src="../img/logo_gri.webp" alt="MeteMorali" class="login-brand-logo" onerror="this.src='../img/logo_gri.png'">
-                <div>
-                    <h2>MeteMorali</h2>
-                    <span>Admin Portalı</span>
-                </div>
-            </div>
-            <p class="login-subtitle">Lütfen yetkili kullanıcı bilgilerinizi giriniz</p>
+            <img src="../img/logo_gri.webp" alt="MeteMorali" class="login-brand-logo" onerror="this.src='../img/logo_gri.png'">
+            <h1>Yönetici Girişi</h1>
+            <p class="login-subtitle">Yönetim paneline erişmek için yetkili bilgilerinizi giriniz.</p>
         </div>
 
         <!-- Bot & Brute-Force Kilit Bildirimi -->
-        <div id="lockoutBanner" class="lockout-banner" style="border-radius: 4px;">
+        <div id="lockoutBanner" class="lockout-banner">
             <i class="fa-solid fa-lock" style="margin-right: 6px;"></i>
-            Çok fazla hatalı deneme! Lütfen <strong id="lockoutTimer">300</strong> saniye bekleyin.
+            Çok fazla hatalı deneme yapıldı. Lütfen <strong id="lockoutTimer">300</strong> saniye bekleyin.
         </div>
 
-        <div id="errorBanner" class="error-banner" style="border-radius: 4px;">
+        <div id="errorBanner" class="error-banner">
             <i class="fa-solid fa-circle-exclamation" style="margin-right: 6px;"></i>
             <span id="errorMsg">Hatalı kullanıcı adı veya şifre!</span>
         </div>
 
-        <form id="loginForm" autocomplete="off">
+        <form id="loginForm" class="login-form" autocomplete="off">
             <!-- Honeypot Bot Kapanı (Görünmez tuzak alanı) -->
             <input type="text" id="b_trap_field" name="b_trap_field" style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;" tabindex="-1" autocomplete="off">
 
@@ -58,11 +53,15 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary" id="loginSubmitBtn" style="width: 100%; margin-top: 10px; padding: 13px; border-radius: 4px;">
+            <button type="submit" class="login-submit-btn" id="loginSubmitBtn">
                 <span id="btnText">Giriş Yap</span>
-                <i class="fa-solid fa-arrow-right" id="btnIcon"></i>
+                <i class="fa-solid fa-arrow-right" id="btnIcon" style="font-size: 0.85rem;"></i>
             </button>
         </form>
+
+        <div class="login-footer">
+            <a href="../katalog.html">&larr; Canlı Mağazaya Dön</a>
+        </div>
     </div>
 
     <!-- Toast Notification Container -->

@@ -1,108 +1,89 @@
 /* ==========================================================================
-   METEMORALI ADMIN SUITE: LOGIN PAGE (CLEAN WHITE & PURE BLACK THEME)
+   METEMORALI ADMIN SUITE: MINIMALIST LIGHT LOGIN
+   (Pure White Background, Zero Grids, Zero Clunky Squares, Zero Orange, Pure Black Type)
    ========================================================================== */
 .login-body {
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    background-color: #f8fafc;
-    background-image: 
-        linear-gradient(#e2e8f0 1px, transparent 1px),
-        linear-gradient(90deg, #e2e8f0 1px, transparent 1px);
-    background-size: 32px 32px;
-    padding: 24px;
-    position: relative;
-    overflow: hidden;
+    background: #ffffff; /* Düz saf beyaz zemin - Izgara yok */
+    padding: 32px 20px;
 }
 
-.login-card {
-    width: 440px;
-    max-width: 100%;
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-top: 4px solid var(--brand-gold);
-    border-radius: 4px;
-    padding: 40px 36px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-    position: relative;
-    z-index: 10;
+.login-container {
+    width: 100%;
+    max-width: 380px;
+    margin: 0 auto;
 }
 
 .login-header {
-    margin-bottom: 28px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #e2e8f0;
-}
-
-.login-brand {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 8px;
+    text-align: left;
+    margin-bottom: 32px;
 }
 
 .login-brand-logo {
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     object-fit: contain;
+    margin-bottom: 20px;
+    display: block;
 }
 
-.login-brand h2 {
-    font-size: 1.35rem;
+.login-header h1 {
+    font-size: 1.65rem;
     font-weight: 700;
     color: #000000;
-    margin: 0;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-}
-
-.login-brand span {
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--brand-gold);
-    font-weight: 700;
-    display: block;
-    margin-top: 2px;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
 }
 
 .login-subtitle {
-    font-size: 0.84rem;
-    color: #475569;
+    font-size: 0.9rem;
+    color: #64748b;
     margin: 0;
+    line-height: 1.4;
 }
 
-.login-card .form-group {
-    margin-bottom: 18px;
+.login-form .form-group {
+    margin-bottom: 20px;
 }
 
-.login-card .form-group label {
+.login-form label {
     display: block;
-    font-size: 0.8rem;
-    font-weight: 700;
+    font-size: 0.84rem;
+    font-weight: 600;
     color: #000000;
-    margin-bottom: 6px;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
+    margin-bottom: 7px;
 }
 
-.login-card .form-input {
-    border-radius: 4px;
-    background: #ffffff;
-    border: 1px solid #cbd5e1;
-    color: #000000;
+.login-form .form-input {
+    width: 100%;
     padding: 12px 14px;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    color: #000000;
+    font-size: 0.94rem;
+    font-family: inherit;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    box-sizing: border-box;
 }
 
-.login-card .form-input:focus {
-    border-color: var(--brand-gold);
-    box-shadow: 0 0 0 1px var(--brand-gold);
-    background: #ffffff;
+.login-form .form-input:focus {
+    outline: none;
+    border-color: #000000;
+    box-shadow: 0 0 0 1px #000000;
+}
+
+.login-form .form-input::placeholder {
+    color: #9ca3af;
 }
 
 .password-wrapper {
     position: relative;
+    width: 100%;
 }
 
 .password-toggle-btn {
@@ -115,36 +96,83 @@
     color: #64748b;
     cursor: pointer;
     font-size: 0.95rem;
-    padding: 4px;
+    padding: 6px;
 }
 
 .password-toggle-btn:hover {
     color: #000000;
 }
 
-/* Brute-force countdown banner */
+/* Pure Black Primary Button - No Orange */
+.login-submit-btn {
+    width: 100%;
+    padding: 13px;
+    margin-top: 8px;
+    background: #000000;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background 0.15s ease;
+    font-family: inherit;
+}
+
+.login-submit-btn:hover {
+    background: #27272a;
+}
+
+.login-submit-btn:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+}
+
+/* Back Link */
+.login-footer {
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid #f1f5f9;
+    text-align: center;
+}
+
+.login-footer a {
+    color: #64748b;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: color 0.15s;
+}
+
+.login-footer a:hover {
+    color: #000000;
+}
+
+/* Lockout & Error Banners */
 .lockout-banner {
     display: none;
     padding: 12px 16px;
     background: #fef2f2;
     border: 1px solid #fecaca;
-    border-radius: var(--radius-md);
+    border-radius: 6px;
     color: #991b1b;
     font-size: 0.85rem;
     margin-bottom: 20px;
-    text-align: center;
     font-weight: 600;
 }
 
 .error-banner {
     display: none;
-    padding: 10px 14px;
+    padding: 11px 14px;
     background: #fef2f2;
     border: 1px solid #fecaca;
-    border-radius: var(--radius-md);
+    border-radius: 6px;
     color: #b91c1c;
-    font-size: 0.84rem;
-    margin-bottom: 18px;
-    text-align: center;
+    font-size: 0.85rem;
+    margin-bottom: 20px;
     font-weight: 600;
 }
