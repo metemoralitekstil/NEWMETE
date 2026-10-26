@@ -80,8 +80,8 @@ const products = [
             fr: "Haute protection avec 99% Coton, 1% Fibre de Carbone",
             it: "Elevata protezione con 99% Cotone, 1% Fibra di Carbonio"
         },
-        image: "img/mavi_boydan.webp",
-        fsImage: "img/reflektorulumavion.webp",
+        image: "img/Mavi Reflektif İş Üniforması Seti.png",
+        fsImage: "img/Mavi Reflektif İş Ceketi.png",
         label: {
             tr: "Kaynakçı Kıyafeti (Düz)",
             en: "Welder Jacket (Plain)",
@@ -95,7 +95,7 @@ const products = [
         bgImage: "img/arkaplankaynakci.webp",
         bgPosition: "left center",
         particleType: "fire",
-        link: "urun-detay?id=4",
+        link: "urun-detay.html?id=4",
         fsCapsule: "CAPSULE COLLECTION // 01",
         fsTitle: {
             tr: "KAYNAKÇI",
@@ -160,8 +160,8 @@ const products = [
             fr: "Réfléchissant, Résistant à la Chaleur et aux Flammes",
             it: "Riflettente, Resistente al Calore e alle Fiamme"
         },
-        image: "img/macivok_boydan.png",
-        fsImage: "img/reflektorlumavicokon.webp",
+        image: "img/Reflektörlü Mavi-Lime İş Elbisesi.png",
+        fsImage: "img/Yandan Görünüm Hi-Vis İş Montu.png",
         label: {
             tr: "Yüksek Görünürlük Kaynakçı",
             en: "High Visibility Welder",
@@ -174,7 +174,7 @@ const products = [
         accentColor: "#ffcc00",
         bgImage: "img/Arkaplan1.webp",
         particleType: "dust",
-        link: "urun-detay?id=3",
+        link: "urun-detay.html?id=3",
         fsCapsule: "CAPSULE COLLECTION // 02",
         fsTitle: {
             tr: "HI-VIS KAYNAKÇI",
@@ -239,8 +239,8 @@ const products = [
             fr: "Structure Légère et Flexible (320 g/m²)",
             it: "Struttura Leggera e Flessibile (320 g/m²)"
         },
-        image: "img/sari_cokboydan.webp",
-        fsImage: "img/saricokreflektorluon.webp",
+        image: "img/Yüksek Görünürlüklü Mavi-Sarı İş Montu.png",
+        fsImage: "img/Kobalt Mavi ve Neon Sarı İş Montu.png",
         label: {
             tr: "Supervisor Ceket ve Pantolon",
             en: "Supervisor Jacket and Pants",
@@ -253,7 +253,7 @@ const products = [
         accentColor: "#ff9f43",
         bgImage: "img/Arkaplan2.webp",
         particleType: "dust",
-        link: "urun-detay?id=2",
+        link: "urun-detay.html?id=2",
         fsCapsule: "CAPSULE COLLECTION // 03",
         fsTitle: {
             tr: "SUPERVISOR",
@@ -318,8 +318,8 @@ const products = [
             fr: "Doublure Intérieure : 79% Coton, 20% Polyester, 1% Fibre de Carbone (170 g/m²)",
             it: "Fodera Interna: 79% Cotone, 20% Poliestere, 1% Fibra di Carbonio (170 g/m²)"
         },
-        image: "img/kislikceketon.webp",
-        fsImage: "img/kislikceketon.webp",
+        image: "img/Beyaz Zeminde Yüksek Görünürlüklü İş Parkası.png",
+        fsImage: "img/Neon Sarı Reflektif İş Parkası.png",
         label: {
             tr: "Supervisor Parka 2024",
             en: "Supervisor Parka 2024",
@@ -332,7 +332,7 @@ const products = [
         accentColor: "#cd84f1",
         bgImage: "img/Arkaplan1.webp",
         particleType: "snow",
-        link: "urun-detay?id=1",
+        link: "urun-detay.html?id=1",
         fsCapsule: "CAPSULE COLLECTION // 04",
         fsTitle: {
             tr: "KIŞLIK PARKA",

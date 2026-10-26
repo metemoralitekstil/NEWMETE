@@ -2,18 +2,11 @@
 
 let cart = JSON.parse(localStorage.getItem('metemorali_cart')) || [];
 
-// Hotfix: map old .png images to .webp and fix naming issues
+// Hotfix: legacy cart migration
 let needsSave = false;
 cart.forEach(item => {
     if (item.image) {
-        if (item.image.includes('Mavi-Sari.png')) {
-            item.image = item.image.replace('Mavi-Sari.png', 'Mavi_sari.webp');
-            needsSave = true;
-        } else if (item.image.includes('Sari-Mavi.png')) {
-            item.image = item.image.replace('Sari-Mavi.png', 'Coksari_mavi.webp');
-            needsSave = true;
-        } else if (item.image.endsWith('.png')) {
-            item.image = item.image.replace('.png', '.webp');
+        if (item.image.includes('Mavi-Sari.png') || item.image.includes('Sari-Mavi.png')) {
             needsSave = true;
         }
     }

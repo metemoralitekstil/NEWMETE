@@ -29,8 +29,8 @@ const MOCK_PRODUCTS = [
             it: "Parka da lavoro termico ad alta protezione con bande riflettenti, che offre protezione ignifuga, impermeabile e antistatica in condizioni invernali difficili."
         },
         price: 290.00,
-        imageUrl: "img/kislikceketon.webp",
-        subImages: '["img/kislikceketon.webp", "img/kislikceketarka.webp", "img/kislikceketic.webp"]',
+        imageUrl: "img/Beyaz Zeminde Yüksek Görünürlüklü İş Parkası.png",
+        subImages: '["img/Beyaz Zeminde Yüksek Görünürlüklü İş Parkası.png", "img/Neon Sarı Reflektif İş Parkası.png", "img/Neon Sarı Reflektif Güvenlik Parkası.png", "img/Neon Sarı Kapüşonlu Güvenlik Montu.png", "img/Profilde Neon Sarı Reflektörlü İş Parkası.png"]',
         articleCode: "910404",
         certificateCode: "OZO 1117-CPT004/26",
         standards: ["EN 11611", "EN 11612", "EN 1149-5", "EN 20471", "EN 342"],
@@ -109,8 +109,8 @@ const MOCK_PRODUCTS = [
             it: "Abbigliamento protettivo ignifugo, antistatico e riflettente per ingegneri e responsabili in impianti industriali."
         },
         price: 280.00,
-        imageUrl: "img/sari_cokboydan.webp",
-        subImages: '["img/sari_cokboydan.webp", "img/saricokreflektorluon.webp", "img/saricokreflektorluarka.webp", "img/saricokreflektorluic.webp", "img/saricokpantolonon.png", "img/saricokpantolonarka.png"]',
+        imageUrl: "img/Yüksek Görünürlüklü Mavi-Sarı İş Montu.png",
+        subImages: '["img/Yüksek Görünürlüklü Mavi-Sarı İş Montu.png", "img/Kobalt Mavi ve Neon Sarı İş Montu.png", "img/Mavi Sarı Reflektörlü İş Montu.png", "img/Kék és neon munkavédelmi dzseki hátulról.png", "img/Yüksek Görünürlüklü İş Pantolonu.png", "img/Arkadan Görünüm Yüksek Görünürlüklü İş Pantolonu.png", "img/Yan Profilli Yüksek Görünürlüklü İş Pantolonu.png", "img/Mavi-Sarı Reflektif İş Pantolonu.png"]',
         articleCode: "910403",
         certificateCode: "OZO 1117-CPT002/26",
         standards: ["EN 11611", "EN 11612", "EN 1149-5", "EN 20471"],
@@ -189,8 +189,8 @@ const MOCK_PRODUCTS = [
             it: "Completo da saldatore ignifugo con strisce riflettenti per un'elevata visibilità e protezione contro gli schizzi di metallo fuso."
         },
         price: 275.00,
-        imageUrl: "img/macivok_boydan.png",
-        subImages: '["img/macivok_boydan.png", "img/reflektorlumavicokon.webp", "img/reflektorlumavicokarka.webp", "img/reflektorlumavicokic.webp", "img/mavicokpantolonon.png", "img/mavicokpantolonarka.png"]',
+        imageUrl: "img/Reflektörlü Mavi-Lime İş Elbisesi.png",
+        subImages: '["img/Reflektörlü Mavi-Lime İş Elbisesi.png", "img/Yandan Görünüm Hi-Vis İş Montu.png", "img/Mavi ve Neon Reflektif İş Pantolonu.png", "img/Mavi ve Neon İş Pantolonu.png", "img/Mavi ve Neon Sarı Reflektif İş Tulumu.png", "img/Lacivert-Neon Reflektif İş Pantolonu.png"]',
         articleCode: "910401",
         certificateCode: "OZO 1117-CPT001/26",
         standards: ["EN 11611", "EN 11612", "EN 1149-5", "EN 20471"],
@@ -269,8 +269,8 @@ const MOCK_PRODUCTS = [
             it: "Abbigliamento da lavoro da saldatore ignifugo e antistatico con strisce riflettenti per la massima protezione contro scintille e calore."
         },
         price: 250.00,
-        imageUrl: "img/mavi_boydan.webp",
-        subImages: '["img/mavi_boydan.webp", "img/reflektorulumavion.webp", "img/reflektorulumaviarka.webp", "img/reflektorulumaviic.webp", "img/mavipantolonon.png", "img/mavipantolonarka.png"]',
+        imageUrl: "img/Mavi Reflektif İş Üniforması Seti.png",
+        subImages: '["img/Mavi Reflektif İş Üniforması Seti.png", "img/Mavi Reflektif İş Ceketi.png", "img/Reflektörlü Mavi İş Montu.png", "img/Mavi Reflektörlü İş Güvenliği Montu.png", "img/Mavi Reflektörlü İş Güvenliği Ceketi.png", "img/Reflektör Bantlı Mavi İş Pantolonu.png", "img/Arkadan Görünümlü Reflektif İş Pantolonu.png", "img/Reflektör Şeritli İş Pantolonu.png", "img/Yan Profilli Reflektif İş Pantolonu.png"]',
         articleCode: "910402",
         certificateCode: "OZO 1117-CPT003/26",
         standards: ["EN 11611", "EN 11612", "EN 1149-5", "EN 17353"],
@@ -349,8 +349,8 @@ const MOCK_PRODUCTS = [
             it: "Abbigliamento ignifugo senza strisce riflettenti per la massima protezione contro fiamme, calore ed elettricità statica nelle officine metallurgiche."
         },
         price: 240.00,
-        imageUrl: "img/reflektorsuzmavion.webp",
-        subImages: '["img/reflektorsuzmavion.webp", "img/reflektorsuzmaviarka.webp", "img/reflektorsuzmaviic.webp"]',
+        imageUrl: "img/Mavi Reflektörlü İş Üniforması.png",
+        subImages: '["img/Mavi Reflektörlü İş Üniforması.png", "img/Mavi Reflektörlü İş Üniforması-2.png", "img/Mavi Reflektif İş Üniforması.png", "img/Arkadan Görünümlü Reflektörlü İş Pantolonu.png", "img/Yan Profilli Reflektif İş Pantolonu-2.png"]',
         articleCode: "910405",
         certificateCode: "OZO 1117-CPT003/26-A1/26",
         standards: ["EN 11611", "EN 11612", "EN 1149-5"],
@@ -429,8 +429,8 @@ const MOCK_PRODUCTS = [
             it: "Abbigliamento da lavoro confortevole senza bande riflettenti con protezione multi-rischio, ignifuga e antistatica per ingegneri e responsabili di cantiere."
         },
         price: 270.00,
-        imageUrl: "img/saricokreflektorsuzon.webp",
-        subImages: '["img/saricokreflektorsuzon.webp", "img/saricokreflektorsuzarka.webp"]',
+        imageUrl: "img/Çelik Grisi Reflektörlü İş Ceketi.png",
+        subImages: '["img/Çelik Grisi Reflektörlü İş Ceketi.png", "img/Gri-Mavi Reflektif İş Elbisesi.png", "img/Reflektörlü Gri-Mavi İş Montu.png", "img/Gri Reflektörlü İş Montu Arkadan Görünüm.png", "img/Gri Reflektörlü İş Üniforması Arkadan Görünüm.png", "img/Gri Mavi Reflektif İş Tulumu.png"]',
         articleCode: "910406",
         certificateCode: "OZO 1117-CPT002/26-A1/26",
         standards: ["EN 11611", "EN 11612", "EN 1149-5"],
@@ -509,8 +509,8 @@ const MOCK_PRODUCTS = [
             it: "Completo da saldatore ignifugo e antistatico non riflettente, resistente alle alte temperature, fiamme libere e schizzi di metallo fuso nelle operazioni pesanti."
         },
         price: 260.00,
-        imageUrl: "img/reflektorsuzmavicokon.webp",
-        subImages: '["img/reflektorsuzmavicokon.webp", "img/reflektorsuzmavicokarka.webp"]',
+        imageUrl: "img/Lacivert Reflektörlü İş Montu.png",
+        subImages: '["img/Lacivert Reflektörlü İş Montu.png", "img/Lacivert Reflektif İş Montu.png", "img/Navy Blue Reflective Utility Jacket.png", "img/Lacivert Reflektörlü İş Üniforması.png", "img/Lacivert Reflektif İş Üniforması.png", "img/Arka Görünüm Reflektif İş Elbisesi.png", "img/Donanımlı Lacivert İş Pantolonu.png", "img/Lacivert Reflektörlü İş Pantolonu.png", "img/Lacivert Reflektörlü İş Pantolonu-2.png", "img/Granatowe spodnie robocze z odblaskami.png", "img/Lacivert Reflektif İş Tulumu.png"]',
         articleCode: "910407",
         certificateCode: "OZO 1117-CPT001/26-A1/26",
         standards: ["EN 11611", "EN 11612", "EN 1149-5"],
@@ -683,7 +683,7 @@ async function loadCatalogProducts() {
                     <h3 class="card-title">${safeName}</h3>
                     <p class="card-desc">${safeDesc}</p>
                     <div class="card-actions" style="display: flex; justify-content: center; align-items: center; margin-top: 15px;">
-                        <a href="urun-detay?id=${safeId}" class="btn btn-outline" style="width: 100%; text-align: center;">${examineBtnText}</a>
+                        <a href="urun-detay.html?id=${safeId}" class="btn btn-outline" style="width: 100%; text-align: center;">${examineBtnText}</a>
                     </div>
                 </div>
             </div>`;

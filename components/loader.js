@@ -60,6 +60,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.body.appendChild(cookieScript);
     });
 
+    // Yerel geliştirme ve testlerde elle .html yazma zorunluluğunu kaldıran akıllı yönlendirici
+    document.addEventListener('click', (e) => {
+        const a = e.target.closest('a');
+        if (!a || !a.getAttribute('href')) return;
+        const href = a.getAttribute('href');
+        if (href.startsWith('http://') || href.startsWith('https://') || href.startsWith('#') || href.startsWith('tel:') || href.startsWith('mailto:')) return;
+        const [path, query] = href.split('?');
+        if (path && !path.includes('.') && !path.endsWith('/')) {
+            e.preventDefault();
+            const newHref = path + '.html' + (query ? '?' + query : '');
+            window.location.href = newHref;
+        }
+    });
+
     // Dispatch a custom event to signal that components are ready
     document.dispatchEvent(new Event('componentsLoaded'));
 });
