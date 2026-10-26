@@ -405,8 +405,8 @@ window.loadProducts = async function() {
                     <td>${stockBadge}</td>
                     <td>
                         <div style="display: flex; gap: 8px;">
-                            <button class="btn btn-secondary btn-sm" onclick="openEditProductModal(${id})"><i class="fa-solid fa-pen-to-square"></i> Düzenle</button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteProduct(${id})"><i class="fa-solid fa-trash"></i></button>
+                            <button class="btn btn-secondary btn-sm" onclick="openEditProductModal(${id})">Düzenle</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteProduct(${id})">Sil</button>
                         </div>
                     </td>
                 </tr>
@@ -636,7 +636,7 @@ window.loadOrders = async function() {
                     <td style="font-weight: 700; color: var(--brand-gold);">#${id}</td>
                     <td>
                         <div style="font-weight: 600;">${customer}</div>
-                        <div style="font-size: 0.78rem; color: var(--text-muted);"><i class="fa-solid fa-phone" style="font-size: 0.7rem;"></i> ${phone}</div>
+                        <div style="font-size: 0.78rem; color: var(--text-muted);">${phone}</div>
                     </td>
                     <td style="color: var(--text-secondary);">${dateStr}</td>
                     <td style="font-weight: 700; font-size: 1rem;">€${total}</td>
@@ -646,7 +646,7 @@ window.loadOrders = async function() {
                         </select>
                     </td>
                     <td>
-                        <button class="btn btn-secondary btn-sm" onclick="viewOrderDetails(${id})"><i class="fa-regular fa-eye"></i> Detay</button>
+                        <button class="btn btn-secondary btn-sm" onclick="viewOrderDetails(${id})">Detay</button>
                     </td>
                 </tr>
             `;
@@ -758,16 +758,10 @@ window.loadCustomers = async function() {
             tbody.innerHTML += `
                 <tr>
                     <td>
-                        <div style="display: flex; align-items: center; gap: 12px;">
-                            <div class="admin-avatar" style="width: 36px; height: 36px; font-size: 0.9rem;">${name.charAt(0).toUpperCase()}</div>
-                            <div>
-                                <div style="font-weight: 600; color: var(--text-primary);">${name}</div>
-                                <div style="font-size: 0.75rem; color: var(--brand-gold);">B2B Kurumsal Müşteri</div>
-                            </div>
-                        </div>
+                        <div style="font-weight: 600; color: var(--text-primary);">${name}</div>
                     </td>
-                    <td style="color: var(--text-secondary);"><i class="fa-regular fa-envelope" style="margin-right: 6px; font-size: 0.8rem; color: var(--text-muted);"></i>${email}</td>
-                    <td style="color: var(--text-secondary);"><i class="fa-solid fa-phone" style="margin-right: 6px; font-size: 0.8rem; color: var(--text-muted);"></i>${phone}</td>
+                    <td style="color: var(--text-secondary);">${email}</td>
+                    <td style="color: var(--text-secondary);">${phone}</td>
                     <td>
                         <span class="badge ${userOrders.length > 0 ? 'badge-info' : 'badge-warning'}">${userOrders.length} Sipariş</span>
                     </td>

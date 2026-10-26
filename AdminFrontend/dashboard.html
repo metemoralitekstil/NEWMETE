@@ -39,37 +39,30 @@
                 <nav class="sidebar-nav">
                     <div class="nav-label">Yönetim Paneli</div>
                     <a href="dashboard.html" class="active">
-                        <i class="fa-solid fa-chart-line"></i>
                         <span>Dashboard</span>
                     </a>
                     <a href="products.html">
-                        <i class="fa-solid fa-boxes-stacked"></i>
                         <span>Ürün Yönetimi</span>
                     </a>
                     <a href="orders.html">
-                        <i class="fa-solid fa-bag-shopping"></i>
                         <span>Sipariş Yönetimi</span>
                     </a>
                     <a href="customers.html">
-                        <i class="fa-solid fa-users"></i>
                         <span>Kayıtlı Müşteriler</span>
                     </a>
 
                     <div class="nav-label">Sistem & Vitrin</div>
                     <a href="seo-analiz.html">
-                        <i class="fa-solid fa-magnifying-glass-chart"></i>
                         <span>SEO Analiz</span>
                     </a>
                     <a href="../katalog.html" target="_blank">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                        <span>Canlı Mağazayı Aç</span>
+                        <span>Canlı Mağazayı Aç &rarr;</span>
                     </a>
                 </nav>
             </div>
 
             <div class="sidebar-footer">
                 <a href="#" onclick="confirmLogout(event)" class="logout-btn">
-                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
                     <span>Çıkış Yap</span>
                 </a>
             </div>
@@ -82,64 +75,30 @@
                     <h1>Dashboard</h1>
                 </div>
                 <div class="top-actions">
-                    <button class="btn btn-secondary btn-sm" onclick="loadDashboard();">
-                        <i class="fa-solid fa-rotate"></i> Yenile
-                    </button>
+                    <button class="btn btn-secondary btn-sm" onclick="loadDashboard();">Yenile</button>
                 </div>
             </header>
 
-            <!-- Stat Cards / KPIs -->
+            <!-- Stat Cards / KPIs (Clean, Pure Numbers, No AI Icons/Emojis) -->
             <div class="card-container">
                 <div class="card">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                        <div>
-                            <h4>Katalog Ürünleri</h4>
-                            <h2 id="totalProducts">-</h2>
-                            <span class="card-trend trend-neutral"><i class="fa-solid fa-shield-halved"></i> Canlı Katalog</span>
-                        </div>
-                        <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(217, 119, 6, 0.1); border: 1px solid rgba(217, 119, 6, 0.2); display: flex; align-items: center; justify-content: center; color: var(--brand-gold); font-size: 1.25rem;">
-                            <i class="fa-solid fa-boxes-stacked"></i>
-                        </div>
-                    </div>
+                    <h4>Katalog Ürünleri</h4>
+                    <h2 id="totalProducts">-</h2>
                 </div>
 
                 <div class="card">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                        <div>
-                            <h4>Depo Stok Adedi</h4>
-                            <h2 id="totalStock">-</h2>
-                            <span class="card-trend trend-positive"><i class="fa-solid fa-warehouse"></i> Toplam Fiziksel Stok</span>
-                        </div>
-                        <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(37, 99, 235, 0.1); border: 1px solid rgba(37, 99, 235, 0.2); display: flex; align-items: center; justify-content: center; color: var(--info); font-size: 1.25rem;">
-                            <i class="fa-solid fa-cubes"></i>
-                        </div>
-                    </div>
+                    <h4>Depo Stok Adedi</h4>
+                    <h2 id="totalStock">-</h2>
                 </div>
 
                 <div class="card">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                        <div>
-                            <h4>Gelen Siparişler</h4>
-                            <h2 id="totalOrders">-</h2>
-                            <span class="card-trend trend-positive"><i class="fa-solid fa-receipt"></i> B2B Talepleri</span>
-                        </div>
-                        <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.2); display: flex; align-items: center; justify-content: center; color: #8b5cf6; font-size: 1.25rem;">
-                            <i class="fa-solid fa-bag-shopping"></i>
-                        </div>
-                    </div>
+                    <h4>Gelen Siparişler</h4>
+                    <h2 id="totalOrders">-</h2>
                 </div>
 
                 <div class="card">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                        <div>
-                            <h4>Tamamlanan Hasılat</h4>
-                            <h2 id="totalRevenue">-</h2>
-                            <span class="card-trend trend-positive"><i class="fa-solid fa-circle-check"></i> Teslim Edilenler</span>
-                        </div>
-                        <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(5, 150, 105, 0.1); border: 1px solid rgba(5, 150, 105, 0.2); display: flex; align-items: center; justify-content: center; color: var(--success); font-size: 1.25rem;">
-                            <i class="fa-solid fa-coins"></i>
-                        </div>
-                    </div>
+                    <h4>Tamamlanan Hasılat</h4>
+                    <h2 id="totalRevenue">-</h2>
                 </div>
             </div>
 
@@ -167,7 +126,7 @@
                     <tbody>
                         <tr>
                             <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 40px;">
-                                <i class="fa-solid fa-spinner fa-spin" style="margin-right: 8px;"></i> Sipariş kayıtları yükleniyor...
+                                Sipariş kayıtları yükleniyor...
                             </td>
                         </tr>
                     </tbody>

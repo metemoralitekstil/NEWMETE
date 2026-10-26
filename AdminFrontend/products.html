@@ -39,37 +39,30 @@
                 <nav class="sidebar-nav">
                     <div class="nav-label">Yönetim Paneli</div>
                     <a href="dashboard.html">
-                        <i class="fa-solid fa-chart-line"></i>
                         <span>Dashboard</span>
                     </a>
                     <a href="products.html" class="active">
-                        <i class="fa-solid fa-boxes-stacked"></i>
                         <span>Ürün Yönetimi</span>
                     </a>
                     <a href="orders.html">
-                        <i class="fa-solid fa-bag-shopping"></i>
                         <span>Sipariş Yönetimi</span>
                     </a>
                     <a href="customers.html">
-                        <i class="fa-solid fa-users"></i>
                         <span>Kayıtlı Müşteriler</span>
                     </a>
 
                     <div class="nav-label">Sistem & Vitrin</div>
                     <a href="seo-analiz.html">
-                        <i class="fa-solid fa-magnifying-glass-chart"></i>
                         <span>SEO Analiz</span>
                     </a>
                     <a href="../katalog.html" target="_blank">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                        <span>Canlı Mağazayı Aç</span>
+                        <span>Canlı Mağazayı Aç &rarr;</span>
                     </a>
                 </nav>
             </div>
 
             <div class="sidebar-footer">
                 <a href="#" onclick="confirmLogout(event)" class="logout-btn">
-                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
                     <span>Çıkış Yap</span>
                 </a>
             </div>
@@ -83,7 +76,7 @@
                 </div>
                 <div class="top-actions">
                     <button class="btn btn-primary" onclick="openAddProductModal()">
-                        <i class="fa-solid fa-plus"></i> Yeni Ürün Ekle
+                        + Yeni Ürün Ekle
                     </button>
                 </div>
             </header>
@@ -104,7 +97,7 @@
                     <tbody>
                         <tr>
                             <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 40px;">
-                                <i class="fa-solid fa-spinner fa-spin" style="margin-right: 8px;"></i> Ürünler yükleniyor...
+                                Ürünler yükleniyor...
                             </td>
                         </tr>
                     </tbody>
@@ -119,7 +112,7 @@
     <div class="custom-modal-overlay" id="addProductModal">
         <div class="custom-modal" style="width: 760px; max-width: 95%;">
             <div class="modal-header">
-                <h3><i class="fa-solid fa-plus-circle" style="color: var(--brand-gold); margin-right: 8px;"></i> Yeni Ürün Ekle</h3>
+                <h3>Yeni Ürün Ekle</h3>
                 <button type="button" class="modal-close-btn" onclick="closeAddProductModal()">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
@@ -174,7 +167,7 @@
                         <!-- Koruma Standartları -->
                         <div class="form-group" style="grid-column: span 2;">
                             <label class="form-label">Koruma Standartları (Uyumlu Olanları Seçin)</label>
-                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; background: rgba(255,255,255,0.02); padding: 14px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; background: rgba(0,0,0,0.02); padding: 14px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
                                 <label style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; cursor: pointer; color: var(--text-primary);">
                                     <input type="checkbox" name="newStandards" value="EN 11611"> EN 11611 (Kaynakçı)
                                 </label>
@@ -200,7 +193,7 @@
 
                 <div class="custom-modal-actions">
                     <button type="button" class="btn btn-secondary" onclick="closeAddProductModal()">Vazgeç</button>
-                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Ürünü Kaydet</button>
+                    <button type="submit" class="btn btn-primary">Ürünü Kaydet</button>
                 </div>
             </form>
         </div>
@@ -212,7 +205,7 @@
     <div class="custom-modal-overlay" id="editProductModal">
         <div class="custom-modal" style="width: 760px; max-width: 95%;">
             <div class="modal-header">
-                <h3><i class="fa-solid fa-pen-to-square" style="color: var(--brand-gold); margin-right: 8px;"></i> Ürün Düzenle</h3>
+                <h3>Ürün Düzenle</h3>
                 <button type="button" class="modal-close-btn" onclick="closeEditProductModal()">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
@@ -269,7 +262,7 @@
                         <!-- Koruma Standartları -->
                         <div class="form-group" style="grid-column: span 2;">
                             <label class="form-label">Koruma Standartları</label>
-                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; background: rgba(255,255,255,0.02); padding: 14px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; background: rgba(0,0,0,0.02); padding: 14px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
                                 <label style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; cursor: pointer; color: var(--text-primary);">
                                     <input type="checkbox" name="editStandards" value="EN 11611"> EN 11611 (Kaynakçı)
                                 </label>
@@ -295,7 +288,7 @@
 
                 <div class="custom-modal-actions">
                     <button type="button" class="btn btn-secondary" onclick="closeEditProductModal()">Vazgeç</button>
-                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-save"></i> Değişiklikleri Kaydet</button>
+                    <button type="submit" class="btn btn-primary">Değişiklikleri Kaydet</button>
                 </div>
             </form>
         </div>
@@ -305,18 +298,15 @@
     <!-- 3. ÖZEL SİLME ONAY MODALI -->
     <!-- ===================================================================== -->
     <div id="deleteConfirmModal" class="custom-modal-overlay">
-        <div class="custom-modal" style="max-width: 440px; text-align: center;">
-            <div style="width: 60px; height: 60px; border-radius: 50%; background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.3); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto; color: var(--accent-red); font-size: 1.6rem;">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-            </div>
+        <div class="custom-modal" style="max-width: 420px; text-align: center; padding: 28px;">
             <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 8px; color: var(--text-primary);">Ürünü Silmek İstediğinize Emin Misiniz?</h3>
             <p style="color: var(--text-secondary); font-size: 0.88rem; line-height: 1.5; margin-bottom: 24px;">
                 Bu işlem Supabase veritabanından ürünü kalıcı olarak kaldıracaktır ve canlı katalogda anında silinecektir.
             </p>
             <input type="hidden" id="deleteTargetId">
-            <div class="custom-modal-actions" style="justify-content: center; gap: 12px;">
+            <div class="custom-modal-actions" style="justify-content: center; gap: 12px; border: none; padding: 0;">
                 <button type="button" class="btn btn-secondary" onclick="closeDeleteConfirmModal()">İptal</button>
-                <button type="button" class="btn btn-danger" onclick="executeDeleteProduct()"><i class="fa-solid fa-trash"></i> Evet, Kalıcı Olarak Sil</button>
+                <button type="button" class="btn btn-danger" onclick="executeDeleteProduct()">Evet, Sil</button>
             </div>
         </div>
     </div>
