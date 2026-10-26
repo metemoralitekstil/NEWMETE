@@ -86,7 +86,6 @@
                 <table id="productsTable" class="data-table">
                     <thead>
                         <tr>
-                            <th style="width: 70px;">ID</th>
                             <th>Ürün Bilgisi</th>
                             <th>Koruma Standartları</th>
                             <th>Birim Fiyat</th>
@@ -96,7 +95,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 40px;">
+                            <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 40px;">
                                 Ürünler yükleniyor...
                             </td>
                         </tr>
@@ -110,7 +109,7 @@
     <!-- 1. YENİ ÜRÜN EKLEME MODAL -->
     <!-- ===================================================================== -->
     <div class="custom-modal-overlay" id="addProductModal">
-        <div class="custom-modal" style="width: 760px; max-width: 95%;">
+        <div class="custom-modal" style="width: 820px; max-width: 95%;">
             <div class="modal-header">
                 <h3>Yeni Ürün Ekle</h3>
                 <button type="button" class="modal-close-btn" onclick="closeAddProductModal()">
@@ -121,53 +120,96 @@
             <form id="addProductForm" onsubmit="saveProduct(event)">
                 <div class="modal-body">
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        
+                        <!-- 1. Temel Bilgiler -->
+                        <div class="form-section-title">1. Temel Bilgiler</div>
+                        
                         <div class="form-group" style="grid-column: span 2;">
-                            <label class="form-label">Ürün Adı (Türkçe / Ana Ad) *</label>
-                            <input type="text" id="newProductName" class="form-control" placeholder="Örn: Reflektörlü İş Montu" required>
+                            <label class="form-label">Ürün Adı *</label>
+                            <input type="text" id="newProductName" class="form-control" required>
                         </div>
 
                         <div class="form-group" style="grid-column: span 2;">
-                            <label class="form-label">Alt Başlık / Kısa Açıklama</label>
-                            <input type="text" id="newProductSubtitle" class="form-control" placeholder="Örn: Yüksek Görünürlüklü Su ve Rüzgar Geçirmez Parka">
+                            <label class="form-label">Alt Başlık</label>
+                            <input type="text" id="newProductSubtitle" class="form-control">
                         </div>
+
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label class="form-label">Detaylı Teknik Açıklama</label>
+                            <textarea id="newProductDescription" class="form-control" rows="3"></textarea>
+                        </div>
+
+                        <!-- 2. Ticari & Kodlar -->
+                        <div class="form-section-title">2. Fiyat, Stok & Kodlar</div>
 
                         <div class="form-group">
                             <label class="form-label">Birim Fiyat (€ Euro) *</label>
-                            <input type="number" step="0.01" min="0" id="newProductPrice" class="form-control" placeholder="0.00" required>
+                            <input type="number" step="0.01" min="0" id="newProductPrice" class="form-control" required>
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Başlangıç Stok Adedi *</label>
-                            <input type="number" min="0" id="newProductStock" class="form-control" placeholder="100" required>
+                            <label class="form-label">Depo Stoğu (Adet) *</label>
+                            <input type="number" min="0" id="newProductStock" class="form-control" required>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Ürün / Makale Kodu</label>
-                            <input type="text" id="newProductArticleCode" class="form-control" placeholder="Örn: 910404">
+                            <input type="text" id="newProductArticleCode" class="form-control">
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">AB Tip Sertifika Kodu</label>
-                            <input type="text" id="newProductCertificateCode" class="form-control" placeholder="Örn: OZO 1117-CPT004/26">
+                            <input type="text" id="newProductCertificateCode" class="form-control">
                         </div>
 
-                        <!-- Resim Seçimi -->
+                        <!-- 3. Görsel Yönetimi -->
+                        <div class="form-section-title">3. Ürün Görseli</div>
+                        
                         <div class="form-group" style="grid-column: span 2;">
-                            <label class="form-label">Katalog Görseli Seç</label>
-                            <div style="display: flex; gap: 14px; align-items: center;">
-                                <select id="newProductImagePicker" class="form-select" style="flex: 1;" onchange="updateImagePreview('newProductImagePicker', 'newProductPreviewImg')">
-                                    <!-- JS tarafından doldurulacak -->
-                                </select>
-                                <div style="width: 52px; height: 52px; border-radius: 8px; border: 1px solid var(--border-subtle); background: var(--bg-surface); display: flex; align-items: center; justify-content: center; overflow: hidden;">
-                                    <img id="newProductPreviewImg" src="../img/Neon Sarı Reflektif Güvenlik Parkası.png" alt="Önizleme" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                            <label class="form-label">Ana Katalog Görseli</label>
+                            <div class="image-upload-wrapper">
+                                <div class="image-preview-box">
+                                    <img id="newProductPreviewImg" src="../img/default.webp" alt="Önizleme">
+                                </div>
+                                <div style="flex: 1; display: flex; flex-direction: column; gap: 10px;">
+                                    <div>
+                                        <label style="font-size: 0.8rem; color: #64748b; font-weight: 600; margin-bottom: 4px; display: block;">Mevcut Katalog Galerisinden Seç:</label>
+                                        <select id="newProductImagePicker" class="form-select" onchange="handleImageSelectChange('new')">
+                                            <!-- JS doldurur -->
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label style="font-size: 0.8rem; color: #64748b; font-weight: 600; margin-bottom: 4px; display: block;">Veya Bilgisayarınızdan Yeni Fotoğraf Yükleyin:</label>
+                                        <input type="file" id="newProductFileInput" accept="image/*" class="form-control" style="padding: 7px 12px; font-size: 0.84rem;" onchange="handleFileUpload(event, 'new')">
+                                    </div>
+                                    <input type="hidden" id="newProductFinalImage" value="">
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Koruma Standartları -->
+                        <!-- 4. Renk Seçenekleri -->
+                        <div class="form-section-title">4. Renk Seçenekleri</div>
                         <div class="form-group" style="grid-column: span 2;">
-                            <label class="form-label">Koruma Standartları (Uyumlu Olanları Seçin)</label>
-                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; background: rgba(0,0,0,0.02); padding: 14px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+                            <input type="text" id="newColorInput" class="form-control" onkeydown="handleColorInputKeydown(event, 'new')">
+                            <div id="newColorPillsList" class="color-pills-list"></div>
+                        </div>
+
+                        <!-- 5. Teknik Özellik Maddeleri -->
+                        <div class="form-section-title">5. Ürün Özellik Maddeleri</div>
+                        <div class="form-group" style="grid-column: span 2;">
+                            <div style="display: flex; gap: 10px;">
+                                <input type="text" id="newFeatureInput" class="form-control" onkeydown="if(event.key==='Enter'){event.preventDefault(); addFeatureChip('new');}">
+                                <button type="button" class="btn btn-secondary" onclick="addFeatureChip('new')">+ Ekle</button>
+                            </div>
+                            <div class="chips-container" id="newFeaturesChips">
+                                <!-- Dinamik eklenir -->
+                            </div>
+                        </div>
+
+                        <!-- 6. Koruma Standartları -->
+                        <div class="form-section-title">6. Koruma Standartları</div>
+                        <div class="form-group" style="grid-column: span 2;">
+                            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; background: #f8fafc; padding: 14px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
                                 <label style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; cursor: pointer; color: var(--text-primary);">
                                     <input type="checkbox" name="newStandards" value="EN 11611"> EN 11611 (Kaynakçı)
                                 </label>
@@ -186,8 +228,15 @@
                                 <label style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; cursor: pointer; color: var(--text-primary);">
                                     <input type="checkbox" name="newStandards" value="EN 342"> EN 342 (Soğuk Hava)
                                 </label>
+                                <label style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; cursor: pointer; color: var(--text-primary);">
+                                    <input type="checkbox" name="newStandards" value="EN 13034"> EN 13034 (Kimyasal)
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; cursor: pointer; color: var(--text-primary);">
+                                    <input type="checkbox" name="newStandards" value="EN 61482"> EN 61482 (Elektrik Arkı)
+                                </label>
                             </div>
                         </div>
+
                     </div>
                 </div>
 
@@ -203,7 +252,7 @@
     <!-- 2. ÜRÜN DÜZENLE MODAL -->
     <!-- ===================================================================== -->
     <div class="custom-modal-overlay" id="editProductModal">
-        <div class="custom-modal" style="width: 760px; max-width: 95%;">
+        <div class="custom-modal" style="width: 820px; max-width: 95%;">
             <div class="modal-header">
                 <h3>Ürün Düzenle</h3>
                 <button type="button" class="modal-close-btn" onclick="closeEditProductModal()">
@@ -216,6 +265,10 @@
                 
                 <div class="modal-body">
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        
+                        <!-- 1. Temel Bilgiler -->
+                        <div class="form-section-title">1. Temel Bilgiler</div>
+
                         <div class="form-group" style="grid-column: span 2;">
                             <label class="form-label">Ürün Adı *</label>
                             <input type="text" id="editProductName" class="form-control" required>
@@ -225,6 +278,14 @@
                             <label class="form-label">Alt Başlık</label>
                             <input type="text" id="editProductSubtitle" class="form-control">
                         </div>
+
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label class="form-label">Detaylı Teknik Açıklama</label>
+                            <textarea id="editProductDescription" class="form-control" rows="3"></textarea>
+                        </div>
+
+                        <!-- 2. Ticari & Kodlar -->
+                        <div class="form-section-title">2. Fiyat, Stok & Kodlar</div>
 
                         <div class="form-group">
                             <label class="form-label">Birim Fiyat (€ Euro) *</label>
@@ -246,23 +307,54 @@
                             <input type="text" id="editProductCertificateCode" class="form-control">
                         </div>
 
-                        <!-- Resim Seçimi -->
+                        <!-- 3. Görsel Yönetimi -->
+                        <div class="form-section-title">3. Ürün Görseli</div>
+                        
                         <div class="form-group" style="grid-column: span 2;">
                             <label class="form-label">Katalog Görseli</label>
-                            <div style="display: flex; gap: 14px; align-items: center;">
-                                <select id="editProductImagePicker" class="form-select" style="flex: 1;" onchange="updateImagePreview('editProductImagePicker', 'editProductPreviewImg')">
-                                    <!-- JS tarafından doldurulacak -->
-                                </select>
-                                <div style="width: 52px; height: 52px; border-radius: 8px; border: 1px solid var(--border-subtle); background: var(--bg-surface); display: flex; align-items: center; justify-content: center; overflow: hidden;">
-                                    <img id="editProductPreviewImg" src="../img/default.webp" alt="Önizleme" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                            <div class="image-upload-wrapper">
+                                <div class="image-preview-box">
+                                    <img id="editProductPreviewImg" src="../img/default.webp" alt="Önizleme">
+                                </div>
+                                <div style="flex: 1; display: flex; flex-direction: column; gap: 10px;">
+                                    <div>
+                                        <label style="font-size: 0.8rem; color: #64748b; font-weight: 600; margin-bottom: 4px; display: block;">Mevcut Katalog Galerisinden Seç:</label>
+                                        <select id="editProductImagePicker" class="form-select" onchange="handleImageSelectChange('edit')">
+                                            <!-- JS doldurur -->
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label style="font-size: 0.8rem; color: #64748b; font-weight: 600; margin-bottom: 4px; display: block;">Veya Bilgisayarınızdan Yeni Fotoğraf Yükleyin:</label>
+                                        <input type="file" id="editProductFileInput" accept="image/*" class="form-control" style="padding: 7px 12px; font-size: 0.84rem;" onchange="handleFileUpload(event, 'edit')">
+                                    </div>
+                                    <input type="hidden" id="editProductFinalImage" value="">
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Koruma Standartları -->
+                        <!-- 4. Renk Seçenekleri -->
+                        <div class="form-section-title">4. Renk Seçenekleri</div>
                         <div class="form-group" style="grid-column: span 2;">
-                            <label class="form-label">Koruma Standartları</label>
-                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; background: rgba(0,0,0,0.02); padding: 14px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+                            <input type="text" id="editColorInput" class="form-control" onkeydown="handleColorInputKeydown(event, 'edit')">
+                            <div id="editColorPillsList" class="color-pills-list"></div>
+                        </div>
+
+                        <!-- 5. Teknik Özellik Maddeleri -->
+                        <div class="form-section-title">5. Ürün Özellik Maddeleri</div>
+                        <div class="form-group" style="grid-column: span 2;">
+                            <div style="display: flex; gap: 10px;">
+                                <input type="text" id="editFeatureInput" class="form-control" onkeydown="if(event.key==='Enter'){event.preventDefault(); addFeatureChip('edit');}">
+                                <button type="button" class="btn btn-secondary" onclick="addFeatureChip('edit')">+ Ekle</button>
+                            </div>
+                            <div class="chips-container" id="editFeaturesChips">
+                                <!-- Dinamik doldurulur -->
+                            </div>
+                        </div>
+
+                        <!-- 6. Koruma Standartları -->
+                        <div class="form-section-title">6. Koruma Standartları</div>
+                        <div class="form-group" style="grid-column: span 2;">
+                            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; background: #f8fafc; padding: 14px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
                                 <label style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; cursor: pointer; color: var(--text-primary);">
                                     <input type="checkbox" name="editStandards" value="EN 11611"> EN 11611 (Kaynakçı)
                                 </label>
@@ -281,8 +373,15 @@
                                 <label style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; cursor: pointer; color: var(--text-primary);">
                                     <input type="checkbox" name="editStandards" value="EN 342"> EN 342 (Soğuk Hava)
                                 </label>
+                                <label style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; cursor: pointer; color: var(--text-primary);">
+                                    <input type="checkbox" name="editStandards" value="EN 13034"> EN 13034 (Kimyasal)
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; cursor: pointer; color: var(--text-primary);">
+                                    <input type="checkbox" name="editStandards" value="EN 61482"> EN 61482 (Elektrik Arkı)
+                                </label>
                             </div>
                         </div>
+
                     </div>
                 </div>
 

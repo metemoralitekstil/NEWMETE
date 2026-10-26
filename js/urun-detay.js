@@ -15,19 +15,36 @@ function updateQty(change) {
 function getColorCssValue(colorName) {
     const name = colorName.trim().toLowerCase();
     const colorMap = {
+        'turkuaz': '#00ced1',
+        'turquoise': '#00ced1',
         'mavi': '#1e3799',
         'lacivert': '#0c2461',
         'sarı': '#f1c40f',
+        'neon sarı': '#e2f10f',
         'turuncu': '#e67e22',
         'gri': '#7f8c8d',
+        'çelik grisi': '#7f8c8d',
+        'antrasit': '#2c3e50',
         'siyah': '#1e272e',
         'kırmızı': '#cf1b1b',
         'yeşil': '#27ae60',
+        'haki': '#556b2f',
+        'bordo': '#800020',
         'beyaz': '#ffffff',
-        'saks': '#2980b9'
+        'bej': '#d7c4a7',
+        'kahverengi': '#795548',
+        'petrol': '#005f73',
+        'petrol mavisi': '#005f73',
+        'saks': '#2980b9',
+        'mor': '#8e44ad',
+        'pembe': '#e84393'
     };
 
     if (colorMap[name]) return colorMap[name];
+
+    for (const [key, hex] of Object.entries(colorMap)) {
+        if (name.includes(key)) return hex;
+    }
 
     if (name.includes('/')) {
         const parts = name.split('/');
@@ -36,7 +53,7 @@ function getColorCssValue(colorName) {
         return `linear-gradient(135deg, ${color1} 50%, ${color2} 50%)`;
     }
 
-    return '#cccccc';
+    return '#00ced1';
 }
 
 // --- Sepete Ekleme ---

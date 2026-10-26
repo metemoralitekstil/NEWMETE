@@ -378,7 +378,7 @@ window.loadProducts = async function() {
     if (!tbody) return;
 
     try {
-        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 40px;">Ürünler yükleniyor...</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 40px;">Ürünler yükleniyor...</td></tr>';
 
         const client = getSupabase();
         let products = [];
@@ -392,7 +392,7 @@ window.loadProducts = async function() {
         window._productsCache = products;
         tbody.innerHTML = '';
         if (products.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 40px; color: var(--text-muted);">Kayıtlı ürün bulunamadı.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 40px; color: var(--text-muted);">Kayıtlı ürün bulunamadı.</td></tr>';
             return;
         }
 
@@ -417,21 +417,20 @@ window.loadProducts = async function() {
 
             tbody.innerHTML += `
                 <tr>
-                    <td style="font-weight: 700; color: var(--brand-gold);">#${id}</td>
                     <td>
                         <div class="product-cell">
                             <img src="../${imgPath}" alt="${name}" class="product-thumb" onerror="this.src='../img/logo_gri.webp'">
-                            <div>
+                            <div class="product-info-text">
                                 <div class="product-info-title">${name}</div>
                                 <div class="product-info-subtitle">Kod: ${articleCode} | ${subtitle}</div>
                             </div>
                         </div>
                     </td>
                     <td>${standardsHtml}</td>
-                    <td style="font-weight: 700; font-size: 1rem;">€${price}</td>
+                    <td style="font-weight: 700; font-size: 1.05rem; color: #000000;">€${price}</td>
                     <td>${stockBadge}</td>
                     <td>
-                        <div style="display: flex; gap: 8px;">
+                        <div style="display: flex; gap: 10px; align-items: center;">
                             <button class="btn btn-secondary btn-sm" onclick="openEditProductModal(${id})">Düzenle</button>
                             <button class="btn btn-danger btn-sm" onclick="deleteProduct(${id})">Sil</button>
                         </div>
@@ -445,13 +444,245 @@ window.loadProducts = async function() {
     }
 };
 
+// ==========================================================================
+// FEATURE CHIPS & IMAGE UPLOAD ENGINE
+// ==========================================================================
+window._modalFeatures = { new: [], edit: [] };
+window._modalColors = { new: [], edit: [] };
+
+function normalizeColorText(str) {
+    return (str || '')
+        .toLowerCase()
+        .trim()
+        .replace(/ı/g, 'i')
+        .replace(/ğ/g, 'g')
+        .replace(/ü/g, 'u')
+        .replace(/ş/g, 's')
+        .replace(/ö/g, 'o')
+        .replace(/ç/g, 'c');
+}
+
+const COLOR_DICTIONARY = {
+    'turkuaz': '#00ced1',
+    'turquoise': '#00ced1',
+    'cyan': '#00ced1',
+    'mavi': '#1e3799',
+    'blue': '#1e3799',
+    'lacivert': '#0c2461',
+    'navy': '#0c2461',
+    'sari': '#f1c40f',
+    'yellow': '#f1c40f',
+    'neon sari': '#e2f10f',
+    'turuncu': '#e67e22',
+    'orange': '#e67e22',
+    'gri': '#7f8c8d',
+    'gray': '#7f8c8d',
+    'grey': '#7f8c8d',
+    'celik grisi': '#7f8c8d',
+    'antrasit': '#2c3e50',
+    'anthracite': '#2c3e50',
+    'siyah': '#111111',
+    'siyaah': '#111111',
+    'kara': '#111111',
+    'black': '#111111',
+    'kirmizi': '#cf1b1b',
+    'kirmiz': '#cf1b1b',
+    'al': '#cf1b1b',
+    'red': '#cf1b1b',
+    'yesil': '#27ae60',
+    'green': '#27ae60',
+    'haki': '#556b2f',
+    'khaki': '#556b2f',
+    'bordo': '#800020',
+    'burgundy': '#800020',
+    'beyaz': '#ffffff',
+    'ak': '#ffffff',
+    'white': '#ffffff',
+    'bej': '#d7c4a7',
+    'beige': '#d7c4a7',
+    'kahverengi': '#795548',
+    'kahve': '#795548',
+    'brown': '#795548',
+    'petrol': '#005f73',
+    'petrol mavisi': '#005f73',
+    'saks': '#2980b9',
+    'saks mavisi': '#2980b9',
+    'mor': '#8e44ad',
+    'purple': '#8e44ad',
+    'pembe': '#e84393',
+    'pink': '#e84393',
+    'altin': '#d4af37',
+    'gold': '#d4af37',
+    'gumus': '#bdc3c7',
+    'silver': '#bdc3c7'
+};
+
+function resolveColorHex(colorName) {
+    const norm = normalizeColorText(colorName);
+    if (COLOR_DICTIONARY[norm]) return COLOR_DICTIONARY[norm];
+
+    for (const [key, hex] of Object.entries(COLOR_DICTIONARY)) {
+        if (norm.includes(key) || key.includes(norm)) return hex;
+    }
+
+    return '#64748b'; // Neutral slate dot for unknown colors
+}
+
+window.handleColorInputKeydown = function(e, prefix) {
+    if (e.key === 'Enter' || e.key === ',') {
+        e.preventDefault();
+        const input = document.getElementById(`${prefix}ColorInput`);
+        if (!input) return;
+        const val = input.value.trim();
+        if (val) {
+            const parts = val.split(/[,;\n]+/).map(p => p.trim()).filter(Boolean);
+            parts.forEach(p => addColorTag(prefix, p));
+            input.value = '';
+        }
+    } else if (e.key === 'Backspace') {
+        const input = document.getElementById(`${prefix}ColorInput`);
+        if (input && input.value === '') {
+            if (window._modalColors[prefix] && window._modalColors[prefix].length > 0) {
+                window._modalColors[prefix].pop();
+                renderColorTags(prefix);
+            }
+        }
+    }
+};
+
+window.addColorTag = function(prefix, colorName) {
+    const raw = (colorName || '').trim();
+    if (!raw) return;
+
+    if (!window._modalColors[prefix]) window._modalColors[prefix] = [];
+    const exists = window._modalColors[prefix].some(c => (typeof c === 'string' ? c : c.name).toLowerCase() === raw.toLowerCase());
+    if (!exists) {
+        window._modalColors[prefix].push({ name: raw, hex: resolveColorHex(raw) });
+        renderColorTags(prefix);
+    }
+};
+
+window.removeColorTag = function(prefix, idx) {
+    if (window._modalColors[prefix]) {
+        window._modalColors[prefix].splice(idx, 1);
+        renderColorTags(prefix);
+    }
+};
+
+function renderColorTags(prefix) {
+    const container = document.getElementById(`${prefix}ColorPillsList`);
+    if (!container) return;
+    const list = window._modalColors[prefix] || [];
+    container.innerHTML = list.map((item, idx) => {
+        const rawName = typeof item === 'string' ? item : item.name;
+        const hex = typeof item === 'string' ? resolveColorHex(item) : (item.hex || resolveColorHex(item.name));
+        const displayName = rawName.charAt(0).toUpperCase() + rawName.slice(1);
+        return `
+            <span class="color-tag-pill">
+                <span class="color-tag-dot" style="background: ${hex};"></span>
+                <span>${displayName}</span>
+                <span class="color-tag-remove" onclick="removeColorTag('${prefix}', ${idx})">&times;</span>
+            </span>
+        `;
+    }).join('');
+}
+
+window.addFeatureChip = function(prefix) {
+    const input = document.getElementById(`${prefix}FeatureInput`);
+    if (!input) return;
+    const val = input.value.trim();
+    if (!val) return;
+    if (!window._modalFeatures[prefix]) window._modalFeatures[prefix] = [];
+    if (!window._modalFeatures[prefix].includes(val)) {
+        window._modalFeatures[prefix].push(val);
+        renderFeatureChips(prefix);
+    }
+    input.value = '';
+};
+
+window.removeFeatureChip = function(prefix, idx) {
+    if (window._modalFeatures[prefix]) {
+        window._modalFeatures[prefix].splice(idx, 1);
+        renderFeatureChips(prefix);
+    }
+};
+
+function renderFeatureChips(prefix) {
+    const container = document.getElementById(`${prefix}FeaturesChips`);
+    if (!container) return;
+    const list = window._modalFeatures[prefix] || [];
+    container.innerHTML = list.map((item, idx) => `
+        <span class="feature-tag-chip">
+            <span>${item}</span>
+            <span class="remove-chip" onclick="removeFeatureChip('${prefix}', ${idx})">&times;</span>
+        </span>
+    `).join('');
+}
+
+window.handleImageSelectChange = function(prefix) {
+    const select = document.getElementById(`${prefix}ProductImagePicker`);
+    const preview = document.getElementById(`${prefix}ProductPreviewImg`);
+    const finalInput = document.getElementById(`${prefix}ProductFinalImage`);
+    if (!select) return;
+
+    const val = select.value;
+    if (val) {
+        if (preview) preview.src = val.startsWith('http') || val.startsWith('/') ? val : ('../' + val);
+        if (finalInput) finalInput.value = val;
+    } else {
+        if (preview) preview.src = '../img/default.webp';
+        if (finalInput) finalInput.value = '';
+    }
+};
+
+window.handleFileUpload = function(event, prefix) {
+    const file = event.target.files && event.target.files[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+        window.showAdminToast('Dosya boyutu çok büyük! Lütfen 5MB altında bir resim seçin.', 'warning');
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const dataUrl = e.target.result;
+        const preview = document.getElementById(`${prefix}ProductPreviewImg`);
+        const finalInput = document.getElementById(`${prefix}ProductFinalImage`);
+        const select = document.getElementById(`${prefix}ProductImagePicker`);
+
+        if (preview) preview.src = dataUrl;
+        if (finalInput) finalInput.value = dataUrl;
+        if (select) select.value = ''; // Deselect gallery dropdown since custom file is uploaded
+
+        window.showAdminToast('Fotoğraf başarıyla yüklendi ve önizlendi!', 'success');
+    };
+    reader.readAsDataURL(file);
+};
+
 // Open Add Product Modal
 window.openAddProductModal = function() {
     const modal = document.getElementById('addProductModal');
-    if (modal) {
-        populateImagePicker('newProductImagePicker', 'img/Neon Sarı Reflektif Güvenlik Parkası.png');
-        modal.classList.add('active');
-    }
+    if (!modal) return;
+
+    const form = document.getElementById('addProductForm');
+    if (form) form.reset();
+
+    // Start with empty clean features and colors
+    window._modalFeatures.new = [];
+    renderFeatureChips('new');
+    window._modalColors.new = [];
+    renderColorTags('new');
+
+    // Do NOT preselect any image! Keep empty
+    populateImagePicker('newProductImagePicker', '');
+    const finalInput = document.getElementById('newProductFinalImage');
+    if (finalInput) finalInput.value = '';
+
+    const preview = document.getElementById('newProductPreviewImg');
+    if (preview) preview.src = '../img/default.webp';
+
+    modal.classList.add('active');
 };
 
 window.closeAddProductModal = function() {
@@ -464,8 +695,15 @@ function populateImagePicker(selectId, selectedVal) {
     if (!select) return;
     select.innerHTML = '';
 
+    // Clean empty default option
+    const defaultOpt = document.createElement('option');
+    defaultOpt.value = '';
+    defaultOpt.textContent = '-- Bir Görsel Seçin (veya aşağıdan dosya yükleyin) --';
+    if (!selectedVal) defaultOpt.selected = true;
+    select.appendChild(defaultOpt);
+
     let images = [...CURATED_IMAGES];
-    if (selectedVal && !images.includes(selectedVal)) {
+    if (selectedVal && !images.includes(selectedVal) && !selectedVal.startsWith('data:')) {
         images.unshift(selectedVal);
     }
 
@@ -477,10 +715,16 @@ function populateImagePicker(selectId, selectedVal) {
         select.appendChild(opt);
     });
 
-    const previewImgId = selectId.includes('edit') ? 'editProductPreviewImg' : 'newProductPreviewImg';
-    const previewImg = document.getElementById(previewImgId);
-    if (previewImg && selectedVal) {
-        previewImg.src = selectedVal.startsWith('http') || selectedVal.startsWith('/') ? selectedVal : ('../' + selectedVal);
+    const prefix = selectId.includes('edit') ? 'edit' : 'new';
+    const previewImg = document.getElementById(`${prefix}ProductPreviewImg`);
+    const finalInput = document.getElementById(`${prefix}ProductFinalImage`);
+
+    if (selectedVal) {
+        if (previewImg) previewImg.src = selectedVal.startsWith('http') || selectedVal.startsWith('/') || selectedVal.startsWith('data:') ? selectedVal : ('../' + selectedVal);
+        if (finalInput) finalInput.value = selectedVal;
+    } else {
+        if (previewImg) previewImg.src = '../img/default.webp';
+        if (finalInput) finalInput.value = '';
     }
 }
 
@@ -496,12 +740,20 @@ window.saveProduct = async function(e) {
 
     const name = document.getElementById('newProductName').value.trim();
     const subtitle = document.getElementById('newProductSubtitle').value.trim();
+    const description = (document.getElementById('newProductDescription')?.value.trim()) || subtitle;
     const price = Number(document.getElementById('newProductPrice').value);
     const stock = parseInt(document.getElementById('newProductStock').value) || 0;
     const articleCode = document.getElementById('newProductArticleCode').value.trim();
     const certificateCode = document.getElementById('newProductCertificateCode').value.trim();
-    const imageUrl = document.getElementById('newProductImagePicker').value;
+    
+    const finalImageInput = document.getElementById('newProductFinalImage');
+    const pickerSelect = document.getElementById('newProductImagePicker');
+    const imageUrl = (finalImageInput && finalImageInput.value) ? finalImageInput.value : (pickerSelect ? pickerSelect.value : 'img/default.webp');
 
+    const finalColors = window._modalColors.new && window._modalColors.new.length > 0 
+        ? window._modalColors.new.map(c => typeof c === 'string' ? c : c.name) 
+        : ["Standart"];
+    const finalFeatures = window._modalFeatures.new && window._modalFeatures.new.length > 0 ? window._modalFeatures.new : ["Alev Geciktirici & Antistatik Koruma"];
     const checkedStandards = Array.from(document.querySelectorAll('input[name="newStandards"]:checked')).map(cb => cb.value);
 
     try {
@@ -510,7 +762,7 @@ window.saveProduct = async function(e) {
             const { data, error } = await client.from('Products').insert([{
                 Name: name,
                 Subtitle: subtitle,
-                Description: subtitle,
+                Description: description,
                 Price: price,
                 StockQuantity: stock,
                 ArticleCode: articleCode,
@@ -518,13 +770,13 @@ window.saveProduct = async function(e) {
                 Standards: JSON.stringify(checkedStandards),
                 ImageUrl: imageUrl,
                 SubImages: JSON.stringify([imageUrl]),
-                Colors: JSON.stringify(["Standart"]),
-                Features: JSON.stringify(["Alev Geciktirici & Antistatik Kumaş", "Ergonomik Tasarım", "Yüksek Güvenlik Standardı"])
+                Colors: JSON.stringify(finalColors),
+                Features: JSON.stringify(finalFeatures)
             }]).select();
 
             if (error) throw error;
 
-            window.showAdminToast('Yeni ürün başarıyla eklendi!', 'success');
+            window.showAdminToast('Yeni ürün Supabase veritabanına ve canlı kataloğa başarıyla eklendi!', 'success');
             closeAddProductModal();
             document.getElementById('addProductForm').reset();
             loadProducts();
@@ -555,6 +807,11 @@ window.openEditProductModal = async function(id) {
         document.getElementById('editProductId').value = product.Id || product.id || numId;
         document.getElementById('editProductName').value = getCleanString(product.Name || product.name);
         document.getElementById('editProductSubtitle').value = getCleanString(product.Subtitle || product.subtitle);
+        
+        const descVal = getCleanString(product.Description || product.description);
+        const descEl = document.getElementById('editProductDescription');
+        if (descEl) descEl.value = descVal || getCleanString(product.Subtitle || product.subtitle);
+
         document.getElementById('editProductPrice').value = product.Price || product.price || 0;
         document.getElementById('editProductStock').value = product.StockQuantity || product.stockQuantity || 0;
         document.getElementById('editProductArticleCode').value = product.ArticleCode || product.article_code || '';
@@ -563,7 +820,32 @@ window.openEditProductModal = async function(id) {
         const imgVal = product.ImageUrl || product.image_url || 'img/Neon Sarı Reflektif Güvenlik Parkası.png';
         populateImagePicker('editProductImagePicker', imgVal);
 
-        // Check standards
+        const finalImgInput = document.getElementById('editProductFinalImage');
+        if (finalImgInput) finalImgInput.value = imgVal;
+
+        const previewImg = document.getElementById('editProductPreviewImg');
+        if (previewImg) previewImg.src = imgVal.startsWith('http') || imgVal.startsWith('/') || imgVal.startsWith('data:') ? imgVal : ('../' + imgVal);
+
+        // Populate Colors
+        let colors = [];
+        try {
+            colors = typeof product.Colors === 'string' ? JSON.parse(product.Colors) : (product.Colors || []);
+        } catch(e) {}
+        window._modalColors.edit = (Array.isArray(colors) ? colors : []).map(c => {
+            const name = typeof c === 'string' ? c : (c.name || 'Standart');
+            return { name: name, hex: resolveColorHex(name) };
+        });
+        renderColorTags('edit');
+
+        // Populate Features Chips
+        let feats = [];
+        try {
+            feats = typeof product.Features === 'string' ? JSON.parse(product.Features) : (product.Features || []);
+        } catch(e) {}
+        window._modalFeatures.edit = Array.isArray(feats) ? feats : [];
+        renderFeatureChips('edit');
+
+        // Check Standards
         let standards = [];
         try {
             standards = typeof product.Standards === 'string' ? JSON.parse(product.Standards) : (product.Standards || []);
@@ -620,12 +902,20 @@ window.submitEditProduct = async function(e) {
     const id = parseInt(document.getElementById('editProductId').value);
     const name = document.getElementById('editProductName').value.trim();
     const subtitle = document.getElementById('editProductSubtitle').value.trim();
+    const description = (document.getElementById('editProductDescription')?.value.trim()) || subtitle;
     const price = Number(document.getElementById('editProductPrice').value);
     const stock = parseInt(document.getElementById('editProductStock').value) || 0;
     const articleCode = document.getElementById('editProductArticleCode').value.trim();
     const certificateCode = document.getElementById('editProductCertificateCode').value.trim();
-    const imageUrl = document.getElementById('editProductImagePicker').value;
 
+    const finalImageInput = document.getElementById('editProductFinalImage');
+    const pickerSelect = document.getElementById('editProductImagePicker');
+    const imageUrl = (finalImageInput && finalImageInput.value) ? finalImageInput.value : (pickerSelect ? pickerSelect.value : 'img/default.webp');
+
+    const finalColors = window._modalColors.edit && window._modalColors.edit.length > 0 
+        ? window._modalColors.edit.map(c => typeof c === 'string' ? c : c.name) 
+        : ["Standart"];
+    const finalFeatures = window._modalFeatures.edit && window._modalFeatures.edit.length > 0 ? window._modalFeatures.edit : ["Alev Geciktirici & Antistatik Koruma"];
     const checkedStandards = Array.from(document.querySelectorAll('input[name="editStandards"]:checked')).map(cb => cb.value);
 
     try {
@@ -634,13 +924,16 @@ window.submitEditProduct = async function(e) {
             const { error } = await client.from('Products').update({
                 Name: name,
                 Subtitle: subtitle,
-                Description: subtitle,
+                Description: description,
                 Price: price,
                 StockQuantity: stock,
                 ArticleCode: articleCode,
                 CertificateCode: certificateCode,
                 Standards: JSON.stringify(checkedStandards),
-                ImageUrl: imageUrl
+                ImageUrl: imageUrl,
+                SubImages: JSON.stringify([imageUrl]),
+                Colors: JSON.stringify(finalColors),
+                Features: JSON.stringify(finalFeatures)
             }).eq('Id', id);
 
             if (error) throw error;
