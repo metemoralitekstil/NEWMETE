@@ -6,6 +6,7 @@ let supabaseClient = null;
 
 if (typeof supabase !== 'undefined') {
     supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    window.supabaseClient = supabaseClient;
 } else {
     console.error('Supabase library is not loaded! Make sure to include Supabase CDN script tag.');
 }

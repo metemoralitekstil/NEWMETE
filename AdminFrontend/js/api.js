@@ -350,19 +350,46 @@ const CURATED_IMAGES = [
     "img/Lacivert 9.png"
 ];
 
+// Cache of currently loaded products for instant modal responses
+window._productsCache = [];
+
+function getCleanString(val) {
+    if (!val) return '';
+    if (typeof val === 'object') {
+        return val.tr || val.en || Object.values(val)[0] || '';
+    }
+    if (typeof val === 'string' && (val.startsWith('{') || val.startsWith('['))) {
+        try {
+            const parsed = JSON.parse(val);
+            if (typeof parsed === 'object' && parsed !== null) {
+                return parsed.tr || parsed.en || Object.values(parsed)[0] || val;
+            }
+        } catch (e) {}
+    }
+    return String(val);
+}
+
+function getSupabase() {
+    return window.supabaseClient || (typeof supabaseClient !== 'undefined' ? supabaseClient : null);
+}
+
 window.loadProducts = async function() {
     const tbody = document.querySelector('#productsTable tbody');
     if (!tbody) return;
 
     try {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 40px;">Ürünler yükleniyor...</td></tr>';
+
+        const client = getSupabase();
         let products = [];
-        if (typeof supabaseClient !== 'undefined' && supabaseClient !== null) {
-            const { data, error } = await supabaseClient.from('Products').select('*').order('Id');
+        if (client) {
+            const { data, error } = await client.from('Products').select('*').order('Id');
             if (!error && data && data.length > 0) {
                 products = data;
             }
         }
 
+        window._productsCache = products;
         tbody.innerHTML = '';
         if (products.length === 0) {
             tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 40px; color: var(--text-muted);">Kayıtlı ürün bulunamadı.</td></tr>';
@@ -370,9 +397,9 @@ window.loadProducts = async function() {
         }
 
         products.forEach(p => {
-            const id = p.Id || p.id;
-            const name = (typeof p.Name === 'object' && p.Name !== null) ? (p.Name.tr || p.Name.en) : (p.Name || p.name);
-            const subtitle = (typeof p.Subtitle === 'object' && p.Subtitle !== null) ? (p.Subtitle.tr || '') : (p.Subtitle || '');
+            const id = p.Id || p.id || 0;
+            const name = getCleanString(p.Name || p.name);
+            const subtitle = getCleanString(p.Subtitle || p.subtitle);
             const price = Number(p.Price || p.price || 0).toFixed(2);
             const stock = Number(p.StockQuantity || p.stockQuantity || 0);
             const imgPath = p.ImageUrl || p.image_url || 'img/default.webp';
@@ -422,8 +449,8 @@ window.loadProducts = async function() {
 window.openAddProductModal = function() {
     const modal = document.getElementById('addProductModal');
     if (modal) {
-        modal.classList.add('active');
         populateImagePicker('newProductImagePicker', 'img/Neon Sarı Reflektif Güvenlik Parkası.png');
+        modal.classList.add('active');
     }
 };
 
@@ -436,18 +463,37 @@ function populateImagePicker(selectId, selectedVal) {
     const select = document.getElementById(selectId);
     if (!select) return;
     select.innerHTML = '';
-    CURATED_IMAGES.forEach(img => {
+
+    let images = [...CURATED_IMAGES];
+    if (selectedVal && !images.includes(selectedVal)) {
+        images.unshift(selectedVal);
+    }
+
+    images.forEach(img => {
         const opt = document.createElement('option');
         opt.value = img;
         opt.textContent = img.replace('img/', '');
         if (img === selectedVal) opt.selected = true;
         select.appendChild(opt);
     });
+
+    const previewImgId = selectId.includes('edit') ? 'editProductPreviewImg' : 'newProductPreviewImg';
+    const previewImg = document.getElementById(previewImgId);
+    if (previewImg && selectedVal) {
+        previewImg.src = selectedVal.startsWith('http') || selectedVal.startsWith('/') ? selectedVal : ('../' + selectedVal);
+    }
 }
 
 // Save New Product
 window.saveProduct = async function(e) {
     e.preventDefault();
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    const originalText = submitBtn ? submitBtn.textContent : 'Ürünü Kaydet';
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Kaydediliyor...';
+    }
+
     const name = document.getElementById('newProductName').value.trim();
     const subtitle = document.getElementById('newProductSubtitle').value.trim();
     const price = Number(document.getElementById('newProductPrice').value);
@@ -459,8 +505,9 @@ window.saveProduct = async function(e) {
     const checkedStandards = Array.from(document.querySelectorAll('input[name="newStandards"]:checked')).map(cb => cb.value);
 
     try {
-        if (typeof supabaseClient !== 'undefined' && supabaseClient !== null) {
-            const { data, error } = await supabaseClient.from('Products').insert([{
+        const client = getSupabase();
+        if (client) {
+            const { data, error } = await client.from('Products').insert([{
                 Name: name,
                 Subtitle: subtitle,
                 Description: subtitle,
@@ -477,51 +524,81 @@ window.saveProduct = async function(e) {
 
             if (error) throw error;
 
-            window.showAdminToast('Yeni ürün Supabase veritabanına eklendi!', 'success');
+            window.showAdminToast('Yeni ürün başarıyla eklendi!', 'success');
             closeAddProductModal();
             document.getElementById('addProductForm').reset();
             loadProducts();
             return;
+        } else {
+            throw new Error('Supabase bağlantısı hazır değil');
         }
     } catch (err) {
         console.error('saveProduct error:', err);
         window.showAdminToast('Ürün eklenirken hata: ' + (err.message || err), 'error');
+    } finally {
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+        }
     }
 };
 
-// Open Edit Product Modal
+// Open Edit Product Modal (Instant from cache + network sync)
 window.openEditProductModal = async function(id) {
+    const numId = parseInt(id);
+    if (!numId) {
+        window.showAdminToast('Geçersiz ürün ID!', 'error');
+        return;
+    }
+
+    function populateModalFields(product) {
+        document.getElementById('editProductId').value = product.Id || product.id || numId;
+        document.getElementById('editProductName').value = getCleanString(product.Name || product.name);
+        document.getElementById('editProductSubtitle').value = getCleanString(product.Subtitle || product.subtitle);
+        document.getElementById('editProductPrice').value = product.Price || product.price || 0;
+        document.getElementById('editProductStock').value = product.StockQuantity || product.stockQuantity || 0;
+        document.getElementById('editProductArticleCode').value = product.ArticleCode || product.article_code || '';
+        document.getElementById('editProductCertificateCode').value = product.CertificateCode || product.certificate_code || '';
+
+        const imgVal = product.ImageUrl || product.image_url || 'img/Neon Sarı Reflektif Güvenlik Parkası.png';
+        populateImagePicker('editProductImagePicker', imgVal);
+
+        // Check standards
+        let standards = [];
+        try {
+            standards = typeof product.Standards === 'string' ? JSON.parse(product.Standards) : (product.Standards || []);
+        } catch(e) {}
+
+        document.querySelectorAll('input[name="editStandards"]').forEach(cb => {
+            cb.checked = standards.includes(cb.value);
+        });
+
+        const modal = document.getElementById('editProductModal');
+        if (modal) modal.classList.add('active');
+    }
+
     try {
-        if (typeof supabaseClient !== 'undefined' && supabaseClient !== null) {
-            const { data: product, error } = await supabaseClient.from('Products').select('*').eq('Id', parseInt(id)).single();
-            if (error || !product) throw new Error('Ürün bulunamadı');
+        // Step 1: Check cache first for INSTANT 0ms modal opening
+        if (Array.isArray(window._productsCache) && window._productsCache.length > 0) {
+            const cached = window._productsCache.find(p => (p.Id || p.id) == numId);
+            if (cached) {
+                populateModalFields(cached);
+                return;
+            }
+        }
 
-            document.getElementById('editProductId').value = product.Id || product.id;
-            document.getElementById('editProductName').value = product.Name || product.name || '';
-            document.getElementById('editProductSubtitle').value = product.Subtitle || product.subtitle || '';
-            document.getElementById('editProductPrice').value = product.Price || product.price || 0;
-            document.getElementById('editProductStock').value = product.StockQuantity || product.stockQuantity || 0;
-            document.getElementById('editProductArticleCode').value = product.ArticleCode || product.article_code || '';
-            document.getElementById('editProductCertificateCode').value = product.CertificateCode || product.certificate_code || '';
-
-            populateImagePicker('editProductImagePicker', product.ImageUrl || 'img/Neon Sarı Reflektif Güvenlik Parkası.png');
-            
-            // Check standards
-            let standards = [];
-            try {
-                standards = typeof product.Standards === 'string' ? JSON.parse(product.Standards) : (product.Standards || []);
-            } catch(e) {}
-
-            document.querySelectorAll('input[name="editStandards"]').forEach(cb => {
-                cb.checked = standards.includes(cb.value);
-            });
-
-            const modal = document.getElementById('editProductModal');
-            if (modal) modal.classList.add('active');
+        // Step 2: Fetch fresh from Supabase if not in cache
+        const client = getSupabase();
+        if (client) {
+            const { data: product, error } = await client.from('Products').select('*').eq('Id', numId).single();
+            if (error || !product) throw new Error('Ürün veritabanında bulunamadı.');
+            populateModalFields(product);
+        } else {
+            throw new Error('Supabase veritabanı bağlantısı kurulamadı.');
         }
     } catch (e) {
         console.error('openEditProductModal error:', e);
-        window.showAdminToast('Ürün detayları alınamadı.', 'error');
+        window.showAdminToast('Ürün detayları alınamadı: ' + (e.message || e), 'error');
     }
 };
 
@@ -533,6 +610,13 @@ window.closeEditProductModal = function() {
 // Submit Edit Product
 window.submitEditProduct = async function(e) {
     e.preventDefault();
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    const originalText = submitBtn ? submitBtn.textContent : 'Değişiklikleri Kaydet';
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Kaydediliyor...';
+    }
+
     const id = parseInt(document.getElementById('editProductId').value);
     const name = document.getElementById('editProductName').value.trim();
     const subtitle = document.getElementById('editProductSubtitle').value.trim();
@@ -545,10 +629,12 @@ window.submitEditProduct = async function(e) {
     const checkedStandards = Array.from(document.querySelectorAll('input[name="editStandards"]:checked')).map(cb => cb.value);
 
     try {
-        if (typeof supabaseClient !== 'undefined' && supabaseClient !== null) {
-            const { error } = await supabaseClient.from('Products').update({
+        const client = getSupabase();
+        if (client) {
+            const { error } = await client.from('Products').update({
                 Name: name,
                 Subtitle: subtitle,
+                Description: subtitle,
                 Price: price,
                 StockQuantity: stock,
                 ArticleCode: articleCode,
@@ -563,10 +649,17 @@ window.submitEditProduct = async function(e) {
             closeEditProductModal();
             loadProducts();
             return;
+        } else {
+            throw new Error('Supabase bağlantısı hazır değil');
         }
     } catch (err) {
         console.error('submitEditProduct error:', err);
         window.showAdminToast('Güncellenirken hata oluştu: ' + (err.message || err), 'error');
+    } finally {
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+        }
     }
 };
 
