@@ -57,6 +57,11 @@ async function loadCatalogProducts() {
                     products = data.map(p => {
                         const id = p.Id || p.id;
                         const mock = mockList.find(m => m.id === id);
+                        const rawImg = p.ImageUrl || p.image_url || p.imageUrl || (mock && mock.imageUrl);
+                        const rawSubs = p.SubImages || p.sub_images || p.subImages || (mock && mock.subImages);
+                        const cleanImg = (typeof sanitizeProductImageUrl === 'function') ? sanitizeProductImageUrl(rawImg) : (mock ? mock.imageUrl : rawImg);
+                        const cleanSubs = (typeof sanitizeSubImages === 'function') ? sanitizeSubImages(rawSubs) : (mock ? mock.subImages : rawSubs);
+
                         return {
                             id: id,
                             name: (mock && mock.name) ? mock.name : (p.Name || p.name),
@@ -64,8 +69,8 @@ async function loadCatalogProducts() {
                             description: (mock && mock.description) ? mock.description : (p.Description || p.description),
                             features: (mock && mock.features) ? mock.features : (p.Features || p.features),
                             price: Number(p.Price || p.price),
-                            imageUrl: p.ImageUrl || p.image_url || p.imageUrl || (mock && mock.imageUrl),
-                            subImages: p.SubImages || p.sub_images || p.subImages || (mock && mock.subImages),
+                            imageUrl: cleanImg,
+                            subImages: cleanSubs,
                             articleCode: p.ArticleCode || p.article_code || p.articleCode || (mock && mock.articleCode),
                             certificateCode: p.CertificateCode || p.certificate_code || p.certificateCode || (mock && mock.certificateCode),
                             standards: p.Standards || p.standards || (mock && mock.standards),

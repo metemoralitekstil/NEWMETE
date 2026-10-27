@@ -139,6 +139,11 @@ async function loadProductDetail() {
                 }
                 const { data, error } = await query.maybeSingle();
                 if (data && !error) {
+                    const rawImg = data.ImageUrl || data.image_url || data.imageUrl || (mockProduct && mockProduct.imageUrl);
+                    const rawSubs = data.SubImages || data.sub_images || data.subImages || (mockProduct && mockProduct.subImages);
+                    const cleanImg = (typeof sanitizeProductImageUrl === 'function') ? sanitizeProductImageUrl(rawImg) : (mockProduct ? mockProduct.imageUrl : rawImg);
+                    const cleanSubs = (typeof sanitizeSubImages === 'function') ? sanitizeSubImages(rawSubs) : (mockProduct ? mockProduct.subImages : rawSubs);
+
                     product = {
                         id: data.Id || data.id,
                         name: (mockProduct && mockProduct.name) ? mockProduct.name : (data.Name || data.name),
@@ -146,8 +151,8 @@ async function loadProductDetail() {
                         description: (mockProduct && mockProduct.description) ? mockProduct.description : (data.Description || data.description),
                         features: (mockProduct && mockProduct.features) ? mockProduct.features : (data.Features || data.features),
                         price: Number(data.Price || data.price),
-                        imageUrl: data.ImageUrl || data.image_url || data.imageUrl || (mockProduct && mockProduct.imageUrl),
-                        subImages: data.SubImages || data.sub_images || data.subImages || (mockProduct && mockProduct.subImages),
+                        imageUrl: cleanImg,
+                        subImages: cleanSubs,
                         articleCode: data.ArticleCode || data.article_code || data.articleCode || (mockProduct && mockProduct.articleCode),
                         certificateCode: data.CertificateCode || data.certificate_code || data.certificateCode || (mockProduct && mockProduct.certificateCode),
                         standards: data.Standards || data.standards || (mockProduct && mockProduct.standards),

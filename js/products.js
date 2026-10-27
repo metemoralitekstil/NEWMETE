@@ -1,4 +1,4 @@
-﻿// MeteMorali — Merkezi Ürün Veritabanı ve Yardımcı Fonksiyonlar (Single Source of Truth)
+// MeteMorali — Merkezi Ürün Veritabanı ve Yardımcı Fonksiyonlar (Single Source of Truth)
 
 const MOCK_PRODUCTS = [
     {
@@ -433,7 +433,65 @@ function getProductFeatures(product, lang) {
     return Array.isArray(val) ? val : [];
 }
 
+// Resim URL normalleştirici: Veritabanında (Supabase) veya eski önbellekte kalan
+// Türkçe karakterli ve boşluklu dosya adlarını otomatik olarak yeni web-uyumlu slug'a çevirir
+function sanitizeProductImageUrl(url) {
+    if (!url || typeof url !== 'string') return '';
+    let clean = url.trim();
+    // Eğer zaten yeni formattaysa veya harici url ise dokunma
+    if (clean.startsWith('http://') || clean.startsWith('https://')) {
+        // Eğer mete-morali.com domainliyse path'i düzelt
+        if (clean.includes('mete-morali.com/img/')) {
+            clean = clean.split('mete-morali.com/')[1] || clean;
+        } else {
+            return clean;
+        }
+    }
+
+    // Dosya adını izole et
+    const isImgPrefixed = clean.startsWith('img/');
+    let filename = isImgPrefixed ? clean.substring(4) : clean;
+
+    // URL decode yap (%20, %C3%B6 vs. için)
+    try {
+        filename = decodeURIComponent(filename);
+    } catch(e) {}
+
+    // Türkçe karakterleri ve boşlukları web slug'a çevir
+    filename = filename
+        .replace(/ı/g, 'i').replace(/İ/g, 'i')
+        .replace(/ğ/g, 'g').replace(/Ğ/g, 'g')
+        .replace(/ü/g, 'u').replace(/Ü/g, 'u')
+        .replace(/ş/g, 's').replace(/Ş/g, 's')
+        .replace(/ö/g, 'o').replace(/Ö/g, 'o')
+        .replace(/ç/g, 'c').replace(/Ç/g, 'c')
+        .toLowerCase()
+        .replace(/[^a-z0-9\.]+/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
+
+    return (isImgPrefixed ? 'img/' : '') + filename;
+}
+
+function sanitizeSubImages(subImages) {
+    if (!subImages) return '[]';
+    let list = [];
+    if (typeof subImages === 'string') {
+        try {
+            list = JSON.parse(subImages);
+        } catch(e) {
+            list = [subImages];
+        }
+    } else if (Array.isArray(subImages)) {
+        list = subImages;
+    }
+    const sanitized = list.map(img => sanitizeProductImageUrl(img)).filter(Boolean);
+    return JSON.stringify(sanitized);
+}
+
 // Global scope expose for all scripts
 window.MOCK_PRODUCTS = MOCK_PRODUCTS;
 window.getProductTranslation = getProductTranslation;
 window.getProductFeatures = getProductFeatures;
+window.sanitizeProductImageUrl = sanitizeProductImageUrl;
+window.sanitizeSubImages = sanitizeSubImages;
