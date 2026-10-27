@@ -1,4 +1,4 @@
-const particleConfigs = {
+﻿const particleConfigs = {
     fire: {
         particles: {
             number: { value: 35 },
@@ -82,8 +82,8 @@ const products = [
             fr: "Haute protection avec 99% Coton, 1% Fibre de Carbone",
             it: "Elevata protezione con 99% Cotone, 1% Fibra di Carbonio"
         },
-        image: "img/Mavi Reflektörlü İş Üniforması.png",
-        fsImage: "img/Mavi Reflektörlü İş Güvenliği Montu.png",
+        image: "img/mavi-reflektorlu-is-uniformasi.png",
+        fsImage: "img/mavi-reflektorlu-is-guvenligi-montu.png",
         label: {
             tr: "Kaynakçı Kıyafeti (Düz)",
             en: "Welder Jacket (Plain)",
@@ -162,8 +162,8 @@ const products = [
             fr: "Réfléchissant, Résistant à la Chaleur et aux Flammes",
             it: "Riflettente, Resistente al Calore e alle Fiamme"
         },
-        image: "img/Reflektörlü Mavi-Lime İş Elbisesi.png",
-        fsImage: "img/Kobalt Mavi ve Neon Sarı İş Montu.png",
+        image: "img/reflektorlu-mavi-lime-is-elbisesi.png",
+        fsImage: "img/kobalt-mavi-ve-neon-sari-is-montu.png",
         label: {
             tr: "Yüksek Görünürlük Kaynakçı",
             en: "High Visibility Welder",
@@ -241,8 +241,8 @@ const products = [
             fr: "Structure résistante au soudage et aux projections de métal",
             it: "Struttura resistente a saldatura e schizzi di metallo"
         },
-        image: "img/Lacivert 1.png",
-        fsImage: "img/Lacivert 4.png",
+        image: "img/lacivert-1.png",
+        fsImage: "img/lacivert-4.png",
         label: {
             tr: "Lacivert Ceket ve Pantolon",
             en: "Navy Blue Jacket and Pants",
@@ -320,8 +320,8 @@ const products = [
             fr: "Doublure Intérieure : 79% Coton, 20% Polyester, 1% Fibre de Carbone (170 g/m²)",
             it: "Fodera Interna: 79% Cotone, 20% Poliestere, 1% Fibra di Carbonio (170 g/m²)"
         },
-        image: "img/Beyaz Zeminde Yüksek Görünürlüklü İş Parkası.png",
-        fsImage: "img/Neon Sarı Reflektif Güvenlik Parkası.png",
+        image: "img/beyaz-zeminde-yuksek-gorunurluklu-is-parkasi.png",
+        fsImage: "img/neon-sari-reflektif-guvenlik-parkasi.png",
         label: {
             tr: "Termal Kışlık Parka",
             en: "Thermal Winter Parka",

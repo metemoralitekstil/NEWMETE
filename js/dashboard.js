@@ -1,4 +1,4 @@
-/**
+﻿/**
  * MeteMorali - User Dashboard & Orders Module
  * Handles profile management, order history, live tracking, and bank transfer notifications.
  * Loaded on hesabim.html
@@ -84,7 +84,7 @@
 
                 let itemsHtml = (order.items || []).map(item => `
                     <div class="order-detail-item">
-                        <img src="${item.image || 'img/Beyaz Zeminde Yüksek Görünürlüklü İş Parkası.png'}" alt="${item.title || 'Ürün'}" class="order-item-thumb">
+                        <img src="${item.image || 'img/beyaz-zeminde-yuksek-gorunurluklu-is-parkasi.png'}" alt="${item.title || 'Ürün'}" class="order-item-thumb">
                         <div class="order-item-info">
                             <h4>${item.title || 'Ürün'}</h4>
                             <p>${t('cart_item_size', 'Beden')}: <b>${item.size || 'Standart'}</b> | ${t('whatsapp_qty', 'Adet')}: <b>${item.quantity || 1}</b></p>
@@ -189,7 +189,7 @@
                             const prodId = item.ProductId || item.productId;
                             const mock = (typeof MOCK_PRODUCTS !== 'undefined' ? MOCK_PRODUCTS.find(p => p.id == prodId) : null);
                             const pTitle = mock ? (typeof mock.name === 'object' ? (mock.name[lang] || mock.name['tr']) : mock.name) : `Ürün #${prodId}`;
-                            const pImg = mock ? mock.imageUrl : 'img/Beyaz Zeminde Yüksek Görünürlüklü İş Parkası.png';
+                            const pImg = mock ? mock.imageUrl : 'img/beyaz-zeminde-yuksek-gorunurluklu-is-parkasi.png';
                             return {
                                 productId: prodId,
                                 title: pTitle,
@@ -216,7 +216,7 @@
                                     size: 'Standart',
                                     quantity: 1,
                                     price: Number(dbOrder.TotalAmount || dbOrder.totalAmount || 0),
-                                    image: 'img/Beyaz Zeminde Yüksek Görünürlüklü İş Parkası.png'
+                                    image: 'img/beyaz-zeminde-yuksek-gorunurluklu-is-parkasi.png'
                                 }])
                         };
 

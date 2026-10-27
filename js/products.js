@@ -1,4 +1,4 @@
-// MeteMorali — Merkezi Ürün Veritabanı ve Yardımcı Fonksiyonlar (Single Source of Truth)
+﻿// MeteMorali — Merkezi Ürün Veritabanı ve Yardımcı Fonksiyonlar (Single Source of Truth)
 
 const MOCK_PRODUCTS = [
     {
@@ -31,8 +31,8 @@ const MOCK_PRODUCTS = [
             it: "Parka da lavoro termico ad alta protezione con bande riflettenti, che offre protezione ignifuga, impermeabile e antistatica in condizioni invernali difficili."
         },
         price: 290.00,
-        imageUrl: "img/Neon Sarı Reflektif Güvenlik Parkası.png",
-        subImages: '["img/Neon Sarı Reflektif Güvenlik Parkası.png", "img/Neon Sarı Reflektif İş Parkası.png", "img/Neon Sarı Kapüşonlu Güvenlik Montu.png", "img/Profilde Neon Sarı Reflektörlü İş Parkası.png"]',
+        imageUrl: "img/neon-sari-reflektif-guvenlik-parkasi.png",
+        subImages: '["img/neon-sari-reflektif-guvenlik-parkasi.png", "img/neon-sari-reflektif-is-parkasi.png", "img/neon-sari-kapusonlu-guvenlik-montu.png", "img/profilde-neon-sari-reflektorlu-is-parkasi.png"]',
         articleCode: "910404",
         certificateCode: "OZO 1117-CPT004/26",
         standards: ["EN 11611", "EN 11612", "EN 1149-5", "EN 20471", "EN 342"],
@@ -111,8 +111,8 @@ const MOCK_PRODUCTS = [
             it: "Completo da saldatore ignifugo con strisce riflettenti per un'elevata visibilità e protezione contro gli schizzi di metallo fuso."
         },
         price: 275.00,
-        imageUrl: "img/Reflektörlü Mavi-Lime İş Elbisesi.png",
-        subImages: '["img/Reflektörlü Mavi-Lime İş Elbisesi.png", "img/Arka Görünüm Reflektif İş Elbisesi.png", "img/Mavi ve Neon Sarı Reflektif İş Tulumu.png", "img/Kobalt Mavi ve Neon Sarı İş Montu.png", "img/Mavi Sarı Reflektörlü İş Montu.png", "img/Yandan Görünüm Hi-Vis İş Montu.png", "img/Mavi ve Neon Reflektif İş Pantolonu.png", "img/Mavi-Sarı Reflektif İş Pantolonu.png", "img/Yüksek Görünürlüklü İş Pantolonu.png"]',
+        imageUrl: "img/reflektorlu-mavi-lime-is-elbisesi.png",
+        subImages: '["img/reflektorlu-mavi-lime-is-elbisesi.png", "img/arka-gorunum-reflektif-is-elbisesi.png", "img/mavi-ve-neon-sari-reflektif-is-tulumu.png", "img/kobalt-mavi-ve-neon-sari-is-montu.png", "img/mavi-sari-reflektorlu-is-montu.png", "img/yandan-gorunum-hi-vis-is-montu.png", "img/mavi-ve-neon-reflektif-is-pantolonu.png", "img/mavi-sari-reflektif-is-pantolonu.png", "img/yuksek-gorunurluklu-is-pantolonu.png"]',
         articleCode: "910401",
         certificateCode: "OZO 1117-CPT001/26",
         standards: ["EN 11611", "EN 11612", "EN 1149-5", "EN 20471"],
@@ -191,8 +191,8 @@ const MOCK_PRODUCTS = [
             it: "Abbigliamento da lavoro da saldatore ignifugo e antistatico grigio acciaio con strisce riflettenti per la massima protezione contro scintille e calore."
         },
         price: 250.00,
-        imageUrl: "img/Gri-Mavi Reflektif İş Elbisesi.png",
-        subImages: '["img/Gri-Mavi Reflektif İş Elbisesi.png", "img/Gri Mavi Reflektif İş Tulumu.png", "img/Gri Reflektörlü İş Üniforması Arkadan Görünüm.png", "img/Reflektörlü Gri-Mavi İş Montu.png", "img/Gri Reflektörlü İş Montu Arkadan Görünüm.png", "img/Çelik Grisi Reflektörlü İş Ceketi.png", "img/Reflektör Şeritli İş Pantolonu.png", "img/Arkadan Görünümlü Reflektörlü İş Pantolonu.png", "img/Yan Profilli Reflektif İş Pantolonu-2.png"]',
+        imageUrl: "img/gri-mavi-reflektif-is-elbisesi.png",
+        subImages: '["img/gri-mavi-reflektif-is-elbisesi.png", "img/gri-mavi-reflektif-is-tulumu.png", "img/gri-reflektorlu-is-uniformasi-arkadan-gorunum.png", "img/reflektorlu-gri-mavi-is-montu.png", "img/gri-reflektorlu-is-montu-arkadan-gorunum.png", "img/celik-grisi-reflektorlu-is-ceketi.png", "img/reflektor-seritli-is-pantolonu.png", "img/arkadan-gorunumlu-reflektorlu-is-pantolonu.png", "img/yan-profilli-reflektif-is-pantolonu-2.png"]',
         colors: ["Gri"],
         articleCode: "910402",
         certificateCode: "OZO 1117-CPT003/26",
@@ -272,8 +272,8 @@ const MOCK_PRODUCTS = [
             it: "Abbigliamento ignifugo senza strisce riflettenti per la massima protezione contro fiamme, calore ed elettricità statica nelle officine metallurgiche."
         },
         price: 240.00,
-        imageUrl: "img/Mavi Reflektif İş Üniforması.png",
-        subImages: '["img/Mavi Reflektif İş Üniforması.png", "img/Mavi Reflektif İş Üniforması Seti.png", "img/Mavi Reflektörlü İş Üniforması-2.png", "img/Mavi Reflektörlü İş Güvenliği Montu.png", "img/Mavi Reflektörlü İş Güvenliği Ceketi.png", "img/Mavi Reflektif İş Ceketi.png", "img/Donanımlı Lacivert İş Pantolonu.png", "img/Reflektör Bantlı Mavi İş Pantolonu.png", "img/Yan Profilli Reflektif İş Pantolonu.png"]',
+        imageUrl: "img/mavi-reflektif-is-uniformasi.png",
+        subImages: '["img/mavi-reflektif-is-uniformasi.png", "img/mavi-reflektif-is-uniformasi-seti.png", "img/mavi-reflektorlu-is-uniformasi-2.png", "img/mavi-reflektorlu-is-guvenligi-montu.png", "img/mavi-reflektorlu-is-guvenligi-ceketi.png", "img/mavi-reflektif-is-ceketi.png", "img/donanimli-lacivert-is-pantolonu.png", "img/reflektor-bantli-mavi-is-pantolonu.png", "img/yan-profilli-reflektif-is-pantolonu.png"]',
         colors: ["Mavi"],
         articleCode: "910405",
         certificateCode: "OZO 1117-CPT003/26-A1/26",
@@ -353,8 +353,8 @@ const MOCK_PRODUCTS = [
             it: "Abbigliamento ignifugo blu navy per la massima protezione contro fiamme, calore ed elettricità statica."
         },
         price: 240.00,
-        imageUrl: "img/Lacivert 1.png",
-        subImages: '["img/Lacivert 1.png", "img/Lacivert 2.png", "img/Lacivert 3.png", "img/Lacivert 4.png", "img/Lacivert 5.png", "img/Lacivert 6.png", "img/Lacivert 7.png", "img/Lacivert 8.png", "img/Lacivert 9.png"]',
+        imageUrl: "img/lacivert-1.png",
+        subImages: '["img/lacivert-1.png", "img/lacivert-2.png", "img/lacivert-3.png", "img/lacivert-4.png", "img/lacivert-5.png", "img/lacivert-6.png", "img/lacivert-7.png", "img/lacivert-8.png", "img/lacivert-9.png"]',
         articleCode: "910407",
         certificateCode: "OZO 1117-CPT001/26-A1/26",
         standards: ["EN 11611", "EN 11612", "EN 1149-5"],
