@@ -11,7 +11,7 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MeteMorali Admin | Sipariş Yönetimi</title>
+    <title>MeteMorali Admin | Sipariş & Sevkiyat Yönetimi</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,6 +20,449 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <link rel="stylesheet" href="css/admin-style.css">
+    <style>
+        /* Orders Module Enterprise Enhancements */
+        .orders-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .order-stat-card {
+            background: var(--bg-surface, #ffffff);
+            border: 1px solid var(--border-subtle, #e2e8f0);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .order-stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        .order-stat-info h4 {
+            margin: 0 0 4px 0;
+            font-size: 0.8rem;
+            color: var(--text-muted, #64748b);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .order-stat-info h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary, #0f172a);
+        }
+
+        /* Filter Toolbar */
+        .orders-filter-toolbar {
+            background: var(--bg-surface, #ffffff);
+            border: 1px solid var(--border-subtle, #e2e8f0);
+            border-radius: 12px;
+            padding: 14px 18px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .orders-search-box {
+            position: relative;
+            flex: 1;
+            min-width: 260px;
+        }
+        .orders-search-box i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .orders-search-input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 9px 14px 9px 38px;
+            border: 1px solid var(--border-subtle, #cbd5e1);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .orders-search-input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+        .orders-status-tabs {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .status-tab-btn {
+            background: #f1f5f9;
+            border: 1px solid transparent;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .status-tab-btn:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+        .status-tab-btn.active {
+            background: #0f172a;
+            color: #ffffff;
+            border-color: #0f172a;
+        }
+
+        /* Order Status Badges */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .status-badge.talep {
+            background: #eff6ff;
+            color: #2563eb;
+            border: 1px solid #bfdbfe;
+        }
+        .status-badge.hazirlaniyor {
+            background: #fefce8;
+            color: #ca8a04;
+            border: 1px solid #fef08a;
+        }
+        .status-badge.kargo {
+            background: #f0fdf4;
+            color: #16a34a;
+            border: 1px solid #bbf7d0;
+        }
+        .status-badge.tamamlandi {
+            background: #f8fafc;
+            color: #0f172a;
+            border: 1px solid #e2e8f0;
+        }
+        .status-badge.iptal {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+        }
+
+        /* Action Buttons */
+        .order-action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+        .order-action-btn.btn-detail {
+            background: #0f172a;
+            color: #ffffff;
+        }
+        .order-action-btn.btn-detail:hover {
+            background: #1e293b;
+        }
+
+        /* Quick Contact Links in Table */
+        .customer-contact-links {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 4px;
+        }
+        .contact-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            font-size: 0.75rem;
+            text-decoration: none;
+            transition: transform 0.2s;
+        }
+        .contact-chip:hover {
+            transform: scale(1.15);
+        }
+        .contact-chip.wa {
+            background: #25d366;
+            color: #fff;
+        }
+        .contact-chip.tel {
+            background: #3b82f6;
+            color: #fff;
+        }
+
+        /* Modal 2-Column Console Layout */
+        .order-console-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 1.3fr;
+            gap: 24px;
+            padding: 20px 0;
+        }
+        @media (max-width: 860px) {
+            .order-console-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .console-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .console-card h4 {
+            margin: 0 0 14px 0;
+            font-size: 0.76rem;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 8px;
+        }
+        .console-field-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+        }
+        .console-field-row .label {
+            color: #64748b;
+        }
+        .console-field-row .val {
+            font-weight: 600;
+            color: #0f172a;
+            text-align: right;
+        }
+
+        /* Enterprise Shipping Address Card */
+        .shipping-address-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin-bottom: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+        }
+        .shipping-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 8px;
+            background: #f1f5f9;
+            color: #475569;
+            font-size: 0.72rem;
+            font-weight: 700;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .shipping-field {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            font-size: 0.84rem;
+            line-height: 1.5;
+            margin-bottom: 6px;
+        }
+        .shipping-field:last-child {
+            margin-bottom: 0;
+        }
+        .shipping-field .k {
+            font-size: 0.74rem;
+            font-weight: 600;
+            color: #64748b;
+            min-width: 72px;
+            flex-shrink: 0;
+        }
+        .shipping-field .v {
+            color: #0f172a;
+            font-weight: 500;
+            word-break: break-word;
+        }
+        .shipping-field .v.bold {
+            font-weight: 700;
+        }
+        .shipping-actions-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .btn-copy-kargo {
+            background: #0f172a;
+            color: #ffffff;
+            border: 1px solid #0f172a;
+            padding: 7px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+        .btn-copy-kargo:hover {
+            background: #1e293b;
+        }
+        .btn-map-link {
+            background: #ffffff;
+            color: #334155;
+            border: 1px solid #cbd5e1;
+            padding: 7px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+        .btn-map-link:hover {
+            background: #f8fafc;
+            color: #0f172a;
+        }
+        .btn-edit-toggle {
+            background: transparent;
+            color: #64748b;
+            border: 1px solid #cbd5e1;
+            padding: 7px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+        .btn-edit-toggle:hover {
+            background: #f1f5f9;
+            color: #0f172a;
+        }
+
+
+        /* Order Product Item Row */
+        .order-product-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .order-product-row:last-child {
+            border-bottom: none;
+        }
+        .order-product-thumb {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            object-fit: contain;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            padding: 2px;
+        }
+        .order-product-info {
+            flex: 1;
+        }
+        .order-product-title {
+            font-weight: 600;
+            font-size: 0.88rem;
+            color: #0f172a;
+            margin-bottom: 2px;
+        }
+        .order-product-meta {
+            font-size: 0.78rem;
+            color: #64748b;
+        }
+
+        /* Minimalist High-End Stepper Segmented Control */
+        .stepper-pipeline {
+            display: flex;
+            gap: 6px;
+            margin-top: 10px;
+            background: #f1f5f9;
+            padding: 5px;
+            border-radius: 10px;
+        }
+        .stepper-btn {
+            flex: 1;
+            padding: 9px 8px;
+            border-radius: 7px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            border: none;
+            background: transparent;
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            text-align: center;
+            white-space: nowrap;
+        }
+        .stepper-btn:hover {
+            color: #0f172a;
+            background: rgba(255, 255, 255, 0.6);
+        }
+        .stepper-btn.active {
+            background: #ffffff;
+            color: #0f172a;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+            font-weight: 700;
+        }
+        .stepper-btn.danger.active {
+            background: #fee2e2;
+            color: #dc2626;
+            box-shadow: 0 2px 6px rgba(220, 38, 38, 0.15);
+        }
+
+        /* Print Invoice Styles */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #printInvoiceArea, #printInvoiceArea * {
+                visibility: visible;
+            }
+            #printInvoiceArea {
+                position: fixed;
+                left: 0;
+                top: 0;
+                width: 100%;
+                background: #ffffff;
+                color: #000000;
+                padding: 30px;
+                font-family: 'Outfit', sans-serif;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="admin-layout">
@@ -45,7 +488,7 @@
                         <span>Ürün Yönetimi</span>
                     </a>
                     <a href="orders.html" class="active">
-                        <span>Sipariş Yönetimi</span>
+                        <span>Sipariş & Sevkiyat</span>
                     </a>
                     <a href="customers.html">
                         <span>Kayıtlı Müşteriler</span>
@@ -73,7 +516,7 @@
         <main class="main-content">
             <header class="top-bar">
                 <div class="page-title">
-                    <h1>Sipariş Yönetimi</h1>
+                    <h1>Sipariş & Sevkiyat Yönetimi</h1>
                 </div>
                 <div class="top-actions">
                     <button class="btn btn-secondary btn-sm" onclick="loadOrders();">
@@ -82,22 +525,79 @@
                 </div>
             </header>
 
-            <!-- Table Container -->
+            <!-- 1. Stats Counters (Gerçek Zamanlı KPI Göstergeleri) -->
+            <div class="orders-stats-grid">
+                <div class="order-stat-card">
+                    <div class="order-stat-icon" style="background: #eff6ff; color: #2563eb;">
+                        <i class="fa-solid fa-boxes-stacked"></i>
+                    </div>
+                    <div class="order-stat-info">
+                        <h4>Toplam Sipariş</h4>
+                        <h2 id="statTotalOrders">-</h2>
+                    </div>
+                </div>
+                <div class="order-stat-card">
+                    <div class="order-stat-icon" style="background: #fefce8; color: #ca8a04;">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <div class="order-stat-info">
+                        <h4>Yeni / Bekleyen</h4>
+                        <h2 id="statPendingOrders">-</h2>
+                    </div>
+                </div>
+                <div class="order-stat-card">
+                    <div class="order-stat-icon" style="background: #f0fdf4; color: #16a34a;">
+                        <i class="fa-solid fa-truck-fast"></i>
+                    </div>
+                    <div class="order-stat-info">
+                        <h4>Kargodaki Siparişler</h4>
+                        <h2 id="statShippingOrders">-</h2>
+                    </div>
+                </div>
+                <div class="order-stat-card">
+                    <div class="order-stat-icon" style="background: #f8fafc; color: #0f172a;">
+                        <i class="fa-solid fa-euro-sign"></i>
+                    </div>
+                    <div class="order-stat-info">
+                        <h4>Toplam Sipariş Tutarı</h4>
+                        <h2 id="statTotalRevenue">-</h2>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Search & Status Filter Toolbar -->
+            <div class="orders-filter-toolbar">
+                <div class="orders-search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="orderSearchInput" class="orders-search-input" placeholder="Sipariş no, müşteri adı, telefon veya adres ara..." oninput="filterOrdersList()">
+                </div>
+                <div class="orders-status-tabs" id="statusTabs">
+                    <button class="status-tab-btn active" onclick="setOrderStatusFilter('all', this)">Tümü</button>
+                    <button class="status-tab-btn" onclick="setOrderStatusFilter('Talep Alındı', this)">Talep Alındı</button>
+                    <button class="status-tab-btn" onclick="setOrderStatusFilter('Hazırlanıyor', this)">Hazırlanıyor</button>
+                    <button class="status-tab-btn" onclick="setOrderStatusFilter('Kargoya Verildi', this)">Kargoda</button>
+                    <button class="status-tab-btn" onclick="setOrderStatusFilter('Tamamlandı', this)">Tamamlandı</button>
+                    <button class="status-tab-btn" onclick="setOrderStatusFilter('İptal Edildi', this)">İptal</button>
+                </div>
+            </div>
+
+            <!-- 3. Orders Table Container -->
             <div class="table-container">
                 <table id="ordersTable" class="data-table">
                     <thead>
                         <tr>
-                            <th style="width: 90px;">Sipariş No</th>
-                            <th>Müşteri Bilgisi</th>
+                            <th style="width: 85px;">Sipariş No</th>
+                            <th>Müşteri & İletişim</th>
+                            <th>Teslimat & Adres Özeti</th>
                             <th>Sipariş Tarihi</th>
-                            <th>Toplam Tutar</th>
-                            <th style="width: 170px;">Durum Değiştir</th>
-                            <th style="width: 110px;">İşlem</th>
+                            <th>Tutar</th>
+                            <th style="width: 160px;">Durum</th>
+                            <th style="width: 120px; text-align: center;">İşlem</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 40px;">
+                            <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 40px;">
                                 <i class="fa-solid fa-spinner fa-spin" style="margin-right: 8px;"></i> Siparişler yükleniyor...
                             </td>
                         </tr>
@@ -106,6 +606,36 @@
             </div>
         </main>
     </div>
+
+    <!-- 4. Sipariş & Sevkiyat Yönetim Konsolu (Detay Modalı) -->
+    <div class="custom-modal-overlay" id="orderDetailsModal">
+        <div class="custom-modal" style="width: 880px; max-width: 95vw; max-height: 90vh; overflow-y: auto;">
+            <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 16px;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <div style="width: 40px; height: 40px; border-radius: 8px; background: #0f172a; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                        <i class="fa-solid fa-receipt"></i>
+                    </div>
+                    <div>
+                        <h3 style="margin: 0; font-size: 1.25rem;">Sipariş Detayı <span id="modalOrderId" style="color: #2563eb;">#0</span></h3>
+                        <div style="font-size: 0.8rem; color: #64748b;" id="modalOrderDate">-</div>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <button class="btn btn-secondary btn-sm" onclick="printActiveOrderInvoice()">
+                        <i class="fa-solid fa-print"></i> Yazdır / Fiş Al
+                    </button>
+                    <button class="modal-close-btn" onclick="closeOrderModal()"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+            </div>
+
+            <div class="modal-body" id="modalOrderBody">
+                <!-- Javascript ile 2 Sütunlu Konsol Doldurulacak -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. Gizli Yazdırma / İrsaliye Fişi Alanı (@media print) -->
+    <div id="printInvoiceArea" style="display: none;"></div>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -121,6 +651,11 @@
                 if (typeof loadOrders === 'function') loadOrders();
             }, 15000);
         });
+
+        function closeOrderModal() {
+            const m = document.getElementById('orderDetailsModal');
+            if (m) m.classList.remove('active');
+        }
     </script>
 </body>
 </html>

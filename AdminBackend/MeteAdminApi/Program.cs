@@ -159,14 +159,11 @@ using (var scope = app.Services.CreateScope())
 
         if (!context.AdminUsers.Any())
         {
-            using var sha256 = System.Security.Cryptography.SHA256.Create();
-            var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes("admin123"));
-            var hashString = BitConverter.ToString(hashedBytes).Replace("-", "").ToLowerInvariant();
-
+            // Seed metemorali SuperAdmin
             context.AdminUsers.Add(new AdminUser
             {
-                Username = "admin",
-                PasswordHash = hashString,
+                Username = "metemorali",
+                PasswordHash = "cc754c1675a4ee034f87d4f237359f239ce6816b65fdb8a4dcf34213e5a4e05a",
                 Role = "SuperAdmin"
             });
         }

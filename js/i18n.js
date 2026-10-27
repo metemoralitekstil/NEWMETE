@@ -27,6 +27,24 @@ window.i18n = {
     // 7 Languages Dictionary (100% key parity across all languages)
     translations: {
     "tr": {
+        "whatsapp_order": "WHATSAPP İLE SİPARİŞ VER",
+        "whatsapp_order_notice": "Doğrudan Müşteri Temsilcimize Bağlanırsınız",
+
+        "checking_payment": "Ödeme Durumu Kontrol Ediliyor",
+        "checking_payment_desc": "Lütfen bekleyin, ödeme sonucunuz alınıyor...",
+        "payment_success": "Ödeme Başarılı!",
+        "payment_success_desc": "Ödemeniz güvenli bir şekilde alınmış ve siparişiniz onaylanmıştır. Teşekkür ederiz.",
+        "payment_failed": "Ödeme Başarısız",
+        "payment_failed_desc": "Kredi kartı ile ödeme işlemi gerçekleştirilemedi. Lütfen bilgilerinizi kontrol edip tekrar deneyin.",
+        "order_no": "Sipariş No",
+        "auth_code": "Onay Kodu",
+        "total_amount": "Ödenen Tutar",
+        "go_to_dashboard": "Hesabıma Git",
+        "error_reason": "Hata Nedeni",
+        "try_again": "Sepete Dön ve Tekrar Dene",
+        "credit_card_payment": "Kredi Kartı ile Güvenli Ödeme (SSL)",
+        "payment_subtitle": "3D Secure ile ödemenizi tamamlamak için kart bilgilerinizi giriniz.",
+
         "home": "Ana Sayfa",
         "catalog": "Katalog",
         "contact": "İletişim",
@@ -173,6 +191,24 @@ window.i18n = {
         "country_italy": "İtalya"
     },
     "en": {
+        "whatsapp_order": "ORDER VIA WHATSAPP",
+        "whatsapp_order_notice": "Direct connection to our sales representative",
+
+        "checking_payment": "Checking Payment Status",
+        "checking_payment_desc": "Please wait, fetching your payment result...",
+        "payment_success": "Payment Successful!",
+        "payment_success_desc": "Your payment has been securely received and your order has been confirmed. Thank you.",
+        "payment_failed": "Payment Failed",
+        "payment_failed_desc": "Credit card payment could not be processed. Please check your details and try again.",
+        "order_no": "Order No",
+        "auth_code": "Auth Code",
+        "total_amount": "Paid Amount",
+        "go_to_dashboard": "Go to Dashboard",
+        "error_reason": "Error Reason",
+        "try_again": "Return to Cart & Try Again",
+        "credit_card_payment": "Secure Credit Card Payment (SSL)",
+        "payment_subtitle": "Enter your card details to complete payment with 3D Secure.",
+
         "home": "Home",
         "catalog": "Catalog",
         "contact": "Contact",
@@ -319,6 +355,24 @@ window.i18n = {
         "back_to_login": "Back to Login"
     },
     "de": {
+        "whatsapp_order": "ÜBER WHATSAPP BESTELLEN",
+        "whatsapp_order_notice": "Direkte Verbindung zu unserem Kundenberater",
+
+        "checking_payment": "Zahlungsstatus wird überprüft",
+        "checking_payment_desc": "Bitte warten, Ihr Zahlungsergebnis wird abgerufen...",
+        "payment_success": "Zahlung erfolgreich!",
+        "payment_success_desc": "Ihre Zahlung wurde sicher empfangen und Ihre Bestellung bestätigt. Vielen Dank.",
+        "payment_failed": "Zahlung fehlgeschlagen",
+        "payment_failed_desc": "Die Kreditkartenzahlung konnte nicht verarbeitet werden. Bitte überprüfen Sie Ihre Angaben und versuchen Sie es erneut.",
+        "order_no": "Bestellnr.",
+        "auth_code": "Autorisierungscode",
+        "total_amount": "Gezahlter Betrag",
+        "go_to_dashboard": "Zum Kundenkonto",
+        "error_reason": "Fehlergrund",
+        "try_again": "Zurück zum Warenkorb und erneut versuchen",
+        "credit_card_payment": "Sichere Kreditkartenzahlung (SSL)",
+        "payment_subtitle": "Geben Sie Ihre Kartendaten ein, um die Zahlung mit 3D Secure abzuschließen.",
+
         "home": "Startseite",
         "catalog": "Katalog",
         "contact": "Kontakt",
@@ -465,6 +519,24 @@ window.i18n = {
         "country_kyrgyzstan": "Kirgisistan"
     },
     "ru": {
+        "whatsapp_order": "ЗАКАЗАТЬ ЧЕРЕЗ WHATSAPP",
+        "whatsapp_order_notice": "Прямая связь с нашим представителем",
+
+        "checking_payment": "Проверка статуса платежа",
+        "checking_payment_desc": "Пожалуйста, подождите, получаем результат оплаты...",
+        "payment_success": "Оплата прошла успешно!",
+        "payment_success_desc": "Ваш платеж успешно принят, и ваш заказ подтвержден. Спасибо.",
+        "payment_failed": "Ошибка оплаты",
+        "payment_failed_desc": "Платеж банковской картой не удался. Проверьте данные и попробуйте снова.",
+        "order_no": "Номер заказа",
+        "auth_code": "Код подтверждения",
+        "total_amount": "Оплаченная сумма",
+        "go_to_dashboard": "Перейти в личный кабинет",
+        "error_reason": "Причина ошибки",
+        "try_again": "Вернуться в корзину и повторить",
+        "credit_card_payment": "Безопасная оплата картой (SSL)",
+        "payment_subtitle": "Введите данные карты для завершения оплаты через 3D Secure.",
+
         "home": "Главная",
         "catalog": "Каталог",
         "contact": "Контакты",
@@ -611,6 +683,24 @@ window.i18n = {
         "filter_parka": "Зимние"
     },
     "nl": {
+        "whatsapp_order": "BESTELLEN VIA WHATSAPP",
+        "whatsapp_order_notice": "Direct contact met onze verkoopvertegenwoordiger",
+
+        "checking_payment": "Betalingsstatus controleren",
+        "checking_payment_desc": "Even geduld, uw betalingsresultaat wordt opgehaald...",
+        "payment_success": "Betaling geslaagd!",
+        "payment_success_desc": "Uw betaling is veilig ontvangen en uw bestelling is bevestigd. Bedankt.",
+        "payment_failed": "Betaling mislukt",
+        "payment_failed_desc": "De creditcardbetaling kon niet worden verwerkt. Controleer uw gegevens en probeer het opnieuw.",
+        "order_no": "Bestelnummer",
+        "auth_code": "Autorisatiecode",
+        "total_amount": "Betaald bedrag",
+        "go_to_dashboard": "Ga naar dashboard",
+        "error_reason": "Reden van fout",
+        "try_again": "Terug naar winkelmand en opnieuw proberen",
+        "credit_card_payment": "Veilige creditcardbetaling (SSL)",
+        "payment_subtitle": "Voer uw kaartgegevens in om de betaling te voltooien met 3D Secure.",
+
         "home": "Home",
         "catalog": "Catalogus",
         "contact": "Contact",
@@ -757,6 +847,24 @@ window.i18n = {
         "profile_updated_success": "Uw profielgegevens zijn succesvol bijgewerkt!"
     },
     "fr": {
+        "whatsapp_order": "COMMANDER VIA WHATSAPP",
+        "whatsapp_order_notice": "Connexion directe avec notre représentant commercial",
+
+        "checking_payment": "Vérification du statut du paiement",
+        "checking_payment_desc": "Veuillez patienter, récupération du résultat de votre paiement...",
+        "payment_success": "Paiement réussi !",
+        "payment_success_desc": "Votre paiement a été reçu en toute sécurité et votre commande a été confirmée. Merci.",
+        "payment_failed": "Échec du paiement",
+        "payment_failed_desc": "Le paiement par carte n'a pas pu être traité. Veuillez vérifier vos coordonnées et réessayer.",
+        "order_no": "N° de commande",
+        "auth_code": "Code d'autorisation",
+        "total_amount": "Montant payé",
+        "go_to_dashboard": "Aller au tableau de bord",
+        "error_reason": "Raison de l'erreur",
+        "try_again": "Retourner au panier et réessayer",
+        "credit_card_payment": "Paiement sécurisé par carte bancaire (SSL)",
+        "payment_subtitle": "Saisissez les coordonnées de votre carte pour finaliser le paiement avec 3D Secure.",
+
         "home": "Accueil",
         "catalog": "Catalogue",
         "contact": "Contact",
@@ -903,6 +1011,24 @@ window.i18n = {
         "profile_updated_success": "Les informations de votre profil ont été mises à jour avec succès !"
     },
     "it": {
+        "whatsapp_order": "ORDINA SU WHATSAPP",
+        "whatsapp_order_notice": "Collegamento diretto con il nostro rappresentante",
+
+        "checking_payment": "Verifica dello stato del pagamento",
+        "checking_payment_desc": "Attendere prego, recupero dell'esito del pagamento in corso...",
+        "payment_success": "Pagamento riuscito!",
+        "payment_success_desc": "Il pagamento è stato ricevuto in modo sicuro e l'ordine è stato confermato. Grazie.",
+        "payment_failed": "Pagamento non riuscito",
+        "payment_failed_desc": "Impossibile elaborare il pagamento con carta di credito. Verificare i dati e riprovare.",
+        "order_no": "N. Ordine",
+        "auth_code": "Codice di autorizzazione",
+        "total_amount": "Importo pagato",
+        "go_to_dashboard": "Vai al pannello personale",
+        "error_reason": "Motivo dell'errore",
+        "try_again": "Torna al carrello e riprova",
+        "credit_card_payment": "Pagamento sicuro con carta di credito (SSL)",
+        "payment_subtitle": "Inserisci i dati della carta per completare il pagamento con 3D Secure.",
+
         "home": "Home",
         "catalog": "Catalogo",
         "contact": "Contatti",

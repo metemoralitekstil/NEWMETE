@@ -139,10 +139,10 @@
     <div id="login-sidebar-placeholder"></div>
     
     <!-- Scripts -->
-    <script src="cart.js" defer></script>
+    <script src="js/cart.js?v=3.2" defer></script>
     <script src="components/loader.js" defer></script>
     <script src="js/components.js" defer></script>
-    
+    <script>
         function escapeHtml(str) {
             if (!str) return '';
             return String(str)
@@ -243,7 +243,11 @@
                         </a>
                     `;
                 }
-            }, 1000); // Small delay for visual premium feel spinner
+
+                if (window.i18n && typeof window.i18n.translatePage === 'function') {
+                    window.i18n.translatePage();
+                }
+            }, 500);
         });
     </script>
 </body>

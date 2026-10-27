@@ -302,7 +302,7 @@
         // Initialize Supabase and handle auth state
         loadSupabase().then(() => {
             // Auto open recovery if redirected from password reset email
-            if (window.location.hash.includes('type=recovery') || window.location.hash.includes('access_token=')) {
+            if (window.location.hash.includes('type=recovery')) {
                 setTimeout(() => {
                     openLoginSidebar();
                     document.querySelectorAll('.login-sidebar .login-section').forEach(sec => sec.classList.add('hidden'));
@@ -312,6 +312,13 @@
                         const subtitle = document.getElementById('forgot-success-subtitle');
                         if (subtitle) subtitle.textContent = "Lütfen yeni şifrenizi girin.";
                     }
+                }, 800);
+            } else if (window.location.hash.includes('type=signup') || window.location.hash.includes('type=email_change')) {
+                setTimeout(() => {
+                    if (window.showToast) {
+                        window.showToast("E-posta adresiniz başarıyla doğrulandı! Hoş geldiniz.", "success");
+                    }
+                    updateNavbarAuthState();
                 }, 800);
             }
 
@@ -664,10 +671,34 @@
                             regEmailError.style.display = 'block';
                         }
                     } else {
+                        // If Supabase has email confirmation disabled, session is returned immediately
+                        if (data && data.session) {
+                            if (window.showSuccessOverlay) {
+                                window.showSuccessOverlay("Kayıt Başarılı!", "Hesabınıza yönlendiriliyorsunuz...", () => {
+                                    closeLoginSidebar();
+                                    updateNavbarAuthState();
+                                    if (window.location.pathname.includes('hesabim')) {
+                                        if (window.updateProfileUI) window.updateProfileUI();
+                                    } else {
+                                        window.location.href = 'hesabim';
+                                    }
+                                });
+                            }
+                            return;
+                        }
+
                         activeRegInfo = { name, email, password };
+                        try {
+                            sessionStorage.setItem('mm_pending_reg', JSON.stringify({ name, email }));
+                        } catch (e) {}
+
                         if (registerSection) registerSection.classList.add('hidden');
                         if (emailVerifySection) {
                             emailVerifySection.classList.remove('hidden');
+                            const emailVerifySubtitle = document.getElementById('email-verify-subtitle');
+                            if (emailVerifySubtitle) {
+                                emailVerifySubtitle.textContent = `${email} adresine doğrulama bağlantısı ve onay kodu gönderildi.`;
+                            }
                             const emailVerifyCodeInput = document.getElementById('email-verify-code-input');
                             if (emailVerifyCodeInput) emailVerifyCodeInput.value = "";
                         }
@@ -699,8 +730,15 @@
                 if (window.showLoadingOverlay) window.showLoadingOverlay(true);
 
                 try {
+                    const targetEmail = (activeRegInfo && activeRegInfo.email) ||
+                        (function() {
+                            try {
+                                return JSON.parse(sessionStorage.getItem('mm_pending_reg') || '{}').email || '';
+                            } catch(e) { return ''; }
+                        })();
+
                     const { data, error } = await supabaseClient.auth.verifyOtp({
-                        email: activeRegInfo ? activeRegInfo.email : '',
+                        email: targetEmail,
                         token: enteredCode,
                         type: 'signup'
                     });

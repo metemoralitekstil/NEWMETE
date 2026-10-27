@@ -987,8 +987,164 @@ window.executeDeleteProduct = async function() {
 };
 
 // ==========================================================================
-// 6. ORDERS MANAGEMENT
+// 6. ORDERS & LOGISTICS / SHIPPING MANAGEMENT ENGINE (v5.1 Clean Executive Edition)
 // ==========================================================================
+
+let allOrdersCache = [];
+let allProductsCache = [];
+let currentFilterStatus = 'all';
+let currentSearchQuery = '';
+let activeModalOrder = null;
+
+// Parse customer name, phone, and delivery address reliably
+function parseCustomerContact(orderObj) {
+    if (!orderObj) return { customerName: 'Ziyaretçi', phone: '', address: 'Adres henüz girilmemiş', addressObj: { title: 'Teslimat', receiver: 'Ziyaretçi', phone: '', street: '', district: '', city: '', zip: '', country: 'Türkiye' } };
+    
+    let rawName = (orderObj.CustomerName || orderObj.customerName || 'Ziyaretçi').trim();
+    let rawPhone = (orderObj.CustomerPhone || orderObj.customerPhone || '').trim();
+    let customerName = rawName;
+    let phone = rawPhone;
+    let address = '';
+    let addressObj = null;
+
+    // Check if address is encoded in CustomerName
+    if (rawName.includes(' | Adres: ')) {
+        const parts = rawName.split(' | Adres: ');
+        customerName = parts[0].trim();
+        address = parts[1].trim();
+    } else if (rawName.includes('[Adres: ')) {
+        const parts = rawName.split('[Adres: ');
+        customerName = parts[0].trim();
+        address = parts[1].replace(']', '').trim();
+    }
+
+    // Check if address is encoded in CustomerPhone
+    if (!address && rawPhone.includes(' | Adres: ')) {
+        const parts = rawPhone.split(' | Adres: ');
+        phone = parts[0].trim();
+        address = parts[1].trim();
+    } else if (!address && rawPhone.includes('[Adres: ')) {
+        const parts = rawPhone.split('[Adres: ');
+        phone = parts[0].trim();
+        address = parts[1].replace(']', '').trim();
+    }
+
+    // Try finding matching structured address from localStorage
+    try {
+        const userJson = localStorage.getItem('metemorali_user');
+        const user = userJson ? JSON.parse(userJson) : null;
+        const userAddrs = (user && user.addresses && user.addresses.length > 0) ? user.addresses : JSON.parse(localStorage.getItem('metemorali_addresses') || '[]');
+        if (userAddrs.length > 0) {
+            const a = userAddrs[0];
+            const street = a.detail || a.address || '';
+            const cityDistrict = [a.district, a.city].filter(Boolean).join(' / ');
+            
+            if (!address) {
+                const parts = [];
+                if (a.title) parts.push(`[${a.title}]`);
+                if (a.receiver) parts.push(`Alıcı: ${a.receiver}`);
+                if (street) parts.push(street);
+                if (cityDistrict) parts.push(cityDistrict);
+                if (a.zip) parts.push(`PK: ${a.zip}`);
+                if (a.country && a.country.toLowerCase() !== 'türkiye') parts.push(a.country);
+                address = parts.join(', ');
+            }
+
+            addressObj = {
+                title: a.title || 'Teslimat Adresi',
+                receiver: a.receiver || customerName,
+                phone: a.phone || phone,
+                street: street,
+                district: a.district || '',
+                city: a.city || '',
+                zip: a.zip || '',
+                country: a.country || 'Türkiye'
+            };
+        }
+    } catch (e) {}
+
+    // Fallback: If no addressObj constructed from userAddrs, parse from string address
+    if (!addressObj) {
+        addressObj = parseAddressString(address, customerName, phone);
+    }
+
+    if (!address) {
+        address = 'Kayıtlı teslimat adresi bulunamadı (Müşteriden talep edilebilir)';
+    }
+
+    return { customerName, phone, address, addressObj };
+}
+
+function parseAddressString(addrStr, fallbackReceiver, fallbackPhone) {
+    if (!addrStr || addrStr.includes('Kayıtlı teslimat adresi bulunamadı')) {
+        return {
+            title: 'Teslimat',
+            receiver: fallbackReceiver || 'Ziyaretçi',
+            phone: fallbackPhone || '',
+            street: 'Adres henüz girilmemiş',
+            district: '',
+            city: '',
+            zip: '',
+            country: 'Türkiye'
+        };
+    }
+
+    let title = 'Teslimat';
+    let text = addrStr;
+    const titleMatch = text.match(/^\[([^\]]+)\]\s*/);
+    if (titleMatch) {
+        title = titleMatch[1];
+        text = text.replace(titleMatch[0], '');
+    }
+
+    let zip = '';
+    const zipMatch = text.match(/\(PK:\s*([^)]+)\)/i) || text.match(/PK:\s*([0-9]+)/i);
+    if (zipMatch) {
+        zip = zipMatch[1].trim();
+        text = text.replace(zipMatch[0], '');
+    }
+
+    let receiver = fallbackReceiver || '';
+    const recMatch = text.match(/Alıcı:\s*([^,-]+)/i);
+    if (recMatch) {
+        receiver = recMatch[1].trim();
+        text = text.replace(recMatch[0], '');
+    }
+
+    let district = '';
+    let city = '';
+    const locMatch = text.match(/(?:-\s*|\s+)([A-Za-zÇĞİÖŞÜçğıöşü\s]+)\s*\/\s*([A-Za-zÇĞİÖŞÜçğıöşü\s]+)$/);
+    if (locMatch) {
+        district = locMatch[1].trim();
+        city = locMatch[2].trim();
+        text = text.slice(0, locMatch.index).trim();
+    }
+
+    let street = text.replace(/^,\s*|,\s*$/g, '').trim();
+    if (!street && (district || city)) {
+        street = [district, city].filter(Boolean).join(' / ');
+    }
+
+    return {
+        title: title || 'Teslimat',
+        receiver: receiver || fallbackReceiver || 'Müşteri',
+        phone: fallbackPhone || '',
+        street: street || addrStr,
+        district: district,
+        city: city,
+        zip: zip,
+        country: 'Türkiye'
+    };
+}
+
+function sanitizePhone(phone) {
+    if (!phone) return '';
+    let p = phone.replace(/\D/g, '');
+    if (p.startsWith('0')) p = '9' + p;
+    if (p.length === 10) p = '90' + p;
+    return p;
+}
+
 window.loadOrders = async function() {
     const tbody = document.querySelector('#ordersTable tbody');
     if (!tbody) return;
@@ -996,58 +1152,160 @@ window.loadOrders = async function() {
     try {
         let orders = [];
         if (typeof supabaseClient !== 'undefined' && supabaseClient !== null) {
-            const { data, error } = await supabaseClient.from('Orders').select('*').order('Id', { ascending: false });
-            if (!error && data) orders = data;
+            const { data: oData, error: oErr } = await supabaseClient
+                .from('Orders')
+                .select('*')
+                .order('Id', { ascending: false });
+            if (!oErr && oData) orders = oData;
+
+            const { data: pData } = await supabaseClient
+                .from('Products')
+                .select('Id, Name, Price, ImageUrl, ArticleCode, Standards');
+            if (pData) allProductsCache = pData;
         }
 
-        tbody.innerHTML = '';
-        if (orders.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 40px; color: var(--text-muted);">Sipariş kaydı bulunmuyor.</td></tr>';
-            return;
-        }
+        allOrdersCache = orders;
 
-        orders.forEach(o => {
-            const id = o.Id || o.id;
-            const customer = o.CustomerName || o.customerName || 'Bilinmiyor';
-            const phone = o.CustomerPhone || o.customerPhone || '-';
-            const dateStr = o.OrderDate ? new Date(o.OrderDate).toLocaleDateString('tr-TR') : '-';
-            const total = Number(o.TotalAmount || 0).toFixed(2);
-            const status = o.Status || 'Talep Alındı';
+        // KPI Statistics
+        const statTotal = orders.length;
+        const statPending = orders.filter(o => (o.Status || '').toLowerCase().includes('talep')).length;
+        const statShipping = orders.filter(o => ['hazırlanıyor', 'kargoya verildi'].includes((o.Status || '').toLowerCase())).length;
+        const statRevenue = orders.reduce((acc, o) => acc + Number(o.TotalAmount || 0), 0);
 
-            const statusOptions = ['Talep Alındı', 'Hazırlanıyor', 'Kargoya Verildi', 'Tamamlandı', 'İptal Edildi'];
-            const selectOptionsHtml = statusOptions.map(opt => `<option value="${opt}" ${opt === status ? 'selected' : ''}>${opt}</option>`).join('');
+        const elTotal = document.getElementById('statTotalOrders');
+        const elPending = document.getElementById('statPendingOrders');
+        const elShipping = document.getElementById('statShippingOrders');
+        const elRevenue = document.getElementById('statTotalRevenue');
 
-            tbody.innerHTML += `
-                <tr>
-                    <td style="font-weight: 700; color: var(--brand-gold);">#${id}</td>
-                    <td>
-                        <div style="font-weight: 600;">${customer}</div>
-                        <div style="font-size: 0.78rem; color: var(--text-muted);">${phone}</div>
-                    </td>
-                    <td style="color: var(--text-secondary);">${dateStr}</td>
-                    <td style="font-weight: 700; font-size: 1rem;">€${total}</td>
-                    <td>
-                        <select class="form-select" style="padding: 6px 10px; font-size: 0.8rem; width: 140px;" onchange="updateOrderStatus(${id}, this.value)">
-                            ${selectOptionsHtml}
-                        </select>
-                    </td>
-                    <td>
-                        <button class="btn btn-secondary btn-sm" onclick="viewOrderDetails(${id})">Detay</button>
-                    </td>
-                </tr>
-            `;
-        });
+        if (elTotal) elTotal.textContent = statTotal;
+        if (elPending) elPending.textContent = statPending;
+        if (elShipping) elShipping.textContent = statShipping;
+        if (elRevenue) elRevenue.textContent = '€' + statRevenue.toFixed(2);
+
+        renderOrdersTable();
+
     } catch (e) {
         console.error('loadOrders error:', e);
-        window.showAdminToast('Siparişler yüklenemedi.', 'error');
+        window.showAdminToast('Siparişler yüklenirken bir hata oluştu.', 'error');
     }
 };
+
+window.setOrderStatusFilter = function(status, btn) {
+    currentFilterStatus = status;
+    document.querySelectorAll('.status-tab-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    renderOrdersTable();
+};
+
+window.filterOrdersList = function() {
+    const input = document.getElementById('orderSearchInput');
+    currentSearchQuery = (input ? input.value : '').toLowerCase().trim();
+    renderOrdersTable();
+};
+
+function renderOrdersTable() {
+    const tbody = document.querySelector('#ordersTable tbody');
+    if (!tbody) return;
+
+    let filtered = allOrdersCache.filter(o => {
+        if (currentFilterStatus !== 'all') {
+            const statusMatch = (o.Status || '').toLowerCase() === currentFilterStatus.toLowerCase();
+            if (!statusMatch) return false;
+        }
+
+        if (currentSearchQuery) {
+            const contact = parseCustomerContact(o);
+            const haystack = `#${o.Id} ${contact.customerName} ${contact.phone} ${contact.address} ${o.Status || ''}`.toLowerCase();
+            if (!haystack.includes(currentSearchQuery)) return false;
+        }
+
+        return true;
+    });
+
+    tbody.innerHTML = '';
+    if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 48px; color: var(--text-muted); font-size: 0.9rem;">Kriterlere uygun sipariş kaydı bulunmuyor.</td></tr>';
+        return;
+    }
+
+    filtered.forEach(o => {
+        const id = o.Id || o.id;
+        const contact = parseCustomerContact(o);
+        const cleanPhone = sanitizePhone(contact.phone);
+        const dateStr = o.OrderDate ? new Date(o.OrderDate).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short', year: 'numeric' }) : '-';
+        const total = Number(o.TotalAmount || 0).toFixed(2);
+        const status = o.Status || 'Talep Alındı';
+
+        const savedMeta = JSON.parse(localStorage.getItem(`mm_order_meta_${id}`) || '{}');
+        const displayAddress = savedMeta.address || contact.address;
+
+        let badgeClass = 'talep';
+        const sLower = status.toLowerCase();
+        if (sLower.includes('hazır')) badgeClass = 'hazirlaniyor';
+        else if (sLower.includes('kargo')) badgeClass = 'kargo';
+        else if (sLower.includes('tamam')) badgeClass = 'tamamlandi';
+        else if (sLower.includes('iptal')) badgeClass = 'iptal';
+
+        const statusOptions = ['Talep Alındı', 'Hazırlanıyor', 'Kargoya Verildi', 'Tamamlandı', 'İptal Edildi'];
+        const selectOptionsHtml = statusOptions.map(opt => `<option value="${opt}" ${opt.toLowerCase() === sLower ? 'selected' : ''}>${opt}</option>`).join('');
+
+        tbody.innerHTML += `
+            <tr style="transition: background 0.15s;">
+                <td style="font-weight: 700; color: #0f172a; font-size: 0.95rem;">#${id}</td>
+                <td>
+                    <div style="font-weight: 600; color: #0f172a;">${contact.customerName}</div>
+                    <div style="font-size: 0.8rem; color: #64748b; margin-top: 1px;">${contact.phone || 'Telefon Yok'}</div>
+                    <div class="customer-contact-links">
+                        ${cleanPhone ? `
+                            <a href="https://wa.me/${cleanPhone}?text=${encodeURIComponent('Merhaba ' + contact.customerName + ', Mete Morali #' + id + ' numaralı siparişiniz hakkında bilgilendirme:')}" target="_blank" class="contact-chip wa" title="WhatsApp Mesajı Gönder">
+                                <i class="fa-brands fa-whatsapp"></i>
+                            </a>
+                            <a href="tel:${cleanPhone}" class="contact-chip tel" title="Müşteriyi Ara">
+                                <i class="fa-solid fa-phone"></i>
+                            </a>
+                        ` : ''}
+                    </div>
+                </td>
+                <td>
+                    <div style="font-size: 0.84rem; color: #334155; max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${displayAddress}">
+                        ${displayAddress}
+                    </div>
+                    ${savedMeta.cargoCompany ? `
+                        <div style="font-size: 0.75rem; color: #16a34a; margin-top: 3px; font-weight: 500;">
+                            ${savedMeta.cargoCompany}: ${savedMeta.trackingCode || 'Kod Yok'}
+                        </div>
+                    ` : ''}
+                </td>
+                <td style="color: #64748b; font-size: 0.85rem;">${dateStr}</td>
+                <td style="font-weight: 700; font-size: 1rem; color: #0f172a;">€${total}</td>
+                <td>
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <span class="status-badge ${badgeClass}">${status}</span>
+                        <select class="form-select" style="padding: 4px 8px; font-size: 0.78rem; border-radius: 6px;" onchange="updateOrderStatus(${id}, this.value)">
+                            ${selectOptionsHtml}
+                        </select>
+                    </div>
+                </td>
+                <td style="text-align: center;">
+                    <button class="order-action-btn btn-detail" onclick="viewOrderDetails(${id})">
+                        Detay & Sevkiyat
+                    </button>
+                </td>
+            </tr>
+        `;
+    });
+}
 
 window.updateOrderStatus = async function(orderId, newStatus) {
     try {
         if (typeof supabaseClient !== 'undefined' && supabaseClient !== null) {
             const { error } = await supabaseClient.from('Orders').update({ Status: newStatus }).eq('Id', orderId);
             if (error) throw error;
+
+            const target = allOrdersCache.find(o => (o.Id || o.id) === orderId);
+            if (target) target.Status = newStatus;
+
+            renderOrdersTable();
             window.showAdminToast(`Sipariş #${orderId} durumu "${newStatus}" olarak güncellendi.`, 'success');
         }
     } catch (e) {
@@ -1058,57 +1316,437 @@ window.updateOrderStatus = async function(orderId, newStatus) {
 
 window.viewOrderDetails = async function(orderId) {
     try {
+        let order = allOrdersCache.find(o => (o.Id || o.id) === orderId);
+        if (!order && typeof supabaseClient !== 'undefined') {
+            const { data } = await supabaseClient.from('Orders').select('*').eq('Id', orderId).single();
+            if (data) order = data;
+        }
+
+        if (!order) {
+            window.showAdminToast('Sipariş bulunamadı.', 'error');
+            return;
+        }
+
+        activeModalOrder = order;
+
         let items = [];
         if (typeof supabaseClient !== 'undefined' && supabaseClient !== null) {
-            const { data } = await supabaseClient.from('OrderItems').select('*').eq('OrderId', orderId);
-            if (data) items = data;
+            const { data: iData } = await supabaseClient.from('OrderItems').select('*').eq('OrderId', orderId);
+            if (iData) items = iData;
         }
 
-        let modal = document.getElementById('orderDetailsModal');
-        if (!modal) {
-            modal = document.createElement('div');
-            modal.id = 'orderDetailsModal';
-            modal.className = 'custom-modal-overlay';
-            modal.innerHTML = `
-                <div class="custom-modal" style="width: 500px;">
-                    <div class="modal-header">
-                        <h3>Sipariş Kalemleri <span id="modalOrderId" style="color: var(--brand-gold);"></span></h3>
-                        <button class="modal-close-btn" onclick="document.getElementById('orderDetailsModal').classList.remove('active')"><i class="fa-solid fa-xmark"></i></button>
-                    </div>
-                    <div class="modal-body" id="modalOrderItemsBody" style="padding: 20px;"></div>
-                </div>
-            `;
-            document.body.appendChild(modal);
-        }
-
-        document.getElementById('modalOrderId').textContent = `#${orderId}`;
-        const itemsBody = document.getElementById('modalOrderItemsBody');
+        const contact = parseCustomerContact(order);
+        const savedMeta = JSON.parse(localStorage.getItem(`mm_order_meta_${orderId}`) || '{}');
+        const currentAddress = savedMeta.address || contact.address;
+        const addrObj = (savedMeta.address && savedMeta.address !== contact.address) ? parseAddressString(savedMeta.address, contact.customerName, contact.phone) : (contact.addressObj || parseAddressString(currentAddress, contact.customerName, contact.phone));
         
+        // Prepare carrier shipping label
+        window._activeShippingLabel = [
+            `Alıcı: ${addrObj.receiver || contact.customerName}`,
+            `Telefon: ${addrObj.phone || contact.phone || ''}`,
+            `Adres: ${addrObj.street || currentAddress}`,
+            `İlçe / İl: ${[addrObj.district, addrObj.city].filter(Boolean).join(' / ')}`,
+            addrObj.zip ? `Posta Kodu: ${addrObj.zip}` : '',
+            `Ülke: ${addrObj.country || 'Türkiye'}`
+        ].filter(Boolean).join('\n');
+
+        const currentCargoCompany = savedMeta.cargoCompany || 'Yurtiçi Kargo';
+        const currentTrackingCode = savedMeta.trackingCode || '';
+        const currentNotes = savedMeta.notes || '';
+        const cleanPhone = sanitizePhone(contact.phone);
+
+        document.getElementById('modalOrderId').textContent = `#MM-${orderId}`;
+        const dateStr = order.OrderDate ? new Date(order.OrderDate).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '-';
+        document.getElementById('modalOrderDate').textContent = `Kayıt Tarihi: ${dateStr}`;
+
+        let productsHtml = '';
         if (items.length === 0) {
-            itemsBody.innerHTML = '<p style="color: var(--text-muted); text-align: center;">Bu siparişte kayıtlı kalem bulunmuyor.</p>';
+            productsHtml = '<p style="color: #94a3b8; text-align: center; padding: 24px 0;">Bu siparişte kayıtlı ürün kalemi bulunamadı.</p>';
         } else {
-            itemsBody.innerHTML = items.map(item => `
-                <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border-subtle);">
-                    <div>
-                        <div style="font-weight: 600;">Ürün ID: #${item.ProductId}</div>
-                        <div style="font-size: 0.8rem; color: var(--text-muted);">Birim Fiyat: €${Number(item.UnitPrice || 0).toFixed(2)}</div>
+            productsHtml = items.map(item => {
+                const prod = allProductsCache.find(p => p.Id === item.ProductId) || {};
+                const name = prod.Name || ('Endüstriyel Ürün #' + item.ProductId);
+                const img = prod.ImageUrl || 'img/logo_gri.webp';
+                const artCode = prod.ArticleCode ? `Art: ${prod.ArticleCode}` : '';
+                const unitPrice = Number(item.UnitPrice || prod.Price || 0);
+                const qty = Number(item.Quantity || 1);
+                const lineTotal = (unitPrice * qty).toFixed(2);
+
+                return `
+                    <div class="order-product-row">
+                        <img src="${img}" class="order-product-thumb" alt="${name}" onerror="this.src='../img/logo_gri.png'">
+                        <div class="order-product-info">
+                            <div class="order-product-title">${name}</div>
+                            <div class="order-product-meta">${artCode ? `<span>${artCode}</span> • ` : ''}Birim: €${unitPrice.toFixed(2)}</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <span style="background: #f1f5f9; padding: 3px 8px; border-radius: 4px; font-size: 0.78rem; font-weight: 700; color: #0f172a;">x${qty} Adet</span>
+                            <div style="font-weight: 700; color: #0f172a; margin-top: 4px; font-size: 0.95rem;">€${lineTotal}</div>
+                        </div>
                     </div>
-                    <div style="text-align: right;">
-                        <span class="badge badge-info">${item.Quantity} Adet</span>
-                        <div style="font-weight: 700; margin-top: 4px;">€${(Number(item.UnitPrice || 0) * Number(item.Quantity || 1)).toFixed(2)}</div>
-                    </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
-        modal.classList.add('active');
+        const totalAmount = Number(order.TotalAmount || 0).toFixed(2);
+        const currentStatus = order.Status || 'Talep Alındı';
+
+        const modalBody = document.getElementById('modalOrderBody');
+        modalBody.innerHTML = `
+            <div class="order-console-grid">
+                <!-- Sol Kolon: Müşteri, Teslimat & Kargo Takip -->
+                <div>
+                    <!-- Müşteri Bilgileri -->
+                    <div class="console-card">
+                        <h4>Müşteri Bilgileri</h4>
+                        <div class="console-field-row">
+                            <span class="label">Adı Soyadı:</span>
+                            <span class="val">${contact.customerName}</span>
+                        </div>
+                        <div class="console-field-row">
+                            <span class="label">Telefon:</span>
+                            <span class="val">${contact.phone || 'Belirtilmedi'}</span>
+                        </div>
+                        <div style="display: flex; gap: 8px; margin-top: 14px;">
+                            ${cleanPhone ? `
+                                <a href="https://wa.me/${cleanPhone}?text=${encodeURIComponent('Merhaba ' + contact.customerName + ', Mete Morali #' + orderId + ' numaralı siparişiniz hakkında bilgilendirme:')}" target="_blank" class="btn btn-sm btn-success" style="flex: 1; justify-content: center; background: #25d366; color: #fff; text-decoration: none; border: none; font-size: 0.82rem; font-weight: 600;">
+                                    WhatsApp'tan Yaz
+                                </a>
+                                <a href="tel:${cleanPhone}" class="btn btn-sm btn-secondary" style="background: #f1f5f9; text-decoration: none; font-size: 0.82rem; font-weight: 600;">
+                                    Ara
+                                </a>
+                            ` : '<span style="color: #94a3b8; font-size: 0.8rem;">Telefon numarası kayıtlı değil.</span>'}
+                        </div>
+                    </div>
+
+                    <!-- Teslimat & Sevkiyat Adresi (Büyük E-Ticaret / Kurumsal Sevkiyat Kartı) -->
+                    <div class="console-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; margin-bottom: 12px;">
+                            <h4 style="margin: 0; border: none; padding: 0;">TESLİMAT VE SEVKİYAT ADRESİ</h4>
+                            <span class="shipping-badge">${addrObj.title || 'Teslimat'}</span>
+                        </div>
+
+                        <!-- Yapılandırılmış Teslimat Kartı -->
+                        <div class="shipping-address-card">
+                            <div class="shipping-field">
+                                <span class="k">Alıcı:</span>
+                                <span class="v bold">${addrObj.receiver || contact.customerName}</span>
+                            </div>
+                            <div class="shipping-field">
+                                <span class="k">Telefon:</span>
+                                <span class="v">${addrObj.phone || contact.phone || '-'}</span>
+                            </div>
+                            <div class="shipping-field">
+                                <span class="k">Açık Adres:</span>
+                                <span class="v">${addrObj.street || '-'}</span>
+                            </div>
+                            <div class="shipping-field">
+                                <span class="k">İlçe / İl:</span>
+                                <span class="v bold">${[addrObj.district, addrObj.city].filter(Boolean).join(' / ') || '-'}</span>
+                            </div>
+                            <div class="shipping-field">
+                                <span class="k">Posta / Ülke:</span>
+                                <span class="v">${addrObj.zip ? addrObj.zip + ' • ' : ''}${addrObj.country || 'Türkiye'}</span>
+                            </div>
+                        </div>
+
+                        <!-- Aksiyon Butonları (Kargo Paneline Kopyalama, Harita, Düzenleme) -->
+                        <div class="shipping-actions-bar">
+                            <button type="button" class="btn-copy-kargo" onclick="copyShippingLabelToClipboard(${orderId})">
+                                <i class="fa-solid fa-copy"></i> Kargo Formatında Kopyala
+                            </button>
+                            <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent([addrObj.street, addrObj.district, addrObj.city, addrObj.country].filter(Boolean).join(' '))}" target="_blank" class="btn-map-link">
+                                <i class="fa-solid fa-location-dot"></i> Haritada Göster
+                            </a>
+                            <button type="button" class="btn-edit-toggle" onclick="toggleOrderAddressEdit()">
+                                <i class="fa-solid fa-pen"></i> Düzenle
+                            </button>
+                        </div>
+
+                        <!-- Manuel Düzenleme Formu (İsteğe Bağlı Açılır) -->
+                        <div id="orderAddressEditForm" style="display: none; margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e1;">
+                            <label style="font-size: 0.74rem; font-weight: 600; color: #64748b; display: block; margin-bottom: 4px;">Adresi Düzenle / Güncelle:</label>
+                            <textarea id="modalOrderAddressInput" rows="3" style="width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.85rem; line-height: 1.45; outline: none; margin-bottom: 8px;">${currentAddress}</textarea>
+                            <div style="display: flex; gap: 8px;">
+                                <button class="btn btn-secondary btn-sm" onclick="saveOrderAddressMeta(${orderId})">
+                                    Kaydet ve Güncelle
+                                </button>
+                                <button type="button" class="btn btn-sm" style="background: #e2e8f0; color: #475569;" onclick="toggleOrderAddressEdit()">
+                                    Vazgeç
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Kargo & Lojistik Takip -->
+                    <div class="console-card">
+                        <h4>Kargo ve Sevkiyat Takibi</h4>
+                        <div style="margin-bottom: 10px;">
+                            <label style="font-size: 0.78rem; font-weight: 600; color: #64748b; display: block; margin-bottom: 4px;">Kargo Firması</label>
+                            <select id="modalOrderCargoCompany" class="form-select" style="width: 100%; padding: 8px 12px; font-size: 0.85rem;">
+                                ${['Yurtiçi Kargo', 'Aras Kargo', 'MNG Kargo', 'Sürat Kargo', 'UPS Kargo', 'PTT Kargo', 'Özel Kurye / Ambar'].map(c => `<option value="${c}" ${c === currentCargoCompany ? 'selected' : ''}>${c}</option>`).join('')}
+                            </select>
+                        </div>
+                        <div style="margin-bottom: 12px;">
+                            <label style="font-size: 0.78rem; font-weight: 600; color: #64748b; display: block; margin-bottom: 4px;">Kargo Takip No</label>
+                            <input type="text" id="modalOrderTrackingInput" value="${currentTrackingCode}" placeholder="Örn: 1234567890" style="width: 100%; box-sizing: border-box; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.85rem; outline: none;">
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <button class="btn btn-secondary btn-sm" onclick="saveOrderTrackingMeta(${orderId})">
+                                Kargo Bilgisini Kaydet
+                            </button>
+                            ${cleanPhone ? `
+                                <button class="btn btn-sm btn-success" onclick="sendOrderTrackingWhatsApp(${orderId})" style="background: #25d366; color: #fff; border: none; font-size: 0.82rem; font-weight: 600; padding: 9px 12px;">
+                                    Müşteriye WhatsApp Kargo Bildirimi Gönder
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
+
+                    <!-- Yönetici Notu -->
+                    <div class="console-card" style="margin-bottom: 0;">
+                        <h4>Yönetici Özel Notu</h4>
+                        <textarea id="modalOrderNotesInput" rows="2" placeholder="Özel nakış baskısı, koli bilgisi veya not ekleyin..." style="width: 100%; box-sizing: border-box; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.82rem; outline: none; margin-bottom: 8px;">${currentNotes}</textarea>
+                        <button class="btn btn-secondary btn-sm" onclick="saveOrderNotesMeta(${orderId})">
+                            Notu Kaydet
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Sağ Kolon: Kalemler, Finans & Süreç Stepper -->
+                <div>
+                    <!-- Sipariş Kalemleri -->
+                    <div class="console-card">
+                        <h4>Siparişteki Kalemler</h4>
+                        <div style="max-height: 280px; overflow-y: auto; padding-right: 4px;">
+                            ${productsHtml}
+                        </div>
+                    </div>
+
+                    <!-- Maliyet & Fiyatlandırma Tablosu -->
+                    <div class="console-card">
+                        <h4>Mali Özet</h4>
+                        <div class="console-field-row">
+                            <span class="label">Ara Toplam:</span>
+                            <span class="val">€${totalAmount}</span>
+                        </div>
+                        <div class="console-field-row">
+                            <span class="label">Kargo & Sigorta:</span>
+                            <span class="val" style="color: #16a34a;">Ücretsiz / Anlaşmalı</span>
+                        </div>
+                        <div class="console-field-row">
+                            <span class="label">KDV Durumu:</span>
+                            <span class="val">Fiyata Dahil</span>
+                        </div>
+                        <div class="console-field-row" style="border-top: 1px solid #e2e8f0; padding-top: 8px; margin-top: 8px; font-size: 1.1rem;">
+                            <span class="label" style="font-weight: 700; color: #0f172a;">Genel Toplam:</span>
+                            <span class="val" style="font-size: 1.25rem; font-weight: 800; color: #0f172a;">€${totalAmount}</span>
+                        </div>
+                    </div>
+
+                    <!-- Sipariş Durumu İş Akışı (Stepper - Clean Minimalist) -->
+                    <div class="console-card" style="margin-bottom: 0;">
+                        <h4>Sipariş Durumu</h4>
+                        <div class="stepper-pipeline">
+                            <button class="stepper-btn ${currentStatus === 'Talep Alındı' ? 'active' : ''}" onclick="applyModalStatusChange(${orderId}, 'Talep Alındı')">
+                                Talep Alındı
+                            </button>
+                            <button class="stepper-btn ${currentStatus === 'Hazırlanıyor' ? 'active' : ''}" onclick="applyModalStatusChange(${orderId}, 'Hazırlanıyor')">
+                                Hazırlanıyor
+                            </button>
+                            <button class="stepper-btn ${currentStatus === 'Kargoya Verildi' ? 'active' : ''}" onclick="applyModalStatusChange(${orderId}, 'Kargoya Verildi')">
+                                Kargoda
+                            </button>
+                            <button class="stepper-btn ${currentStatus === 'Tamamlandı' ? 'active' : ''}" onclick="applyModalStatusChange(${orderId}, 'Tamamlandı')">
+                                Tamamlandı
+                            </button>
+                            <button class="stepper-btn danger ${currentStatus === 'İptal Edildi' ? 'active' : ''}" onclick="applyModalStatusChange(${orderId}, 'İptal Edildi')">
+                                İptal
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        const modal = document.getElementById('orderDetailsModal');
+        if (modal) modal.classList.add('active');
+
     } catch (e) {
         console.error('viewOrderDetails error:', e);
         window.showAdminToast('Sipariş detayları alınamadı.', 'error');
     }
 };
 
-// ==========================================================================
+window.toggleOrderAddressEdit = function() {
+    const editForm = document.getElementById('orderAddressEditForm');
+    if (!editForm) return;
+    editForm.style.display = (editForm.style.display === 'none' || !editForm.style.display) ? 'block' : 'none';
+};
+
+window.copyShippingLabelToClipboard = function(orderId) {
+    if (!window._activeShippingLabel) {
+        window.showAdminToast('Kargo etiketi verisi bulunamadı.', 'error');
+        return;
+    }
+    navigator.clipboard.writeText(window._activeShippingLabel).then(() => {
+        window.showAdminToast('Kargo etiketi panoya kopyalandı! (Kargo sistemine yapıştırabilirsiniz)', 'success');
+    }).catch(err => {
+        console.error('Clipboard error:', err);
+        window.showAdminToast('Panoya kopyalanamadı.', 'error');
+    });
+};
+
+window.saveOrderAddressMeta = async function(orderId) {
+    const val = (document.getElementById('modalOrderAddressInput')?.value || '').trim();
+    const meta = JSON.parse(localStorage.getItem(`mm_order_meta_${orderId}`) || '{}');
+    meta.address = val;
+    localStorage.setItem(`mm_order_meta_${orderId}`, JSON.stringify(meta));
+
+    // Also update Supabase row CustomerName field so the address is permanently synced in database
+    if (typeof supabaseClient !== 'undefined' && supabaseClient !== null && activeModalOrder) {
+        try {
+            const contact = parseCustomerContact(activeModalOrder);
+            const newCustomerNamePayload = `${contact.customerName} | Adres: ${val}`;
+            await supabaseClient.from('Orders').update({ CustomerName: newCustomerNamePayload }).eq('Id', orderId);
+            activeModalOrder.CustomerName = newCustomerNamePayload;
+            
+            const cached = allOrdersCache.find(o => (o.Id || o.id) === orderId);
+            if (cached) cached.CustomerName = newCustomerNamePayload;
+        } catch (e) {
+            console.warn('Supabase address update error:', e);
+        }
+    }
+
+    window.showAdminToast('Teslimat adresi güncellendi ve kaydedildi.', 'success');
+    renderOrdersTable();
+    window.viewOrderDetails(orderId);
+};
+
+window.saveOrderTrackingMeta = function(orderId) {
+    const cargoCompany = document.getElementById('modalOrderCargoCompany')?.value || 'Yurtiçi Kargo';
+    const trackingCode = (document.getElementById('modalOrderTrackingInput')?.value || '').trim();
+    const meta = JSON.parse(localStorage.getItem(`mm_order_meta_${orderId}`) || '{}');
+    meta.cargoCompany = cargoCompany;
+    meta.trackingCode = trackingCode;
+    localStorage.setItem(`mm_order_meta_${orderId}`, JSON.stringify(meta));
+    window.showAdminToast('Kargo takip bilgileri kaydedildi.', 'success');
+    renderOrdersTable();
+};
+
+window.saveOrderNotesMeta = function(orderId) {
+    const val = (document.getElementById('modalOrderNotesInput')?.value || '').trim();
+    const meta = JSON.parse(localStorage.getItem(`mm_order_meta_${orderId}`) || '{}');
+    meta.notes = val;
+    localStorage.setItem(`mm_order_meta_${orderId}`, JSON.stringify(meta));
+    window.showAdminToast('Yönetici notu kaydedildi.', 'success');
+};
+
+window.applyModalStatusChange = async function(orderId, newStatus) {
+    await window.updateOrderStatus(orderId, newStatus);
+    window.viewOrderDetails(orderId);
+};
+
+window.sendOrderTrackingWhatsApp = function(orderId) {
+    if (!activeModalOrder) return;
+    const contact = parseCustomerContact(activeModalOrder);
+    const cleanPhone = sanitizePhone(contact.phone);
+    if (!cleanPhone) {
+        window.showAdminToast('Müşterinin telefon numarası bulunmuyor.', 'warning');
+        return;
+    }
+
+    const savedMeta = JSON.parse(localStorage.getItem(`mm_order_meta_${orderId}`) || '{}');
+    const cargo = savedMeta.cargoCompany || 'Kargo';
+    const tracking = savedMeta.trackingCode || '(Belirtilmedi)';
+    const customer = contact.customerName || 'Değerli Müşterimiz';
+
+    const text = 
+`*METE MORALİ - KARGO SEVKİYAT BİLDİRİMİ*
+──────────────────────────
+Sayın *${customer}*,
+
+Mete Morali'den oluşturduğunuz *#MM-${orderId}* numaralı siparişiniz hazırlanmış ve kargoya teslim edilmiştir.
+
+• *Kargo Firması:* ${cargo}
+• *Kargo Takip Kodu:* ${tracking}
+
+Ürünlerinizi iyi günlerde ve güvenle kullanmanızı dileriz.
+──────────────────────────
+Mete Morali Tekstil A.Ş.`;
+
+    window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(text)}`, '_blank');
+};
+
+window.printActiveOrderInvoice = function() {
+    if (!activeModalOrder) return;
+    const order = activeModalOrder;
+    const orderId = order.Id || order.id;
+    const contact = parseCustomerContact(order);
+    const savedMeta = JSON.parse(localStorage.getItem(`mm_order_meta_${orderId}`) || '{}');
+    const address = savedMeta.address || contact.address;
+    const cargo = savedMeta.cargoCompany || 'Standart Sevkiyat';
+    const tracking = savedMeta.trackingCode || '-';
+    const dateStr = order.OrderDate ? new Date(order.OrderDate).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' }) : '-';
+
+    const printArea = document.getElementById('printInvoiceArea');
+    if (!printArea) return;
+
+    printArea.innerHTML = `
+        <div style="max-width: 800px; margin: 0 auto; border: 1px solid #ddd; padding: 30px; font-family: 'Outfit', sans-serif;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0f172a; padding-bottom: 16px; margin-bottom: 24px;">
+                <div>
+                    <h1 style="margin: 0; font-size: 1.8rem; font-weight: 800; color: #0f172a;">METE MORALI</h1>
+                    <p style="margin: 4px 0 0 0; font-size: 0.85rem; color: #64748b;">Endüstriyel & Teknik İş Kıyafetleri San. Tic. A.Ş.</p>
+                </div>
+                <div style="text-align: right;">
+                    <h2 style="margin: 0; font-size: 1.3rem; color: #2563eb;">SEVKİYAT & İRSALİYE FİŞİ</h2>
+                    <p style="margin: 4px 0 0 0; font-size: 0.9rem; font-weight: 600;">Sipariş No: #MM-${orderId}</p>
+                    <p style="margin: 2px 0 0 0; font-size: 0.8rem; color: #64748b;">Tarih: ${dateStr}</p>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; margin-bottom: 28px; background: #f8fafc; padding: 16px; border-radius: 8px;">
+                <div style="flex: 1;">
+                    <h4 style="margin: 0 0 6px 0; font-size: 0.85rem; text-transform: uppercase; color: #64748b;">GÖNDERİCİ:</h4>
+                    <p style="margin: 0; font-size: 0.9rem; font-weight: 600;">Mete Morali Tekstil A.Ş.</p>
+                    <p style="margin: 2px 0; font-size: 0.8rem; color: #475569;">Bursa Organize Sanayi Bölgesi, Türkiye</p>
+                    <p style="margin: 2px 0; font-size: 0.8rem; color: #475569;">Tel: +90 532 214 45 53</p>
+                </div>
+                <div style="flex: 1; padding-left: 20px;">
+                    <h4 style="margin: 0 0 6px 0; font-size: 0.85rem; text-transform: uppercase; color: #64748b;">ALICI & TESLİMAT:</h4>
+                    <p style="margin: 0; font-size: 0.9rem; font-weight: 600;">${contact.customerName}</p>
+                    <p style="margin: 2px 0; font-size: 0.8rem; color: #475569;">Tel: ${contact.phone || '-'}</p>
+                    <p style="margin: 2px 0; font-size: 0.8rem; color: #475569;">Adres: ${address}</p>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 28px;">
+                <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 6px;">Sipariş Kalemleri</div>
+                ${document.querySelector('#modalOrderBody .console-card div[style*="max-height"]')?.innerHTML || '<p>Kalemler görüntülendi.</p>'}
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; border-top: 1px solid #ddd; padding-top: 16px;">
+                <div>
+                    <p style="margin: 0 0 4px 0; font-size: 0.85rem;"><b>Kargo Şirketi:</b> ${cargo}</p>
+                    <p style="margin: 0; font-size: 0.85rem;"><b>Takip No:</b> ${tracking}</p>
+                </div>
+                <div style="text-align: right;">
+                    <p style="margin: 0; font-size: 1.1rem; font-weight: 700;">Toplam Tutar: €${Number(order.TotalAmount || 0).toFixed(2)}</p>
+                    <p style="margin: 2px 0 0 0; font-size: 0.78rem; color: #16a34a;">KDV Dahil / Sevk Edildi</p>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; margin-top: 50px; padding-top: 20px; border-top: 1px dashed #bbb; font-size: 0.8rem; color: #64748b;">
+                <div>Teslim Eden: MeteMorali Depo / Kaşe - İmza</div>
+                <div>Teslim Alan: Kargo Yetkilisi / İsim - İmza</div>
+            </div>
+        </div>
+    `;
+
+    window.print();
+};
+
 // 7. CUSTOMERS MANAGEMENT
 // ==========================================================================
 window.loadCustomers = async function() {
