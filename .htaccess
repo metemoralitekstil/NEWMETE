@@ -23,9 +23,12 @@ RewriteRule ^anasayfa(\.html)?$ / [R=301,L]
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index(\.html)?\ HTTP/
 RewriteRule ^index(\.html)?$ / [R=301,L]
 
-# RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /([^/]+/)*([^.]+)\.html\ HTTP/
-# RewriteRule ^(([^/]+/)*([^.]+))\.html$ /$1 [R=301,L]
+# 301 Redirect .html to clean URL (exclude AdminFrontend/AdminBackend)
+RewriteCond %{REQUEST_URI} !^/Admin [NC]
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /([^/]+/)*([^.]+)\.html(\?[^\ ]*)?\ HTTP/
+RewriteRule ^(([^/]+/)*([^.]+))\.html$ /$1 [R=301,L]
 
+# Clean URL rewriting: serve .html files internally when accessed without .html
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}\.html -f
 RewriteRule ^(.*)$ $1.html [L]

@@ -1,4 +1,4 @@
-﻿const particleConfigs = {
+const particleConfigs = {
     fire: {
         particles: {
             number: { value: 35 },
@@ -97,7 +97,7 @@ const products = [
         bgImage: "img/arkaplankaynakci.webp",
         bgPosition: "left center",
         particleType: "fire",
-        link: "urun-detay.html?id=5",
+        link: "urun-detay?id=5",
         fsCapsule: "CAPSULE COLLECTION // 01",
         fsTitle: {
             tr: "KAYNAKÇI",
@@ -176,7 +176,7 @@ const products = [
         accentColor: "#ffcc00",
         bgImage: "img/Arkaplan1.webp",
         particleType: "dust",
-        link: "urun-detay.html?id=3",
+        link: "urun-detay?id=3",
         fsCapsule: "CAPSULE COLLECTION // 02",
         fsTitle: {
             tr: "HI-VIS KAYNAKÇI",
@@ -255,7 +255,7 @@ const products = [
         accentColor: "#2563eb",
         bgImage: "img/Arkaplan2.webp",
         particleType: "dust",
-        link: "urun-detay.html?id=6",
+        link: "urun-detay?id=6",
         fsCapsule: "CAPSULE COLLECTION // 03",
         fsTitle: {
             tr: "LACİVERT",
@@ -334,7 +334,7 @@ const products = [
         accentColor: "#cd84f1",
         bgImage: "img/Arkaplan1.webp",
         particleType: "snow",
-        link: "urun-detay.html?id=1",
+        link: "urun-detay?id=1",
         fsCapsule: "CAPSULE COLLECTION // 04",
         fsTitle: {
             tr: "KIŞLIK PARKA",

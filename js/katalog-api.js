@@ -118,7 +118,8 @@ async function loadCatalogProducts() {
             const safeCategory = escapeHtml(category);
             const safeImg = encodeURI(p.imageUrl || '');
             const safeId = encodeURIComponent(p.id || '');
-            const detailUrl = (lang && lang !== 'tr') ? `urun-detay.html?id=${safeId}&lang=${encodeURIComponent(lang)}` : `urun-detay.html?id=${safeId}`;
+            const pagePrefix = (window.location.protocol === 'file:') ? 'urun-detay.html' : 'urun-detay';
+            const detailUrl = (lang && lang !== 'tr') ? `${pagePrefix}?id=${safeId}&lang=${encodeURIComponent(lang)}` : `${pagePrefix}?id=${safeId}`;
 
             // "Katalog" kartı tasarımı
             const cardHTML = `
