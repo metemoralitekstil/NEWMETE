@@ -524,7 +524,7 @@
                         if (window.location.pathname.includes('hesabim')) {
                             if (window.updateProfileUI) window.updateProfileUI();
                         } else {
-                            window.location.href = 'hesabim';
+                            window.location.href = 'hesabim.html';
                         }
                         return;
                     }
@@ -550,7 +550,7 @@
                 if (window.location.pathname.includes('hesabim')) {
                     if (window.updateProfileUI) window.updateProfileUI();
                 } else {
-                    window.location.href = 'hesabim';
+                    window.location.href = 'hesabim.html';
                 }
             });
 
@@ -602,7 +602,7 @@
                                     const wrapper = document.querySelector('.dashboard-wrapper');
                                     if (wrapper) wrapper.style.display = 'block';
                                 } else {
-                                    window.location.href = 'hesabim';
+                                    window.location.href = 'hesabim.html';
                                 }
                             });
                         }
@@ -680,7 +680,7 @@
                                     if (window.location.pathname.includes('hesabim')) {
                                         if (window.updateProfileUI) window.updateProfileUI();
                                     } else {
-                                        window.location.href = 'hesabim';
+                                        window.location.href = 'hesabim.html';
                                     }
                                 });
                             }
@@ -756,7 +756,7 @@
                                 if (window.location.pathname.includes('hesabim')) {
                                     if (window.updateProfileUI) window.updateProfileUI();
                                 } else {
-                                    window.location.href = 'hesabim';
+                                    window.location.href = 'hesabim.html';
                                 }
                             });
                         }
@@ -800,7 +800,7 @@
 
                 try {
                     const { data, error } = await supabaseClient.auth.resetPasswordForEmail(activeResetEmail, {
-                        redirectTo: window.location.origin + '/hesabim'
+                        redirectTo: window.location.origin + '/hesabim.html'
                     });
 
                     if (window.showLoadingOverlay) window.showLoadingOverlay(false);

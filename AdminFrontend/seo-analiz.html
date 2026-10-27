@@ -28,38 +28,36 @@
     <link rel="stylesheet" href="css/admin-style.css">
     <style>
         :root {
-            --bg-color: #08080c;
-            --panel-bg: #111116;
-            --panel-border: rgba(255, 255, 255, 0.07);
-            --panel-border-hover: rgba(255, 255, 255, 0.15);
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
+            --bg-color: #f8fafc;
+            --panel-bg: #ffffff;
+            --panel-border: #e2e8f0;
+            --panel-border-hover: #cbd5e1;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
             
             /* Accent Colors */
             --primary: #f97316; /* Safety Orange */
-            --primary-glow: rgba(249, 115, 22, 0.15);
-            --secondary: #3b82f6; /* Electric Blue */
-            --secondary-glow: rgba(59, 130, 246, 0.15);
+            --primary-glow: rgba(249, 115, 22, 0.1);
+            --secondary: #2563eb; /* Electric Blue */
+            --secondary-glow: rgba(37, 99, 235, 0.1);
             
             /* Audit Status Colors */
-            --success: #10b981; /* Emerald Green */
-            --warning: #f59e0b; /* Amber Yellow */
-            --danger: #ef4444; /* Rose Red */
+            --success: #16a34a; /* Emerald Green */
+            --warning: #d97706; /* Amber Yellow */
+            --danger: #dc2626; /* Rose Red */
             
-            --success-glow: rgba(16, 185, 129, 0.1);
-            --warning-glow: rgba(245, 158, 11, 0.1);
-            --danger-glow: rgba(239, 68, 68, 0.1);
+            --success-glow: rgba(22, 163, 74, 0.08);
+            --warning-glow: rgba(217, 119, 6, 0.08);
+            --danger-glow: rgba(220, 38, 38, 0.08);
             
             --font-main: 'Outfit', sans-serif;
             --font-mono: 'JetBrains Mono', monospace;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Override Body Background to fit Admin Theme */
         body {
-            background: var(--bg-gradient);
-            background-attachment: fixed;
-            color: var(--text-primary);
+            background-color: var(--bg-primary, #ffffff);
+            color: var(--text-primary, #0f172a);
         }
 
         /* SEO Specific Styles adapted for Admin Layout */
@@ -72,7 +70,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 28px;
             border-bottom: 1px solid var(--panel-border);
             padding-bottom: 20px;
         }
@@ -81,28 +79,24 @@
             font-size: 24px;
             font-weight: 700;
             letter-spacing: -0.5px;
-            background: linear-gradient(to right, #ffffff, #d1d5db);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            color: #ffffff;
+            color: #0f172a;
         }
 
         .brand-text p {
             font-size: 14px;
             color: var(--text-muted);
-            margin-top: 2px;
+            margin-top: 4px;
         }
 
         /* Tabs Navigation */
         .tabs-nav {
             display: flex;
             gap: 8px;
-            background-color: var(--panel-bg);
+            background-color: #f1f5f9;
             padding: 6px;
             border-radius: 10px;
             border: 1px solid var(--panel-border);
-            margin-bottom: 30px;
+            margin-bottom: 28px;
             width: fit-content;
         }
 
@@ -110,11 +104,11 @@
             background: transparent;
             border: none;
             color: var(--text-muted);
-            padding: 10px 20px;
+            padding: 9px 18px;
             border-radius: 8px;
             font-family: var(--font-main);
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
             display: flex;
@@ -124,33 +118,41 @@
 
         .tab-btn:hover {
             color: var(--text-main);
+            background-color: rgba(255, 255, 255, 0.6);
         }
 
         .tab-btn.active {
-            background-color: rgba(255, 255, 255, 0.06);
-            color: white;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            background-color: #ffffff;
+            color: #0f172a;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
         }
 
         /* Summary Panel / Cards */
         .summary-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
+            gap: 18px;
+            margin-bottom: 32px;
         }
 
         .seo-card {
             background-color: var(--panel-bg);
             border: 1px solid var(--panel-border);
             border-radius: 12px;
-            padding: 24px;
+            padding: 22px 24px;
             display: flex;
             flex-direction: column;
             gap: 8px;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
             transition: var(--transition);
+        }
+
+        .seo-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--panel-border-hover);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.06);
         }
 
         .seo-card::before {
@@ -169,54 +171,57 @@
         .seo-card.card-danger::before { background-color: var(--danger); }
 
         .card-title {
-            font-size: 14px;
+            font-size: 13px;
             color: var(--text-muted);
-            font-weight: 500;
+            font-weight: 600;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .card-value {
             font-size: 32px;
             font-weight: 700;
-            color: white;
+            color: #0f172a;
             display: flex;
             align-items: baseline;
             gap: 6px;
         }
 
         .card-value span {
-            font-size: 14px;
-            font-weight: 400;
+            font-size: 15px;
+            font-weight: 500;
             color: var(--text-muted);
         }
 
         .card-icon {
-            font-size: 20px;
-            opacity: 0.8;
+            font-size: 18px;
+            opacity: 0.85;
         }
 
         /* Table & Lists layout */
         .panel-container {
             background-color: var(--panel-bg);
             border: 1px solid var(--panel-border);
-            border-radius: 16px;
+            border-radius: 14px;
             padding: 24px;
             position: relative;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
         }
 
         .panel-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 24px;
+            margin-bottom: 22px;
         }
 
         .panel-title {
             font-size: 18px;
-            font-weight: 600;
+            font-weight: 700;
+            color: #0f172a;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -235,23 +240,25 @@
 
         th {
             padding: 14px 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            font-weight: 500;
+            border-bottom: 1px solid var(--panel-border);
+            font-weight: 600;
             color: var(--text-muted);
-            font-size: 13px;
+            font-size: 12px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            background-color: #f8fafc;
         }
 
         td {
             padding: 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            border-bottom: 1px solid #f1f5f9;
             font-size: 14px;
+            color: #334155;
             vertical-align: middle;
         }
 
         tr:hover td {
-            background-color: rgba(255, 255, 255, 0.01);
+            background-color: #f8fafc;
         }
 
         /* Badges */
@@ -262,44 +269,44 @@
             padding: 4px 10px;
             border-radius: 9999px;
             font-size: 12px;
-            font-weight: 500;
+            font-weight: 600;
         }
 
         .badge-success {
             background-color: var(--success-glow);
             color: var(--success);
-            border: 1px solid rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(22, 163, 74, 0.2);
         }
 
         .badge-warning {
             background-color: var(--warning-glow);
             color: var(--warning);
-            border: 1px solid rgba(245, 158, 11, 0.2);
+            border: 1px solid rgba(217, 119, 6, 0.2);
         }
 
         .badge-danger {
             background-color: var(--danger-glow);
             color: var(--danger);
-            border: 1px solid rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(220, 38, 38, 0.2);
         }
 
         .badge-secondary {
-            background-color: rgba(255,255,255,0.05);
+            background-color: #f1f5f9;
             color: var(--text-muted);
-            border: 1px solid rgba(255,255,255,0.08);
+            border: 1px solid var(--panel-border);
         }
 
         /* Circle Progress Bar */
         .score-circle {
             position: relative;
-            width: 48px;
-            height: 48px;
+            width: 46px;
+            height: 46px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         /* Search & Filters */
@@ -326,11 +333,11 @@
 
         .search-input {
             width: 100%;
-            background-color: rgba(255, 255, 255, 0.03);
+            background-color: #ffffff;
             border: 1px solid var(--panel-border);
             border-radius: 8px;
             padding: 10px 14px 10px 40px;
-            color: white;
+            color: #0f172a;
             font-family: var(--font-main);
             font-size: 14px;
             outline: none;
@@ -338,17 +345,16 @@
         }
 
         .search-input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
-            background-color: rgba(255, 255, 255, 0.05);
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
         }
 
         .select-filter {
-            background-color: rgba(255, 255, 255, 0.03);
+            background-color: #ffffff;
             border: 1px solid var(--panel-border);
             border-radius: 8px;
             padding: 10px 16px;
-            color: var(--text-main);
+            color: #0f172a;
             outline: none;
             font-family: var(--font-main);
             font-size: 14px;
@@ -357,17 +363,17 @@
         }
 
         .select-filter:focus {
-            border-color: var(--primary);
+            border-color: #2563eb;
         }
 
         /* Codeblock styling */
         pre {
-            background-color: #0b0b0f;
-            border: 1px solid rgba(255,255,255,0.06);
+            background-color: #f8fafc;
+            border: 1px solid var(--panel-border);
             border-radius: 8px;
             padding: 16px;
             overflow-x: auto;
-            color: #d1d5db;
+            color: #1e293b;
             font-family: var(--font-mono);
             font-size: 13px;
             line-height: 1.6;
@@ -380,7 +386,8 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-color: rgba(0, 0, 0, 0.72);
+            background-color: rgba(15, 23, 42, 0.45);
+            backdrop-filter: blur(2px);
             z-index: 999999;
             opacity: 0;
             pointer-events: none;
@@ -400,7 +407,7 @@
             width: 100%;
             max-width: 650px;
             height: 100vh;
-            background-color: #0e0e14;
+            background-color: #ffffff;
             border-left: 1px solid var(--panel-border);
             z-index: 1000000;
             transform: translate3d(100%, 0, 0);
@@ -408,7 +415,7 @@
             will-change: transform;
             display: flex;
             flex-direction: column;
-            box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+            box-shadow: -10px 0 30px rgba(0,0,0,0.12);
         }
 
         .drawer.active {
@@ -416,16 +423,18 @@
         }
 
         .drawer-header {
-            padding: 24px;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding: 22px 24px;
+            border-bottom: 1px solid var(--panel-border);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: #ffffff;
         }
 
         .drawer-title {
-            font-size: 20px;
+            font-size: 19px;
             font-weight: 700;
+            color: #0f172a;
         }
 
         .drawer-close {
@@ -438,7 +447,7 @@
         }
 
         .drawer-close:hover {
-            color: white;
+            color: #0f172a;
             transform: rotate(90deg);
         }
 
@@ -449,11 +458,12 @@
             display: flex;
             flex-direction: column;
             gap: 24px;
+            background: #ffffff;
         }
 
         /* SERP Google Preview */
         .serp-preview {
-            background-color: white;
+            background-color: #ffffff;
             color: #1a0dab;
             padding: 20px;
             border-radius: 12px;
@@ -462,6 +472,7 @@
             display: flex;
             flex-direction: column;
             gap: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
         .serp-url {
@@ -504,8 +515,8 @@
             gap: 16px;
             padding: 16px;
             border-radius: 10px;
-            background-color: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.05);
+            background-color: #f8fafc;
+            border: 1px solid var(--panel-border);
         }
 
         .audit-icon-box {
@@ -518,22 +529,23 @@
         .audit-content-box h4 {
             font-size: 14px;
             font-weight: 600;
+            color: #0f172a;
             margin-bottom: 4px;
         }
 
         .audit-content-box p {
             font-size: 13px;
-            color: var(--text-muted);
+            color: #475569;
             line-height: 1.5;
         }
 
         .audit-content-box .fix-suggestion {
-            background-color: rgba(249, 115, 22, 0.07);
+            background-color: #fff7ed;
             border-left: 3px solid var(--primary);
-            padding: 6px 10px;
+            padding: 8px 12px;
             border-radius: 0 6px 6px 0;
             font-size: 12px;
-            color: #ffedd5;
+            color: #9a3412;
             margin-top: 8px;
             display: flex;
             align-items: center;
@@ -542,9 +554,9 @@
 
         /* Test editor in Drawer */
         .seo-test-editor {
-            background-color: rgba(255, 255, 255, 0.02);
+            background-color: #f8fafc;
             border: 1px solid var(--panel-border);
-            padding: 16px;
+            padding: 18px;
             border-radius: 10px;
             display: flex;
             flex-direction: column;
@@ -559,21 +571,26 @@
 
         .editor-group label {
             font-size: 12px;
-            font-weight: 500;
-            color: var(--text-muted);
+            font-weight: 600;
+            color: #475569;
             display: flex;
             justify-content: space-between;
         }
 
         .editor-input {
-            background-color: #0b0b0f;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 6px;
-            padding: 10px;
-            color: white;
+            background-color: #ffffff;
+            border: 1px solid var(--panel-border);
+            border-radius: 8px;
+            padding: 10px 12px;
+            color: #0f172a;
             font-family: var(--font-main);
             font-size: 14px;
             outline: none;
+        }
+
+        .editor-input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
         }
 
         .editor-textarea {
@@ -589,7 +606,7 @@
         }
 
         .prod-card {
-            background-color: #121218;
+            background-color: #ffffff;
             border: 1px solid var(--panel-border);
             border-radius: 12px;
             overflow: hidden;
@@ -597,21 +614,23 @@
             flex-direction: column;
             transition: var(--transition);
             cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
         }
 
         .prod-card:hover {
             transform: translateY(-4px);
             border-color: var(--panel-border-hover);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
         }
 
         .prod-img {
             height: 160px;
-            background-color: #08080c;
+            background-color: #f8fafc;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
+            border-bottom: 1px solid #f1f5f9;
         }
 
         .prod-img img {
@@ -624,13 +643,14 @@
             position: absolute;
             top: 12px;
             right: 12px;
-            background-color: rgba(0,0,0,0.7);
+            background-color: #ffffff;
             color: var(--primary);
             padding: 4px 8px;
             border-radius: 4px;
             font-size: 11px;
-            font-weight: 600;
+            font-weight: 700;
             border: 1px solid var(--primary);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
         .prod-info {
@@ -642,20 +662,22 @@
         }
 
         .prod-name {
-            font-size: 16px;
-            font-weight: 600;
+            font-size: 15px;
+            font-weight: 700;
+            color: #0f172a;
         }
 
         .prod-meta-label {
             font-size: 11px;
             color: var(--text-muted);
-            font-weight: 500;
+            font-weight: 600;
             margin-top: 4px;
+            text-transform: uppercase;
         }
 
         .prod-meta-val {
             font-size: 13px;
-            color: var(--text-main);
+            color: #334155;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -673,7 +695,7 @@
             bottom: 125%;
             left: 50%;
             transform: translateX(-50%);
-            background-color: #1f2937;
+            background-color: #0f172a;
             color: white;
             padding: 6px 10px;
             border-radius: 6px;
@@ -682,8 +704,7 @@
             opacity: 0;
             pointer-events: none;
             transition: var(--transition);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.06);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
             z-index: 10;
         }
 
@@ -699,8 +720,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(13, 13, 17, 0.95);
-            border-radius: 16px;
+            background-color: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(3px);
+            border-radius: 14px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -718,12 +740,12 @@
         }
 
         .spinner {
-            width: 48px;
-            height: 48px;
-            border: 3px solid rgba(249, 115, 22, 0.1);
+            width: 44px;
+            height: 44px;
+            border: 3px solid rgba(249, 115, 22, 0.15);
             border-top-color: var(--primary);
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            animation: spin 0.8s linear infinite;
         }
 
         @keyframes spin {
@@ -739,19 +761,21 @@
             position: absolute;
             top: 10px;
             right: 10px;
-            padding: 4px 8px;
+            padding: 4px 10px;
             font-size: 11px;
-            background-color: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.1);
+            background-color: #ffffff;
+            border: 1px solid var(--panel-border);
             color: var(--text-muted);
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
             transition: var(--transition);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
 
         .copy-btn:hover {
-            color: white;
-            background-color: rgba(255,255,255,0.15);
+            color: #0f172a;
+            border-color: #cbd5e1;
+            background-color: #f8fafc;
         }
         
         .copy-btn.copied {
@@ -778,36 +802,65 @@
         }
         
         .alert-box-info {
-            background-color: rgba(59, 130, 246, 0.08);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            color: #dbeafe;
+            background-color: #eff6ff;
+            border: 1px solid #bfdbfe;
+            color: #1e40af;
         }
         .alert-box-warning {
-            background-color: rgba(245, 158, 11, 0.08);
-            border: 1px solid rgba(245, 158, 11, 0.2);
-            color: #fef3c7;
+            background-color: #fffbeb;
+            border: 1px solid #fde68a;
+            color: #92400e;
         }
     </style>
 </head>
 <body>
 
     <div class="admin-layout">
-        <!-- Sidebar Menu -->
-        <div class="sidebar">
-            <div class="sidebar-menu">
-                <h3>Admin Panel</h3>
-                <ul>
-                    <li><a href="dashboard.html">Dashboard</a></li>
-                    <li><a href="products.html">Ürün Yönetimi</a></li>
-                    <li><a href="orders.html">Sipariş Yönetimi</a></li>
-                    <li><a href="customers.html">Kayıtlı Müşteriler</a></li>
-                    <li><a href="seo-analiz.html" class="active">SEO Analiz</a></li>
-                </ul>
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div>
+                <div class="brand-section">
+                    <div class="brand-logo">
+                        <img src="../img/logo_gri.webp" alt="MeteMorali" onerror="this.src='../img/logo_gri.png'">
+                    </div>
+                    <div class="brand-text">
+                        <h2>MeteMorali</h2>
+                        <span>Admin Suite</span>
+                    </div>
+                </div>
+
+                <nav class="sidebar-nav">
+                    <div class="nav-label">Yönetim Paneli</div>
+                    <a href="dashboard.html">
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="products.html">
+                        <span>Ürün Yönetimi</span>
+                    </a>
+                    <a href="orders.html">
+                        <span>Sipariş Yönetimi</span>
+                    </a>
+                    <a href="customers.html">
+                        <span>Kayıtlı Müşteriler</span>
+                    </a>
+
+                    <div class="nav-label">Sistem & Vitrin</div>
+                    <a href="seo-analiz.html" class="active">
+                        <span>SEO Analiz</span>
+                    </a>
+                    <a href="../katalog.html" target="_blank">
+                        <span>Canlı Mağazayı Aç &rarr;</span>
+                    </a>
+                </nav>
             </div>
-            <div class="logout-container">
-                <a href="#" onclick="confirmLogout(event)" class="logout-btn">Çıkış Yap <i class="fa-solid fa-door-open"></i></a>
+
+            <div class="sidebar-footer">
+                <a href="#" onclick="confirmLogout(event)" class="logout-btn">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    <span>Çıkış Yap</span>
+                </a>
             </div>
-        </div>
+        </aside>
 
         <!-- Main Content Area -->
         <div class="main-content">
@@ -829,19 +882,19 @@
                 <!-- Summary Cards -->
                 <div class="summary-grid">
                     <div class="seo-card card-primary">
-                        <div class="card-title">Orjinal Ortalama SEO Puanı <i class="fa-solid fa-gauge-high card-icon" style="color: var(--primary)"></i></div>
+                        <div class="card-title">Orjinal Ortalama SEO Puanı</div>
                         <div class="card-value" id="avg-score">-- <span>/100</span></div>
                     </div>
                     <div class="seo-card card-success">
-                        <div class="card-title">Taranan Sayfa <i class="fa-solid fa-file-code card-icon" style="color: var(--success)"></i></div>
+                        <div class="card-title">Taranan Sayfa</div>
                         <div class="card-value" id="pages-count">--</div>
                     </div>
                     <div class="seo-card card-warning">
-                        <div class="card-title">Toplam Uyarı <i class="fa-solid fa-triangle-exclamation card-icon" style="color: var(--warning)"></i></div>
+                        <div class="card-title">Toplam Uyarı</div>
                         <div class="card-value" id="warnings-count">--</div>
                     </div>
                     <div class="seo-card card-danger">
-                        <div class="card-title">Kritik Hatalar <i class="fa-solid fa-circle-xmark card-icon" style="color: var(--danger)"></i></div>
+                        <div class="card-title">Kritik Hatalar</div>
                         <div class="card-value" id="errors-count">--</div>
                     </div>
                 </div>
@@ -849,13 +902,13 @@
                 <!-- Tabbed Nav -->
                 <div class="tabs-nav">
                     <button class="tab-btn active" onclick="switchTab('static-pages', this)">
-                        <i class="fa-solid fa-desktop"></i> Sayfa Denetimleri
+                        Sayfa Denetimleri
                     </button>
                     <button class="tab-btn" onclick="switchTab('dynamic-products', this)">
-                        <i class="fa-solid fa-tags"></i> Ürün SEO Simülatörü
+                        Ürün SEO Simülatörü
                     </button>
                     <button class="tab-btn" onclick="switchTab('sitemap-robots', this)">
-                        <i class="fa-solid fa-network-wired"></i> Robots & Sitemap
+                        Robots & Sitemap
                     </button>
                 </div>
 
@@ -872,7 +925,7 @@
                     <div id="tab-static-pages" class="tab-content">
                         <div class="panel-header">
                             <div class="panel-title">
-                                <i class="fa-solid fa-list-check" style="color: var(--primary)"></i> Sitedeki Sayfalar ve SEO Durumları
+                                Sitedeki Sayfalar ve SEO Durumları
                             </div>
                         </div>
 
@@ -911,12 +964,11 @@
                     <div id="tab-dynamic-products" class="tab-content" style="display: none;">
                         <div class="panel-header">
                             <div class="panel-title">
-                                <i class="fa-solid fa-shirt" style="color: var(--secondary)"></i> Dinamik Ürün SEO Simülatörü
+                                Dinamik Ürün SEO Simülatörü
                             </div>
                         </div>
 
                         <div class="alert-box alert-box-warning">
-                            <i class="fa-solid fa-circle-exclamation" style="color: var(--warning)"></i>
                             <div>
                                 <strong>Kritik SEO Tespiti:</strong> Ürün sayfalarımız dinamik olarak tek şablon üzerinden çalışır (`urun-detay.html?id=ID`). Sayfa yüklendiğinde JavaScript, ürün adını tarayıcı başlığına (`document.title`) yazar ve Open Graph etiketlerini (og:title, og:description, og:image) günceller. Ancak, klasik HTML meta etiketi olan <strong>&lt;meta name="description"&gt;</strong> etiketi ürün yüklenirken güncellenmemektedir! Arama motoru örümceklerinin dinamik sayfaları düzgün dizine eklemesi için bu etiketin de güncellenmesi önerilir.
                             </div>
@@ -931,7 +983,7 @@
                     <div id="tab-sitemap-robots" class="tab-content" style="display: none;">
                         <div class="panel-header">
                             <div class="panel-title">
-                                <i class="fa-solid fa-file-lines" style="color: var(--success)"></i> Arama Motoru İletişim Dosyaları
+                                Arama Motoru İletişim Dosyaları
                             </div>
                         </div>
 
@@ -1400,11 +1452,11 @@
                 let scoreBg = '';
                 
                 if (p.score >= 90) {
-                    scoreBg = 'conic-gradient(var(--success) ' + p.score + '%, rgba(255,255,255,0.08) 0%)';
+                    scoreBg = 'conic-gradient(var(--success) ' + p.score + '%, #e2e8f0 0%)';
                 } else if (p.score >= 70) {
-                    scoreBg = 'conic-gradient(var(--warning) ' + p.score + '%, rgba(255,255,255,0.08) 0%)';
+                    scoreBg = 'conic-gradient(var(--warning) ' + p.score + '%, #e2e8f0 0%)';
                 } else {
-                    scoreBg = 'conic-gradient(var(--danger) ' + p.score + '%, rgba(255,255,255,0.08) 0%)';
+                    scoreBg = 'conic-gradient(var(--danger) ' + p.score + '%, #e2e8f0 0%)';
                 }
 
                 const cleanPath = p.path.replace('../', '');
@@ -1424,14 +1476,14 @@
                         ${p.description ? `<span style="font-size: 11px; color: var(--text-muted);">${p.description.length} karakter</span>` : '<span class="badge badge-danger" style="padding: 2px 6px; font-size:10px; margin-top:4px;">HATA</span>'}
                     </td>
                     <td>
-                        <div class="score-circle" style="background: ${scoreBg}; box-shadow: 0 0 10px rgba(0,0,0,0.3)">
-                            <div style="position: absolute; width: 38px; height: 38px; background-color: var(--panel-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <div class="score-circle" style="background: ${scoreBg}; box-shadow: 0 1px 3px rgba(0,0,0,0.06)">
+                            <div style="position: absolute; width: 36px; height: 36px; background-color: var(--panel-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #0f172a;">
                                 ${p.score}
                             </div>
                         </div>
                     </td>
                     <td style="text-align: center;">
-                        <button class="btn" onclick="openDrawer('${p.path}')" style="width: auto;">
+                        <button class="btn btn-secondary btn-sm" onclick="openDrawer('${p.path}')" style="width: auto;">
                             <i class="fa-solid fa-magnifying-glass-chart"></i> İncele & Düzenle
                         </button>
                     </td>

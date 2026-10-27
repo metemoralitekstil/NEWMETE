@@ -1836,6 +1836,11 @@ body.catalog-theme .navbar .nav-links li a { color: #111; }
 body.catalog-theme .logo-text { color: #111; }
 body.catalog-theme .icon-btn { color: #111; }
 body.catalog-theme .menu-btn { color: #111; }
+body.catalog-theme .lang-btn {
+    color: #121214 !important;
+    background: rgba(0, 0, 0, 0.03) !important;
+    border-color: rgba(0, 0, 0, 0.05) !important;
+}
 
 body.catalog-theme .catalog-hero-content {
     background: transparent;

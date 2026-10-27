@@ -16,6 +16,27 @@
         return defaultText;
     };
 
+    function translateOrderStatus(status) {
+        if (!status) return t('status_talep_alindi', 'Talep Alındı');
+        const s = status.toLowerCase();
+        if (s.includes('whatsapp')) {
+            return t('status_whatsapp_order', 'Talep Alındı (WhatsApp)');
+        }
+        if (s.includes('iptal') || s.includes('cancel')) {
+            return t('status_cancelled', 'İptal Edildi');
+        }
+        if (s.includes('teslim') || s.includes('tamam') || s.includes('deliv')) {
+            return t('status_teslim_edildi', 'Teslim Edildi');
+        }
+        if (s.includes('kargo') || s.includes('ship')) {
+            return t('status_kargoda', 'Kargoya Verildi');
+        }
+        if (s.includes('hazır') || s.includes('hazir') || s.includes('prep') || s.includes('onay')) {
+            return t('status_hazirlaniyor', 'Hazırlanıyor');
+        }
+        return t('status_talep_alindi', 'Talep Alındı');
+    }
+
     function getStatusStep(status) {
         const s = (status || '').toLowerCase();
         if (s.includes('teslim') || s.includes('tamam') || s.includes('deliv')) return 4;
@@ -84,7 +105,7 @@
                                 <span class="order-date">${formattedDate}</span>
                             </div>
                             <div class="order-header-status-price">
-                                <span class="order-status-badge status-${statusStep}">${t('status_' + (order.status || '').replace(/\s+/g, '_').toLowerCase(), order.status || 'Talep Alındı')}</span>
+                                <span class="order-status-badge status-${statusStep}">${translateOrderStatus(order.status)}</span>
                                 <span class="order-price">€${(order.totalAmount || 0).toFixed(2)}</span>
                                 <i class="fa-solid fa-chevron-down toggle-icon"></i>
                             </div>
@@ -123,7 +144,7 @@
                             
                             <div class="order-card-actions">
                                 <a href="https://wa.me/${whatsappNumber}?text=${encodedText}" target="_blank" class="order-support-btn">
-                                    <i class="fa-brands fa-whatsapp"></i> ${t('live_support', 'WhatsApp ile İletişime Geç')}
+                                    <i class="fa-brands fa-whatsapp"></i> ${t('order_support_whatsapp', 'WhatsApp ile İletişime Geç')}
                                 </a>
                             </div>
                         </div>

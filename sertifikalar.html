@@ -31,7 +31,7 @@
     <link rel="alternate" hreflang="fr" href="https://www.mete-morali.com/sertifikalar?lang=fr">
     <link rel="alternate" hreflang="nl" href="https://www.mete-morali.com/sertifikalar?lang=nl">
     <link rel="alternate" hreflang="it" href="https://www.mete-morali.com/sertifikalar?lang=it">
-    <link rel="alternate" hreflang="x-default" href="https://www.mete-morali.com/sertifikalar?lang=en">
+    <link rel="alternate" hreflang="x-default" href="https://www.mete-morali.com/sertifikalar">
     <link rel="icon" type="image/webp" href="img/logo_gri.webp">
     <link rel="apple-touch-icon" href="img/logo_gri.webp">
     <script src="js/config.js?v=4.3"></script>
@@ -626,35 +626,45 @@
                 }
             };
             
-            const lang = (window.i18n && window.i18n.currentLang) || (new URLSearchParams(window.location.search).get('lang')) || localStorage.getItem('metemorali_lang') || 'tr';
-            const t = certTranslations[lang] || certTranslations['tr'];
-            
-            const navLabelEl = document.getElementById('nav-cert-list-label');
-            if (navLabelEl) navLabelEl.textContent = t.nav;
-            
-            const certTitleEl = document.getElementById('cert-section-title');
-            if (certTitleEl) certTitleEl.textContent = t.title;
-            
-            const certDescEl = document.getElementById('cert-section-desc');
-            if (certDescEl) certDescEl.textContent = t.desc;
-            
-            // Translate table headers
-            const thCode = document.getElementById('th-code');
-            if (thCode) thCode.textContent = t.colCode;
-            const thModel = document.getElementById('th-model');
-            if (thModel) thModel.textContent = t.colModel;
-            const thCert = document.getElementById('th-cert');
-            if (thCert) thCert.textContent = t.colCert;
-            const thStandards = document.getElementById('th-standards');
-            if (thStandards) thStandards.textContent = t.colStandards;
+            function applyCertTranslations() {
+                const lang = (window.i18n && window.i18n.currentLang) || (new URLSearchParams(window.location.search).get('lang')) || localStorage.getItem('metemorali_lang') || 'tr';
+                const t = certTranslations[lang] || certTranslations['tr'];
+                
+                const navLabelEl = document.getElementById('nav-cert-list-label');
+                if (navLabelEl) navLabelEl.textContent = t.nav;
+                
+                const certTitleEl = document.getElementById('cert-section-title');
+                if (certTitleEl) certTitleEl.textContent = t.title;
+                
+                const certDescEl = document.getElementById('cert-section-desc');
+                if (certDescEl) certDescEl.textContent = t.desc;
+                
+                // Translate table headers if table exists
+                const thCode = document.getElementById('th-code');
+                if (thCode) thCode.textContent = t.colCode;
+                const thModel = document.getElementById('th-model');
+                if (thModel) thModel.textContent = t.colModel;
+                const thCert = document.getElementById('th-cert');
+                if (thCert) thCert.textContent = t.colCert;
+                const thStandards = document.getElementById('th-standards');
+                if (thStandards) thStandards.textContent = t.colStandards;
 
-            // Apply translations to all model names
-            for (let i = 910401; i <= 910407; i++) {
-                const el = document.getElementById(`model-${i}`);
-                if (el && t[`model_${i}`]) {
-                    el.textContent = t[`model_${i}`];
+                // Translate all card labels across all product certificate cards
+                document.querySelectorAll('.label-code').forEach(el => el.textContent = t.colCode);
+                document.querySelectorAll('.label-cert').forEach(el => el.textContent = t.colCert);
+                document.querySelectorAll('.label-standards').forEach(el => el.textContent = t.colStandards);
+
+                // Apply translations to all model names
+                for (let i = 910401; i <= 910407; i++) {
+                    const el = document.getElementById(`model-${i}`);
+                    if (el && t[`model_${i}`]) {
+                        el.textContent = t[`model_${i}`];
+                    }
                 }
             }
+
+            applyCertTranslations();
+            document.addEventListener('componentsLoaded', applyCertTranslations);
 
             // Prevent copy-paste (clipboard copy) on certificate numbers
             const preventCopy = (e) => {

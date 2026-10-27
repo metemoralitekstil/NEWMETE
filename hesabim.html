@@ -159,8 +159,7 @@
                         style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
                         <h2 class="tab-title" data-i18n="my_addresses" style="margin-bottom: 0;">Adreslerim</h2>
                         <button class="pure-submit-btn" onclick="showAddressForm(true)"
-                            style="padding: 10px 20px; font-size: 0.85rem;"><i class="fa-solid fa-plus"></i> Yeni Adres
-                            Ekle</button>
+                            style="padding: 10px 20px; font-size: 0.85rem;"><i class="fa-solid fa-plus"></i> <span data-i18n="add_new_address">Yeni Adres Ekle</span></button>
                     </div>
 
                     <!-- Adres Listesi -->
@@ -171,7 +170,7 @@
                     <!-- Yeni/Düzenleme Adres Formu (Gizli) -->
                     <div id="address-form-wrapper" class="address-form-card"
                         style="display: none; background: #fafafa; border: 1px solid #ddd; border-radius: 12px; padding: 25px; margin-top: 20px;">
-                        <h3 id="address-form-title"
+                        <h3 id="address-form-title" data-i18n="add_new_address"
                             style="margin-top: 0; margin-bottom: 20px; font-weight: 700; color: #111;">Yeni Adres Ekle
                         </h3>
                         <form id="address-inner-form" onsubmit="handleAddressSave(event)">
@@ -179,28 +178,34 @@
 
                             <!-- Adres Başlığı -->
                             <div class="pure-form-row" style="margin-bottom: 1.25rem;">
-                                <label for="address-title" style="font-size: 0.78rem; font-weight: 600; color: #475569; display: block; margin-bottom: 4px;">Adres Başlığı (Örn: Evim, İşyeri, Depo)</label>
-                                <input type="text" id="address-title" placeholder="Örn: Evim veya İş Adresim" required style="width: 100%; box-sizing: border-box; padding: 11px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.9rem; background: #fff;">
+                                <label for="address-title" data-i18n="address_title_label" style="font-size: 0.78rem; font-weight: 600; color: #475569; display: block; margin-bottom: 4px;">Adres Başlığı (Örn: Evim, İşyeri, Depo)</label>
+                                <input type="text" id="address-title" data-i18n="address_title_placeholder" placeholder="Örn: Evim veya İş Adresim" required style="width: 100%; box-sizing: border-box; padding: 11px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.9rem; background: #fff;">
                             </div>
 
                             <!-- Alıcı Bilgileri (Ad Soyad & Telefon) -->
                             <div class="form-row" style="display: flex; gap: 14px; margin-bottom: 1.25rem; flex-wrap: wrap;">
                                 <div class="form-group half" style="flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 4px;">
-                                    <label for="address-receiver" style="font-size: 0.78rem; font-weight: 600; color: #475569;">Alıcı Adı Soyadı</label>
-                                    <input type="text" id="address-receiver" placeholder="Teslim alacak kişinin adı soyadı" required style="width: 100%; box-sizing: border-box; padding: 11px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.9rem; background: #fff;">
+                                    <label for="address-receiver" data-i18n="receiver_name_label" style="font-size: 0.78rem; font-weight: 600; color: #475569;">Alıcı Adı Soyadı</label>
+                                    <input type="text" id="address-receiver" data-i18n="receiver_placeholder" placeholder="Teslim alacak kişinin adı soyadı" required style="width: 100%; box-sizing: border-box; padding: 11px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.9rem; background: #fff;">
                                 </div>
                                 <div class="form-group half" style="flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 4px;">
-                                    <label for="address-phone" style="font-size: 0.78rem; font-weight: 600; color: #475569;">Cep Telefonu</label>
-                                    <input type="tel" id="address-phone" placeholder="05XX XXX XX XX" required style="width: 100%; box-sizing: border-box; padding: 11px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.9rem; background: #fff;">
+                                    <label for="address-phone" data-i18n="phone" style="font-size: 0.78rem; font-weight: 600; color: #475569;">Cep Telefonu</label>
+                                    <input type="tel" id="address-phone" data-i18n="phone_placeholder" placeholder="05XX XXX XX XX" required style="width: 100%; box-sizing: border-box; padding: 11px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.9rem; background: #fff;">
                                 </div>
                             </div>
 
-                            <!-- Konum Bilgileri (İl & İlçe) -->
+                            <!-- Konum Bilgileri (Ülke, İl, İlçe) -->
                             <div class="form-row" style="display: flex; gap: 14px; margin-bottom: 1.25rem; flex-wrap: wrap;">
                                 <div class="form-group half" style="flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 4px;">
-                                    <label for="address-city" style="font-size: 0.78rem; font-weight: 600; color: #475569;">İl / Şehir</label>
-                                    <select id="address-city" required style="width: 100%; box-sizing: border-box; padding: 11px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.9rem; background: #fff; cursor: pointer;">
-                                        <option value="" disabled selected>İl Seçiniz</option>
+                                    <label for="address-country" data-i18n="country" style="font-size: 0.78rem; font-weight: 600; color: #475569;">Ülke</label>
+                                    <select id="address-country" required onchange="handleHesabimCountryChange(this.value)" style="width: 100%; box-sizing: border-box; padding: 11px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.9rem; background: #fff; cursor: pointer;">
+                                        <!-- Dinamik doldurulur -->
+                                    </select>
+                                </div>
+                                <div class="form-group half" style="flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 4px;">
+                                    <label for="address-city-select" id="hesabim-city-label" data-i18n="city" style="font-size: 0.78rem; font-weight: 600; color: #475569;">İl / Şehir</label>
+                                    <select id="address-city-select" required style="width: 100%; box-sizing: border-box; padding: 11px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.9rem; background: #fff; cursor: pointer;">
+                                        <option value="" disabled selected data-i18n="select_city">İl Seçiniz</option>
                                         <option value="Adana">Adana</option>
                                         <option value="Adıyaman">Adıyaman</option>
                                         <option value="Afyonkarahisar">Afyonkarahisar</option>
@@ -283,34 +288,30 @@
                                         <option value="Yozgat">Yozgat</option>
                                         <option value="Zonguldak">Zonguldak</option>
                                     </select>
+                                    <input type="text" id="address-city-input" data-i18n="city_state_placeholder" placeholder="Şehir / Eyalet (Örn: Berlin, New York)" style="display: none; width: 100%; box-sizing: border-box; padding: 11px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.9rem; background: #fff;">
+                                </div>
+                            </div>
+
+                            <div class="form-row" style="display: flex; gap: 14px; margin-bottom: 1.25rem; flex-wrap: wrap;">
+                                <div class="form-group half" style="flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 4px;">
+                                    <label for="address-district" id="hesabim-district-label" data-i18n="district" style="font-size: 0.78rem; font-weight: 600; color: #475569;">İlçe</label>
+                                    <input type="text" id="address-district" data-i18n="district_placeholder" placeholder="Örn: Torbalı, Kadıköy, Çankaya" required style="width: 100%; box-sizing: border-box; padding: 11px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.9rem; background: #fff;">
                                 </div>
                                 <div class="form-group half" style="flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 4px;">
-                                    <label for="address-district" style="font-size: 0.78rem; font-weight: 600; color: #475569;">İlçe</label>
-                                    <input type="text" id="address-district" placeholder="Örn: Torbalı, Kadıköy, Çankaya" required style="width: 100%; box-sizing: border-box; padding: 11px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.9rem; background: #fff;">
+                                    <label for="address-zip" data-i18n="zip_code" style="font-size: 0.78rem; font-weight: 600; color: #475569;">Posta Kodu</label>
+                                    <input type="text" id="address-zip" data-i18n="zip_placeholder" placeholder="Örn: 35885" style="width: 100%; box-sizing: border-box; padding: 11px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.9rem; background: #fff;">
                                 </div>
                             </div>
 
                             <!-- Açık Adres Alanı -->
                             <div class="pure-form-row" style="margin-bottom: 1.25rem;">
-                                <label for="address-detail" style="font-size: 0.78rem; font-weight: 600; color: #475569; display: block; margin-bottom: 4px;">Açık Adres (Mahalle, Cadde, Sokak, Bina No, Kat / Daire)</label>
-                                <textarea id="address-detail" rows="3" placeholder="Örn: İnönü Mah. Ahmet Özkan Bulvarı No: 38 D: 30" required style="width: 100%; box-sizing: border-box; padding: 11px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.9rem; line-height: 1.45; background: #fff; resize: vertical;"></textarea>
-                            </div>
-
-                            <!-- Posta Kodu & Ülke -->
-                            <div class="form-row" style="display: flex; gap: 14px; margin-bottom: 1.5rem; flex-wrap: wrap;">
-                                <div class="form-group half" style="flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 4px;">
-                                    <label for="address-zip" style="font-size: 0.78rem; font-weight: 600; color: #475569;">Posta Kodu</label>
-                                    <input type="text" id="address-zip" placeholder="Örn: 35885" style="width: 100%; box-sizing: border-box; padding: 11px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.9rem; background: #fff;">
-                                </div>
-                                <div class="form-group half" style="flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 4px;">
-                                    <label for="address-country" style="font-size: 0.78rem; font-weight: 600; color: #475569;">Ülke</label>
-                                    <input type="text" id="address-country" value="Türkiye" style="width: 100%; box-sizing: border-box; padding: 11px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.9rem; background: #f8fafc; color: #64748b;" readonly>
-                                </div>
+                                <label for="address-detail" data-i18n="address_detail_label" style="font-size: 0.78rem; font-weight: 600; color: #475569; display: block; margin-bottom: 4px;">Açık Adres (Mahalle, Cadde, Sokak, Bina No, Kat / Daire)</label>
+                                <textarea id="address-detail" data-i18n="address_detail_placeholder" rows="3" placeholder="Örn: İnönü Mah. Ahmet Özkan Bulvarı No: 38 D: 30" required oninput="this.style.height='auto';this.style.height=Math.max(84,this.scrollHeight)+'px'" style="width: 100%; box-sizing: border-box; padding: 11px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.9rem; line-height: 1.45; background: #fff; resize: none; overflow-y: hidden; min-height: 84px;"></textarea>
                             </div>
 
                             <div style="display: flex; gap: 10px; margin-top: 20px;">
-                                <button type="submit" class="pure-submit-btn" style="background: #0f172a; color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none;"><i class="fa-solid fa-check"></i> Adresi Kaydet</button>
-                                <button type="button" class="pure-submit-btn" onclick="showAddressForm(false)" style="background: #e2e8f0; color: #475569; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; box-shadow: none;"><i class="fa-solid fa-xmark"></i> İptal</button>
+                                <button type="submit" class="pure-submit-btn" data-i18n="save_address" style="background: #0f172a; color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none;">Adresi Kaydet</button>
+                                <button type="button" class="pure-submit-btn" onclick="showAddressForm(false)" data-i18n="cancel" style="background: #e2e8f0; color: #475569; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; box-shadow: none;">İptal</button>
                             </div>
                         </form>
                     </div>
@@ -470,6 +471,9 @@
             if (element) {
                 element.classList.add('active');
             }
+            if (tabId === 'adresler') {
+                loadUserAddresses();
+            }
         }
 
         // --- ADDRESS MANAGEMENT SYSTEM ---
@@ -499,8 +503,10 @@
             const container = document.getElementById('address-list-container');
             if (!container) return;
 
+            const t = (key, fallback) => (window.i18n && typeof window.i18n.t === 'function') ? window.i18n.t(key, fallback) : fallback;
+
             if (userAddresses.length === 0) {
-                container.innerHTML = `<p class="empty-state" data-i18n="empty_state_addresses">Kayıtlı adresiniz bulunmuyor.</p>`;
+                container.innerHTML = `<p class="empty-state" data-i18n="empty_state_addresses">${t('empty_state_addresses', 'Kayıtlı adresiniz bulunmuyor.')}</p>`;
                 return;
             }
 
@@ -508,18 +514,18 @@
                 <div class="address-card" style="background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px 20px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
                     <div class="address-card-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; margin-bottom: 12px;">
                         <span class="address-card-title" style="font-size: 0.95rem; font-weight: 700; color: #0f172a; display: flex; align-items: center; gap: 6px;">
-                            <i class="fa-solid fa-location-dot" style="color: #2563eb; font-size: 0.85rem;"></i> ${addr.title || 'Teslimat Adresi'}
+                            <i class="fa-solid fa-location-dot" style="color: #2563eb; font-size: 0.85rem;"></i> ${addr.title || t('delivery_address', 'Teslimat Adresi')}
                         </span>
                         <div class="address-card-actions" style="display: flex; gap: 8px;">
-                            <button class="address-action-btn edit" onclick="showAddressForm(true, ${idx})" title="Düzenle" style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 6px 10px; border-radius: 6px; cursor: pointer; color: #475569;"><i class="fa-regular fa-pen-to-square"></i></button>
-                            <button class="address-action-btn delete" onclick="deleteAddress(${idx})" title="Sil" style="background: #fef2f2; border: 1px solid #fecaca; padding: 6px 10px; border-radius: 6px; cursor: pointer; color: #dc2626;"><i class="fa-regular fa-trash-can"></i></button>
+                            <button class="address-action-btn edit" onclick="showAddressForm(true, ${idx})" title="${t('edit_address', 'Düzenle')}" style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 6px 10px; border-radius: 6px; cursor: pointer; color: #475569;"><i class="fa-regular fa-pen-to-square"></i></button>
+                            <button class="address-action-btn delete" onclick="deleteAddress(${idx})" title="${t('cancel', 'Sil')}" style="background: #fef2f2; border: 1px solid #fecaca; padding: 6px 10px; border-radius: 6px; cursor: pointer; color: #dc2626;"><i class="fa-regular fa-trash-can"></i></button>
                         </div>
                     </div>
                     <div class="address-card-body" style="font-size: 0.88rem; color: #334155; line-height: 1.5;">
                         <div class="address-card-receiver" style="font-weight: 700; color: #0f172a; font-size: 0.95rem; margin-bottom: 6px;">${addr.receiver}</div>
                         <div class="address-card-detail" style="margin-bottom: 8px; color: #475569; word-break: break-word;">${addr.detail || addr.address || ''}</div>
                         <div class="address-card-location" style="font-weight: 600; color: #0f172a; margin-bottom: 4px;">${[addr.district, addr.city].filter(Boolean).join(' / ')}${addr.country && addr.country.toLowerCase() !== 'türkiye' ? ' / ' + addr.country : ''}</div>
-                        ${addr.zip ? `<div class="address-card-zip" style="font-size: 0.8rem; color: #64748b; margin-bottom: 6px;">Posta Kodu: ${addr.zip}</div>` : ''}
+                        ${addr.zip ? `<div class="address-card-zip" style="font-size: 0.8rem; color: #64748b; margin-bottom: 6px;">${t('post_code_label', 'Posta Kodu')}: ${addr.zip}</div>` : ''}
                         <div class="address-card-phone" style="font-size: 0.84rem; color: #475569; margin-top: 10px; padding-top: 8px; border-top: 1px dashed #e2e8f0; display: flex; align-items: center; gap: 6px;">
                             <i class="fa-solid fa-phone" style="font-size: 0.78rem; color: #64748b;"></i> ${addr.phone || '-'}
                         </div>
@@ -529,11 +535,148 @@
         }
         window.loadUserAddresses = loadUserAddresses;
 
+        function detectUserCountry() {
+            try {
+                const tz = (Intl.DateTimeFormat().resolvedOptions().timeZone || '').toLowerCase();
+                if (tz.includes('istanbul')) return 'Türkiye';
+                if (tz.includes('berlin') || tz.includes('busingen')) return 'Almanya';
+                if (tz.includes('amsterdam')) return 'Hollanda';
+                if (tz.includes('paris')) return 'Fransa';
+                if (tz.includes('london')) return 'Birleşik Krallık';
+                if (tz.includes('rome')) return 'İtalya';
+                if (tz.includes('madrid') || tz.includes('ceuta')) return 'İspanya';
+                if (tz.includes('brussels')) return 'Belçika';
+                if (tz.includes('vienna')) return 'Avusturya';
+                if (tz.includes('zurich')) return 'İsviçre';
+                if (tz.includes('warsaw')) return 'Polonya';
+                if (tz.startsWith('america/')) return 'Amerika Birleşik Devletleri';
+                if (tz.includes('baku')) return 'Azerbaycan';
+                if (tz.includes('dubai')) return 'Birleşik Arap Emirlikleri';
+                if (tz.includes('riyadh')) return 'Suudi Arabistan';
+                if (tz.includes('moscow')) return 'Rusya';
+
+                const navLang = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+                const base = (navLang.split('-')[0] || '').toLowerCase();
+                if (base === 'de') return 'Almanya';
+                if (base === 'nl') return 'Hollanda';
+                if (base === 'fr') return 'Fransa';
+                if (base === 'it') return 'İtalya';
+                if (base === 'es') return 'İspanya';
+                if (base === 'ru') return 'Rusya';
+                if (base === 'az') return 'Azerbaycan';
+                if (base === 'tr') return 'Türkiye';
+            } catch (e) {}
+            return 'Türkiye';
+        }
+
+        function setupHesabimCountryDropdown(activeCountry = 'Türkiye') {
+            const select = document.getElementById('address-country');
+            if (!select) return;
+
+            let topOptions = '';
+            if (activeCountry && activeCountry !== 'Türkiye') {
+                topOptions = `
+                    <option value="${activeCountry}" selected>${activeCountry}</option>
+                    <option value="Türkiye">Türkiye</option>
+                `;
+            } else {
+                topOptions = `
+                    <option value="Türkiye" selected>Türkiye</option>
+                `;
+            }
+
+            select.innerHTML = `
+                ${topOptions}
+                <optgroup label="Avrupa">
+                    <option value="Almanya">Almanya</option>
+                    <option value="Hollanda">Hollanda</option>
+                    <option value="Fransa">Fransa</option>
+                    <option value="Birleşik Krallık">Birleşik Krallık</option>
+                    <option value="İtalya">İtalya</option>
+                    <option value="İspanya">İspanya</option>
+                    <option value="Belçika">Belçika</option>
+                    <option value="Avusturya">Avusturya</option>
+                    <option value="İsviçre">İsviçre</option>
+                    <option value="Polonya">Polonya</option>
+                    <option value="Romanya">Romanya</option>
+                    <option value="Bulgaristan">Bulgaristan</option>
+                    <option value="Yunanistan">Yunanistan</option>
+                    <option value="İsveç">İsveç</option>
+                    <option value="Norveç">Norveç</option>
+                    <option value="Danimarka">Danimarka</option>
+                    <option value="Finlandiya">Finlandiya</option>
+                    <option value="Portekiz">Portekiz</option>
+                    <option value="İrlanda">İrlanda</option>
+                    <option value="Çekya">Çekya</option>
+                    <option value="Macaristan">Macaristan</option>
+                </optgroup>
+                <optgroup label="Amerika">
+                    <option value="Amerika Birleşik Devletleri">Amerika Birleşik Devletleri</option>
+                    <option value="Kanada">Kanada</option>
+                    <option value="Meksika">Meksika</option>
+                    <option value="Brezilya">Brezilya</option>
+                </optgroup>
+                <optgroup label="Asya & Orta Doğu">
+                    <option value="Azerbaycan">Azerbaycan</option>
+                    <option value="Birleşik Arap Emirlikleri">Birleşik Arap Emirlikleri</option>
+                    <option value="Suudi Arabistan">Suudi Arabistan</option>
+                    <option value="Katar">Katar</option>
+                    <option value="Kazakistan">Kazakistan</option>
+                    <option value="Özbekistan">Özbekistan</option>
+                    <option value="Kuveyt">Kuveyt</option>
+                    <option value="Gürcistan">Gürcistan</option>
+                    <option value="Rusya">Rusya</option>
+                    <option value="Çin">Çin</option>
+                    <option value="Japonya">Japonya</option>
+                    <option value="Güney Kore">Güney Kore</option>
+                    <option value="Singapur">Singapur</option>
+                    <option value="Hindistan">Hindistan</option>
+                </optgroup>
+                <optgroup label="Diğer">
+                    <option value="Diğer Ülke">Diğer Ülke</option>
+                </optgroup>
+            `;
+            select.value = activeCountry;
+        }
+
+        window.handleHesabimCountryChange = function(country, prefillCity = '') {
+            const selectEl = document.getElementById('address-city-select');
+            const inputEl = document.getElementById('address-city-input');
+            const labelEl = document.getElementById('hesabim-city-label');
+            const districtLabel = document.getElementById('hesabim-district-label');
+            const districtInput = document.getElementById('address-district');
+
+            if (!selectEl || !inputEl) return;
+            const t = (key, fallback) => (window.i18n && typeof window.i18n.t === 'function') ? window.i18n.t(key, fallback) : fallback;
+
+            if (country === 'Türkiye') {
+                selectEl.style.display = 'block';
+                selectEl.required = true;
+                inputEl.style.display = 'none';
+                inputEl.required = false;
+                if (labelEl) labelEl.textContent = t('city', 'İl / Şehir');
+                if (districtLabel) districtLabel.textContent = t('district', 'İlçe');
+                if (districtInput) districtInput.placeholder = t('district_placeholder', 'Örn: Torbalı, Kadıköy, Çankaya');
+                if (prefillCity) selectEl.value = prefillCity;
+            } else {
+                selectEl.style.display = 'none';
+                selectEl.required = false;
+                inputEl.style.display = 'block';
+                inputEl.required = true;
+                if (labelEl) labelEl.textContent = t('city_state_placeholder', 'Şehir / Eyalet');
+                if (districtLabel) districtLabel.textContent = t('district', 'İlçe / Bölge');
+                if (districtInput) districtInput.placeholder = t('district_placeholder', 'Bölge / Kasaba / State');
+                if (prefillCity) inputEl.value = prefillCity;
+            }
+        };
+
         window.showAddressForm = function (show, editIndex = -1) {
             const formWrapper = document.getElementById('address-form-wrapper');
             const listContainer = document.getElementById('address-list-container');
 
             if (!formWrapper) return;
+
+            const t = (key, fallback) => (window.i18n && typeof window.i18n.t === 'function') ? window.i18n.t(key, fallback) : fallback;
 
             if (show) {
                 formWrapper.style.display = 'block';
@@ -543,24 +686,27 @@
                 const indexInput = document.getElementById('address-edit-index');
 
                 if (editIndex > -1) {
-                    titleEl.textContent = 'Adresi Düzenle';
+                    titleEl.textContent = t('edit_address', 'Adresi Düzenle');
                     indexInput.value = editIndex;
 
                     const addr = userAddresses[editIndex];
                     document.getElementById('address-title').value = addr.title || '';
                     document.getElementById('address-receiver').value = addr.receiver || '';
                     document.getElementById('address-phone').value = addr.phone || '';
-                    document.getElementById('address-city').value = addr.city || '';
                     document.getElementById('address-district').value = addr.district || '';
                     document.getElementById('address-detail').value = addr.detail || addr.address || '';
                     document.getElementById('address-zip').value = addr.zip || '';
-                    document.getElementById('address-country').value = addr.country || 'Türkiye';
+
+                    const countryVal = addr.country || 'Türkiye';
+                    setupHesabimCountryDropdown(countryVal);
+                    handleHesabimCountryChange(countryVal, addr.city || '');
                 } else {
-                    titleEl.textContent = 'Yeni Adres Ekle';
+                    titleEl.textContent = t('add_new_address', 'Yeni Adres Ekle');
                     indexInput.value = '-1';
                     document.getElementById('address-inner-form').reset();
-                    document.getElementById('address-country').value = 'Türkiye';
-                    document.getElementById('address-city').value = 'İzmir';
+                    const defaultCountry = detectUserCountry();
+                    setupHesabimCountryDropdown(defaultCountry);
+                    handleHesabimCountryChange(defaultCountry);
                 }
             } else {
                 formWrapper.style.display = 'none';
@@ -572,15 +718,26 @@
             event.preventDefault();
 
             const index = parseInt(document.getElementById('address-edit-index').value);
+            const country = document.getElementById('address-country').value.trim() || 'Türkiye';
+
+            let city = '';
+            if (country === 'Türkiye') {
+                const citySelect = document.getElementById('address-city-select');
+                city = citySelect ? citySelect.value.trim() : '';
+            } else {
+                const cityInput = document.getElementById('address-city-input');
+                city = cityInput ? cityInput.value.trim() : '';
+            }
+
             const address = {
                 title: document.getElementById('address-title').value.trim(),
                 receiver: document.getElementById('address-receiver').value.trim(),
                 phone: document.getElementById('address-phone').value.trim(),
-                city: document.getElementById('address-city').value.trim(),
+                country: country,
+                city: city,
                 district: document.getElementById('address-district').value.trim(),
                 detail: document.getElementById('address-detail').value.trim(),
-                zip: document.getElementById('address-zip').value.trim(),
-                country: document.getElementById('address-country').value.trim() || 'Türkiye'
+                zip: document.getElementById('address-zip').value.trim()
             };
 
             if (index > -1) {
