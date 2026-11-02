@@ -154,6 +154,7 @@ body.simple-page {
 
 .simple-section {
     margin-bottom: 4rem;
+    scroll-margin-top: 100px;
 }
 
 .simple-section h2 {
@@ -222,26 +223,68 @@ body.simple-page {
     .simple-wrapper {
         flex-direction: column;
         gap: 2rem;
-        margin-top: 30px;
+        margin-top: 110px;
+        padding: 0 1.25rem;
     }
     
     .simple-sidebar {
         width: 100%;
         position: static;
-        border-bottom: 1px solid #eee;
-        padding-bottom: 2rem;
+        border-bottom: 1px solid #e2e8f0;
+        padding-bottom: 1.5rem;
+    }
+
+    .simple-sidebar h3 {
+        margin-bottom: 0.8rem;
+        font-size: 1.05rem;
+    }
+
+    .simple-nav-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .simple-nav-list li {
+        margin-bottom: 0;
+    }
+
+    .simple-nav-list a {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 14px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: #475569;
+        white-space: nowrap;
+        transition: all 0.2s ease;
+    }
+
+    .simple-nav-list a.active,
+    .simple-nav-list a:hover {
+        background: #0f172a;
+        color: #ffffff;
+        border-color: #0f172a;
     }
     
     .simple-navbar {
         padding: 0 1.5rem;
     }
+
+    .main-title {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+    }
     
     .simple-section h2 {
-        font-size: 1.8rem;
+        font-size: 1.4rem;
     }
     
     .simple-text p {
-        font-size: 1rem;
+        font-size: 0.95rem;
     }
 }
 
