@@ -842,7 +842,7 @@
                 inputEl.required = false;
                 if (labelEl) labelEl.textContent = t('city_required', 'İl / Şehir *');
                 if (districtLabel) districtLabel.textContent = t('district_required', 'İlçe *');
-                if (districtInput) districtInput.placeholder = t('district_placeholder', 'Örn: Torbalı, Kadıköy, Çankaya');
+                if (districtInput) districtInput.placeholder = '';
                 if (prefillCity) selectEl.value = prefillCity;
             } else {
                 selectEl.style.display = 'none';
@@ -851,7 +851,7 @@
                 inputEl.required = true;
                 if (labelEl) labelEl.textContent = t('city_state_required', 'Şehir / Eyalet *');
                 if (districtLabel) districtLabel.textContent = t('district_required', 'İlçe / Bölge *');
-                if (districtInput) districtInput.placeholder = t('district_placeholder_intl', 'Örn: Bölge, Kasaba, City / State');
+                if (districtInput) districtInput.placeholder = '';
                 if (prefillCity) inputEl.value = prefillCity;
             }
         }
@@ -1438,17 +1438,17 @@ Sipariş detaylarını teyit etmek ve teslimat sürecini başlatmak istiyorum.`;
                         <div class="modal-field-row">
                             <div class="modal-field-group half">
                                 <label for="cart-addr-district" id="cart-district-label" data-i18n="district_required">İlçe / Bölge *</label>
-                                <input type="text" id="cart-addr-district" placeholder="Örn: Torbalı, Kadıköy, Çankaya" data-i18n="district_placeholder" required>
+                                <input type="text" id="cart-addr-district" placeholder="" required>
                             </div>
                             <div class="modal-field-group half">
                                 <label for="cart-addr-zip" data-i18n="post_code_label">Posta Kodu</label>
-                                <input type="text" id="cart-addr-zip" placeholder="Örn: 35885" data-i18n="zip_placeholder">
+                                <input type="text" id="cart-addr-zip" placeholder="">
                             </div>
                         </div>
 
                         <div class="modal-field-group">
                             <label for="cart-addr-detail" data-i18n="address_detail_required">Açık Adres (Mahalle, Cadde, Sokak, Bina No, Kat / Daire) *</label>
-                            <textarea id="cart-addr-detail" rows="3" placeholder="Örn: İnönü Mah. Ahmet Özkan Bulvarı No: 38 D: 12" data-i18n="address_detail_placeholder" required oninput="autoGrowAddress(this)"></textarea>
+                            <textarea id="cart-addr-detail" rows="3" placeholder="" required oninput="autoGrowAddress(this)"></textarea>
                         </div>
 
                         <div class="modal-actions">
