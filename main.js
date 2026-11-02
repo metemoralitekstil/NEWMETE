@@ -1,36 +1,44 @@
+const isMobileOrTablet = () => window.innerWidth <= 1024;
+
 const particleConfigs = {
     fire: {
+        fpsLimit: 60,
+        detectRetina: false,
         particles: {
-            number: { value: 35 },
+            number: { value: 30 },
             color: { value: ["#ff5722", "#ff9800", "#ffc107"] },
             shape: { type: "circle" },
             opacity: { value: { min: 0.3, max: 0.8 } },
             size: { value: { min: 1, max: 4 } },
-            move: { enable: true, speed: 2.5, direction: "top", random: true, outModes: "out" }
+            move: { enable: true, speed: 2.2, direction: "top", random: true, outModes: "out" }
         },
-        interactivity: { events: { onHover: { enable: true, mode: "repulse" } }, modes: { repulse: { distance: 80, duration: 0.4 } } }
+        interactivity: { events: { onHover: { enable: true, mode: "repulse" } }, modes: { repulse: { distance: 70, duration: 0.4 } } }
     },
     snow: {
+        fpsLimit: 60,
+        detectRetina: false,
         particles: {
-            number: { value: 60 },
+            number: { value: 45 },
             color: { value: "#ffffff" },
             shape: { type: "circle" },
             opacity: { value: { min: 0.3, max: 0.8 } },
             size: { value: { min: 1, max: 3.5 } },
-            move: { enable: true, speed: 1.8, direction: "bottom", random: false, outModes: "out" }
+            move: { enable: true, speed: 1.6, direction: "bottom", random: false, outModes: "out" }
         },
-        interactivity: { events: { onHover: { enable: true, mode: "bubble" } }, modes: { bubble: { distance: 120, size: 5, duration: 2, opacity: 0.8 } } }
+        interactivity: { events: { onHover: { enable: true, mode: "bubble" } }, modes: { bubble: { distance: 100, size: 4.5, duration: 1.5, opacity: 0.8 } } }
     },
     dust: {
+        fpsLimit: 60,
+        detectRetina: false,
         particles: {
-            number: { value: 40 },
+            number: { value: 32 },
             color: { value: ["#f1c40f", "#ffffff", "#e67e22"] },
             shape: { type: "circle" },
-            opacity: { value: { min: 0.1, max: 0.5 } },
+            opacity: { value: { min: 0.15, max: 0.5 } },
             size: { value: { min: 1, max: 2.5 } },
-            move: { enable: true, speed: 1.2, direction: "none", random: true, outModes: "out" }
+            move: { enable: true, speed: 1.1, direction: "none", random: true, outModes: "out" }
         },
-        interactivity: { events: { onHover: { enable: true, mode: "grab" } }, modes: { grab: { distance: 100, links: { opacity: 0.3 } } } }
+        interactivity: { events: { onHover: { enable: false } } }
     }
 };
 
@@ -82,8 +90,8 @@ const products = [
             fr: "Haute protection avec 99% Coton, 1% Fibre de Carbone",
             it: "Elevata protezione con 99% Cotone, 1% Fibra di Carbonio"
         },
-        image: "img/mavi-reflektorlu-is-uniformasi.png",
-        fsImage: "img/mavi-reflektorlu-is-guvenligi-montu.png",
+        image: "img/mavi-reflektorlu-is-uniformasi.webp",
+        fsImage: "img/mavi-reflektorlu-is-guvenligi-montu.webp",
         label: {
             tr: "Kaynakçı Kıyafeti (Düz)",
             en: "Welder Jacket (Plain)",
@@ -162,8 +170,8 @@ const products = [
             fr: "Réfléchissant, Résistant à la Chaleur et aux Flammes",
             it: "Riflettente, Resistente al Calore e alle Fiamme"
         },
-        image: "img/reflektorlu-mavi-lime-is-elbisesi.png",
-        fsImage: "img/kobalt-mavi-ve-neon-sari-is-montu.png",
+        image: "img/reflektorlu-mavi-lime-is-elbisesi.webp",
+        fsImage: "img/kobalt-mavi-ve-neon-sari-is-montu.webp",
         label: {
             tr: "Yüksek Görünürlük Kaynakçı",
             en: "High Visibility Welder",
@@ -241,8 +249,8 @@ const products = [
             fr: "Structure résistante au soudage et aux projections de métal",
             it: "Struttura resistente a saldatura e schizzi di metallo"
         },
-        image: "img/lacivert-1.png",
-        fsImage: "img/lacivert-4.png",
+        image: "img/lacivert-1.webp",
+        fsImage: "img/lacivert-4.webp",
         label: {
             tr: "Lacivert Ceket ve Pantolon",
             en: "Navy Blue Jacket and Pants",
@@ -320,8 +328,8 @@ const products = [
             fr: "Doublure Intérieure : 79% Coton, 20% Polyester, 1% Fibre de Carbone (170 g/m²)",
             it: "Fodera Interna: 79% Cotone, 20% Poliestere, 1% Fibra di Carbonio (170 g/m²)"
         },
-        image: "img/beyaz-zeminde-yuksek-gorunurluklu-is-parkasi.png",
-        fsImage: "img/neon-sari-reflektif-guvenlik-parkasi.png",
+        image: "img/beyaz-zeminde-yuksek-gorunurluklu-is-parkasi.webp",
+        fsImage: "img/neon-sari-reflektif-guvenlik-parkasi.webp",
         label: {
             tr: "Termal Kışlık Parka",
             en: "Thermal Winter Parka",
@@ -370,27 +378,77 @@ const iconCoordinates = [
     { x: 526.5, y: 144.4 }   
 ];
 
+// Bellekte decode edilmiş görselleri tutarak ikon geçişlerinde sıfır gecikme sağlar
+const preloadedImages = new Map();
+
+function preloadAndDecode(src) {
+    if (!src || preloadedImages.has(src)) return;
+    const img = new Image();
+    img.decoding = "async";
+    img.src = src;
+    if (typeof img.decode === "function") {
+        img.decode().catch(() => {});
+    }
+    preloadedImages.set(src, img);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-    
+    // 1. Önce sadece Hero vitrin görsellerini (kıyafet + arkaplan) belleğe alıp GPU için decode et
     products.forEach(p => {
-        const imgBg = new Image();
-        imgBg.src = p.bgImage;
-        const imgMain = new Image();
-        imgMain.src = p.image;
-        if (p.fsImage) {
-            const imgFs = new Image();
-            imgFs.src = p.fsImage;
-        }
+        preloadAndDecode(p.image);
+        preloadAndDecode(p.bgImage);
     });
 
-    if(document.getElementById("tsparticles")) {
-        
-        if (window.innerWidth <= 768) {
-            particleConfigs.fire.particles.number.value = 15;
-            particleConfigs.snow.particles.number.value = 20;
-            particleConfigs.dust.particles.number.value = 15;
+    // 2. Alt kısımdaki slider görsellerini ana ekran yüklendikten sonra boşta (idle) yükle
+    const preloadSliderImages = () => {
+        products.forEach(p => {
+            if (p.fsImage) preloadAndDecode(p.fsImage);
+        });
+    };
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(preloadSliderImages, { timeout: 1500 });
+    } else {
+        setTimeout(preloadSliderImages, 600);
+    }
+
+    let currentParticleType = "fire";
+    let currentBgImage = products[0].bgImage;
+    let isHeroVisible = true;
+
+    if (document.getElementById("tsparticles") && window.tsParticles) {
+        if (isMobileOrTablet()) {
+            particleConfigs.fire.particles.number.value = 12;
+            particleConfigs.snow.particles.number.value = 16;
+            particleConfigs.dust.particles.number.value = 12;
+            particleConfigs.fire.fpsLimit = 40;
+            particleConfigs.snow.fpsLimit = 40;
+            particleConfigs.dust.fpsLimit = 40;
+            particleConfigs.fire.interactivity.events.onHover.enable = false;
+            particleConfigs.snow.interactivity.events.onHover.enable = false;
+            particleConfigs.dust.interactivity.events.onHover.enable = false;
         }
         tsParticles.load("tsparticles", particleConfigs.fire);
+    }
+
+    // Hero vitrin ekran dışına kaydırıldığında partikülleri durdurarak telefon/PC GPU yükünü sıfırla
+    const showcaseEl = document.querySelector('.showcase-container');
+    if (showcaseEl && 'IntersectionObserver' in window) {
+        const heroObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                isHeroVisible = entry.isIntersecting;
+                if (!window.tsParticles) return;
+                const containers = tsParticles.dom();
+                if (!containers || containers.length === 0) return;
+                containers.forEach(c => {
+                    if (entry.isIntersecting) {
+                        c.play();
+                    } else {
+                        c.pause();
+                    }
+                });
+            });
+        }, { threshold: 0.05 });
+        heroObserver.observe(showcaseEl);
     }
 
     const icons = document.querySelectorAll('.arc-icon');
@@ -444,11 +502,12 @@ document.addEventListener('DOMContentLoaded', () => {
         productImg.style.opacity = "1";
     }
 
-    let isAnimating = false;
+    let activeTransitionTl = null;
+    let particleSwitchTimer = null;
 
     let xTo, yTo, rotYTo, rotXTo, shadowXTo, shadowOpacityTo;
     
-    if (productImg && window.innerWidth > 1024) {
+    if (productImg && !isMobileOrTablet()) {
         xTo = gsap.quickTo(productImg, "x", { duration: 0.5, ease: "power2.out" });
         yTo = gsap.quickTo(productImg, "y", { duration: 0.5, ease: "power2.out" });
         rotYTo = gsap.quickTo(productImg, "rotationY", { duration: 0.5, ease: "power2.out" });
@@ -458,27 +517,25 @@ document.addEventListener('DOMContentLoaded', () => {
             shadowXTo = gsap.quickTo(floorShadow, "x", { duration: 0.5, ease: "power2.out" });
             shadowOpacityTo = gsap.quickTo(floorShadow, "opacity", { duration: 0.5, ease: "power2.out" });
         }
+
+        document.addEventListener('mousemove', (e) => {
+            if (!productImg || !isHeroVisible || isMobileOrTablet()) return;
+
+            const loginSidebar = document.getElementById('login-sidebar');
+            if (loginSidebar && loginSidebar.classList.contains('active')) return;
+            
+            const x = (window.innerWidth / 2 - e.pageX) / 35; 
+            const y = (window.innerHeight / 2 - e.pageY) / 35;
+            
+            if (xTo) xTo(x);
+            if (yTo) yTo(y);
+            if (rotYTo) rotYTo(x / 2);
+            if (rotXTo) rotXTo(-y / 2);
+
+            if (shadowXTo) shadowXTo(-x * 0.4);
+            if (shadowOpacityTo) shadowOpacityTo(1 - Math.abs(y)/150);
+        }, { passive: true });
     }
-
-    document.addEventListener('mousemove', (e) => {
-        if (!productImg) return;
-
-        if (window.innerWidth <= 1024) return;
-
-        const loginSidebar = document.getElementById('login-sidebar');
-        if (loginSidebar && loginSidebar.classList.contains('active')) return;
-        
-        const x = (window.innerWidth / 2 - e.pageX) / 35; 
-        const y = (window.innerHeight / 2 - e.pageY) / 35;
-        
-        if (xTo) xTo(x);
-        if (yTo) yTo(y);
-        if (rotYTo) rotYTo(x / 2);
-        if (rotXTo) rotXTo(-y / 2);
-
-        if (shadowXTo) shadowXTo(-x * 0.4);
-        if (shadowOpacityTo) shadowOpacityTo(1 - Math.abs(y)/150);
-    });
 
     // Reset GSAP defaults for elements
     const textElements = [productTitle, productSubtitle, productDesc, arcLabel].filter(Boolean);
@@ -490,6 +547,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Init Details Line
     const connectingLine = document.getElementById('connecting-line');
     const detailsBtn = document.getElementById('details-btn');
+    const rightContainer = document.querySelector('.showcase-right');
+    const pictureSource = productImg && productImg.parentElement ? productImg.parentElement.querySelector('source') : null;
 
     if (productImg && detailsBtn) {
         productImg.style.cursor = 'pointer';
@@ -505,94 +564,124 @@ document.addEventListener('DOMContentLoaded', () => {
 
     icons.forEach(icon => {
         icon.addEventListener('click', () => {
-            if (isAnimating || icon.classList.contains('active')) return;
-            isAnimating = true;
+            if (icon.classList.contains('active')) return;
+
+            // Devam eden geçiş varsa kes ve anında yeni seçime geç (telefonda takılma hissini tamamen bitirir)
+            if (activeTransitionTl) {
+                activeTransitionTl.kill();
+                activeTransitionTl = null;
+            }
+            if (particleSwitchTimer) {
+                clearTimeout(particleSwitchTimer);
+                particleSwitchTimer = null;
+            }
 
             const index = parseInt(icon.getAttribute('data-index'));
             const data = products[index];
+            const bgChanged = data.bgImage !== currentBgImage;
+            const particleChanged = data.particleType !== currentParticleType;
 
-            // Update Active Icon
+            // Update Active Icon immediately
             icons.forEach(i => i.classList.remove('active'));
             icon.classList.add('active');
+            root.style.setProperty('--accent', data.accentColor);
 
             // Animate connecting line
             gsap.to(connectingLine, { 
                 attr: { x2: iconCoordinates[index].x, y2: iconCoordinates[index].y },
-                duration: 0.8,
-                ease: "back.out(1.2)"
+                duration: 0.45,
+                ease: "power2.out",
+                overwrite: "auto"
             });
 
-            // GSAP Timeline for smooth staggered transitions
             const tl = gsap.timeline({
                 onComplete: () => {
-                    // Update content while hidden
-                    const lang = (window.i18n && window.i18n.currentLang) || (new URLSearchParams(window.location.search).get('lang')) || localStorage.getItem('metemorali_lang') || 'tr';
-                    const pictureSource = productImg.parentElement.querySelector('source');
-                    if (pictureSource) {
-                        pictureSource.srcset = data.image;
-                    }
-                    productImg.src = data.image;
-                    productImg.alt = `${getTranslation(data.title, lang)} - MeteMorali`;
-                    productTitle.textContent = getTranslation(data.title, lang);
-                    // Doğrudan JS ile rengi zorla atıyoruz (CSS cache'ine takılmamak için)
-                    productTitle.style.color = data.accentColor;
-                    productTitle.style.textShadow = `0 8px 20px rgba(0,0,0,0.95), 0 3px 6px rgba(0,0,0,0.9)`;
-                    
-                    productSubtitle.textContent = getTranslation(data.subtitle, lang);
-                    productDesc.innerHTML = `<p>${getTranslation(data.desc1, lang)}</p><p>${getTranslation(data.desc2, lang)}</p>`;
-                    arcLabel.textContent = getTranslation(data.label, lang);
-                    if(data.link) detailsBtn.href = data.link;
-                    
-                    // 1, 2 ve 3. ürünler için (kısa metinli) daha büyük yazılar (mobilde)
-                    const rightContainer = document.querySelector('.showcase-right');
-                    if (data.id !== 3 && rightContainer) {
+                    activeTransitionTl = null;
+                }
+            });
+            activeTransitionTl = tl;
+
+            // Hızlı ve akıcı çıkış (Outro)
+            if (bgChanged && bgElement) {
+                tl.to(bgElement, { opacity: 0.15, duration: 0.2, ease: "power1.out" }, 0);
+            }
+            tl.to(productImg, { opacity: 0, scale: 0.94, duration: 0.2, ease: "power1.in" }, 0)
+              .to(floorShadow, { opacity: 0, scale: 0.92, duration: 0.2, ease: "power1.in" }, 0)
+              .to([productTitle, productSubtitle, productDesc], { opacity: 0, y: -12, duration: 0.18, ease: "power1.in" }, 0)
+              .to(arcLabel, { opacity: 0, y: -6, duration: 0.16, ease: "power1.in" }, 0);
+
+            // İçerik değişimi
+            tl.add(() => {
+                const curLang = (window.i18n && window.i18n.currentLang) || (new URLSearchParams(window.location.search).get('lang')) || localStorage.getItem('metemorali_lang') || 'tr';
+                if (pictureSource) {
+                    pictureSource.srcset = data.image;
+                }
+                productImg.src = data.image;
+                productImg.alt = `${getTranslation(data.title, curLang)} - MeteMorali`;
+                productTitle.textContent = getTranslation(data.title, curLang);
+                productTitle.style.color = data.accentColor;
+                productTitle.style.textShadow = `0 8px 20px rgba(0,0,0,0.95), 0 3px 6px rgba(0,0,0,0.9)`;
+                
+                productSubtitle.textContent = getTranslation(data.subtitle, curLang);
+                productDesc.innerHTML = `<p>${getTranslation(data.desc1, curLang)}</p><p>${getTranslation(data.desc2, curLang)}</p>`;
+                if (arcLabel) arcLabel.textContent = getTranslation(data.label, curLang);
+                if (data.link && detailsBtn) detailsBtn.href = data.link;
+                
+                if (rightContainer) {
+                    if (data.id !== 3) {
                         rightContainer.classList.add('large-typography');
-                    } else if (rightContainer) {
+                    } else {
                         rightContainer.classList.remove('large-typography');
                     }
-                    
-                    // Update background and particles
+                }
+                
+                if (bgChanged && bgElement) {
+                    currentBgImage = data.bgImage;
                     bgElement.style.backgroundImage = `url('${data.bgImage}')`;
                     bgElement.style.backgroundPosition = data.bgPosition || "center";
-                    if (document.getElementById("tsparticles") && window.tsParticles) {
-                        const activeContainers = tsParticles.dom();
-                        if (activeContainers && activeContainers.length > 0) {
-                            activeContainers.forEach(c => c.destroy());
-                        }
-                        tsParticles.load("tsparticles", particleConfigs[data.particleType]);
-                    }
-                    root.style.setProperty('--accent', data.accentColor);
+                }
 
-                    // Intro Animation
-                    gsap.to(bgElement, { opacity: 1, duration: 0.5 });
-                    gsap.to(productImg, { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.2)" });
-                    gsap.to(floorShadow, { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.2)" });
-                    
-                    gsap.fromTo([productTitle, productSubtitle, productDesc], 
-                        { opacity: 0, y: 30 }, 
-                        { opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: "power2.out" }
-                    );
-                    
-                    gsap.fromTo(arcLabel, 
-                        { opacity: 0, y: 15 }, 
-                        { opacity: 1, y: 0, duration: 0.4, onComplete: () => { isAnimating = false; } }
-                    );
+                // Partikül sadece tip değiştiyse ve giriş animasyonunun ilk karelerini bloklamadan güncellenir
+                if (particleChanged && document.getElementById("tsparticles") && window.tsParticles) {
+                    currentParticleType = data.particleType;
+                    particleSwitchTimer = setTimeout(() => {
+                        requestAnimationFrame(() => {
+                            const activeContainers = tsParticles.dom();
+                            if (activeContainers && activeContainers.length > 0) {
+                                activeContainers.forEach(c => c.destroy());
+                            }
+                            tsParticles.load("tsparticles", particleConfigs[data.particleType]);
+                        });
+                    }, 180);
                 }
             });
 
-            // Outro Animation
-            tl.to(bgElement, { opacity: 0, duration: 0.4 }, 0)
-              .to(productImg, { opacity: 0, scale: 0.9, duration: 0.4 }, 0)
-              .to(floorShadow, { opacity: 0, scale: 0.9, duration: 0.4 }, 0)
-              .to([productTitle, productSubtitle, productDesc], { opacity: 0, y: -20, duration: 0.3, stagger: 0.05 }, 0)
-              .to(arcLabel, { opacity: 0, y: -10, duration: 0.3 }, 0);
+            // Pürüzsüz giriş (Intro)
+            if (bgChanged && bgElement) {
+                tl.to(bgElement, { opacity: 1, duration: 0.35, ease: "power2.out" }, ">");
+            }
+            tl.fromTo([productImg, floorShadow],
+                { opacity: 0, scale: 0.94 },
+                { opacity: 1, scale: 1, duration: 0.42, ease: "power2.out" },
+                bgChanged ? "<" : ">"
+            )
+            .fromTo([productTitle, productSubtitle, productDesc],
+                { opacity: 0, y: 18 },
+                { opacity: 1, y: 0, duration: 0.38, stagger: 0.05, ease: "power2.out" },
+                "<0.04"
+            )
+            .fromTo(arcLabel,
+                { opacity: 0, y: 8 },
+                { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" },
+                "<0.04"
+            );
         });
     });
 
     // --- SWIPER SLIDER LOGIC (Feature Slider) ---
     const swiperWrapper = document.getElementById('fs-swiper-wrapper');
     if (swiperWrapper) {
-        const lang = (window.i18n && window.i18n.currentLang) || (new URLSearchParams(window.location.search).get('lang')) || localStorage.getItem('metemorali_lang') || 'tr';
+        const curLang = (window.i18n && window.i18n.currentLang) || (new URLSearchParams(window.location.search).get('lang')) || localStorage.getItem('metemorali_lang') || 'tr';
         const examineTranslations = {
             tr: 'İncele',
             en: 'Examine',
@@ -602,24 +691,25 @@ document.addEventListener('DOMContentLoaded', () => {
             it: 'Esamina',
             fr: 'Examiner'
         };
-        const examineText = (window.i18n && window.i18n.translations[lang] && window.i18n.translations[lang]['examine']) || examineTranslations[lang] || 'İncele';
-        // Ürün verilerinden dinamik olarak slaytları oluştur
-        products.forEach((data, index) => {
-            const slideHtml = `
+        const examineText = (window.i18n && window.i18n.translations[curLang] && window.i18n.translations[curLang]['examine']) || examineTranslations[curLang] || 'İncele';
+        
+        let slidesHtml = '';
+        products.forEach((data) => {
+            slidesHtml += `
                 <div class="swiper-slide">
                     <div class="fs-container">
                         <div class="fs-left">
                             <div class="fs-image-wrapper ${data.fsCustomClass || ''}">
                                 <div class="fs-image-picture">
-                                    <img src="${data.fsImage || data.image}" alt="${getTranslation(data.fsTitle, lang)}" class="fs-product-image" loading="lazy" width="450" height="450">
+                                    <img src="${data.fsImage || data.image}" alt="${getTranslation(data.fsTitle, curLang)}" class="fs-product-image" loading="lazy" decoding="async" width="450" height="450">
                                 </div>
                             </div>
                         </div>
                         <div class="fs-right">
                             <div class="fs-details">
                                 <span class="fs-capsule">${data.fsCapsule}</span>
-                                <h2 class="fs-title" style="color: #111;">${getTranslation(data.fsTitle, lang)}</h2>
-                                <p class="fs-desc" style="color: #555;">${getTranslation(data.fsDesc, lang)}</p>
+                                <h2 class="fs-title" style="color: #111;">${getTranslation(data.fsTitle, curLang)}</h2>
+                                <p class="fs-desc" style="color: #555;">${getTranslation(data.fsDesc, curLang)}</p>
                                 <span class="fs-season" style="color: #999;">${data.fsSeason}</span>
                             </div>
                             <div class="fs-actions">
@@ -629,15 +719,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
             `;
-            swiperWrapper.insertAdjacentHTML('beforeend', slideHtml);
         });
+        swiperWrapper.innerHTML = slidesHtml;
 
         // Swiper'ı başlat
-        const featureSwiper = new Swiper('.fs-swiper-container', {
+        new Swiper('.fs-swiper-container', {
             loop: true,
             grabCursor: true,
             spaceBetween: 30,
-            navigation: {
+             navigation: {
                 nextEl: '.fs-next-btn',
                 prevEl: '.fs-prev-btn',
             },
@@ -646,8 +736,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 clickable: true,
             },
             breakpoints: {
-                // Mobilde farklı özellikler eklemek isterseniz burayı kullanabilirsiniz
-                320: { spaceBetween: 100 }, /* Mobilde resimlerin taşmasını önlemek için aralığı artırdık */
+                320: { spaceBetween: 100 },
                 768: { spaceBetween: 30 }
             }
         });
@@ -662,22 +751,32 @@ document.addEventListener('DOMContentLoaded', () => {
     if (globalMapSection) {
         ScrollTrigger.create({
             trigger: globalMapSection,
-            start: "top 60%",
+            start: "top 65%",
             once: true,
             onEnter: () => {
-                // Harita Noktalarının (Pins) Belirmesi
-                if(mapPins.length > 0) {
+                if (mapPins.length > 0) {
                     gsap.to(mapPins, {
                         opacity: 1,
                         scale: 1,
-                        duration: 0.5,
-                        stagger: 0.1,
-                        ease: "back.out(1.5)",
-                        delay: 0.2
+                        duration: 0.45,
+                        stagger: 0.06,
+                        ease: "back.out(1.4)"
                     });
                 }
             }
         });
+
+        // Harita görünür değilken 13 adet sonsuz pin-pulse animasyonunu durdur
+        if ('IntersectionObserver' in window) {
+            const mapObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    globalMapSection.classList.toggle('map-in-view', entry.isIntersecting);
+                });
+            }, { threshold: 0.05 });
+            mapObserver.observe(globalMapSection);
+        } else {
+            globalMapSection.classList.add('map-in-view');
+        }
     }
 
     // --- ACCORDION LOGIC ---
@@ -689,4 +788,4 @@ document.addEventListener('DOMContentLoaded', () => {
             content.classList.toggle('open');
         });
     });
-});
+});

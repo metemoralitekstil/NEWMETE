@@ -295,18 +295,18 @@
                             <div class="form-row" style="display: flex; gap: 14px; margin-bottom: 1.25rem; flex-wrap: wrap;">
                                 <div class="form-group half" style="flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 4px;">
                                     <label for="address-district" id="hesabim-district-label" data-i18n="district" style="font-size: 0.78rem; font-weight: 600; color: #475569;">İlçe</label>
-                                    <input type="text" id="address-district" data-i18n="district_placeholder" placeholder="Örn: Torbalı, Kadıköy, Çankaya" required style="width: 100%; box-sizing: border-box; padding: 11px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.9rem; background: #fff;">
+                                    <input type="text" id="address-district" required style="width: 100%; box-sizing: border-box; padding: 11px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.9rem; background: #fff;">
                                 </div>
                                 <div class="form-group half" style="flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 4px;">
                                     <label for="address-zip" data-i18n="zip_code" style="font-size: 0.78rem; font-weight: 600; color: #475569;">Posta Kodu</label>
-                                    <input type="text" id="address-zip" data-i18n="zip_placeholder" placeholder="Örn: 35885" style="width: 100%; box-sizing: border-box; padding: 11px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.9rem; background: #fff;">
+                                    <input type="text" id="address-zip" style="width: 100%; box-sizing: border-box; padding: 11px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.9rem; background: #fff;">
                                 </div>
                             </div>
 
                             <!-- Açık Adres Alanı -->
                             <div class="pure-form-row" style="margin-bottom: 1.25rem;">
                                 <label for="address-detail" data-i18n="address_detail_label" style="font-size: 0.78rem; font-weight: 600; color: #475569; display: block; margin-bottom: 4px;">Açık Adres (Mahalle, Cadde, Sokak, Bina No, Kat / Daire)</label>
-                                <textarea id="address-detail" data-i18n="address_detail_placeholder" rows="3" placeholder="Örn: İnönü Mah. Ahmet Özkan Bulvarı No: 38 D: 30" required oninput="this.style.height='auto';this.style.height=Math.max(84,this.scrollHeight)+'px'" style="width: 100%; box-sizing: border-box; padding: 11px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.9rem; line-height: 1.45; background: #fff; resize: none; overflow-y: hidden; min-height: 84px;"></textarea>
+                                <textarea id="address-detail" rows="3" required oninput="this.style.height='auto';this.style.height=Math.max(84,this.scrollHeight)+'px'" style="width: 100%; box-sizing: border-box; padding: 11px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.9rem; line-height: 1.45; background: #fff; resize: none; overflow-y: hidden; min-height: 84px;"></textarea>
                             </div>
 
                             <div style="display: flex; gap: 10px; margin-top: 20px;">
@@ -656,7 +656,7 @@
                 inputEl.required = false;
                 if (labelEl) labelEl.textContent = t('city', 'İl / Şehir');
                 if (districtLabel) districtLabel.textContent = t('district', 'İlçe');
-                if (districtInput) districtInput.placeholder = t('district_placeholder', 'Örn: Torbalı, Kadıköy, Çankaya');
+                if (districtInput) districtInput.placeholder = '';
                 if (prefillCity) selectEl.value = prefillCity;
             } else {
                 selectEl.style.display = 'none';
@@ -665,7 +665,7 @@
                 inputEl.required = true;
                 if (labelEl) labelEl.textContent = t('city_state_placeholder', 'Şehir / Eyalet');
                 if (districtLabel) districtLabel.textContent = t('district', 'İlçe / Bölge');
-                if (districtInput) districtInput.placeholder = t('district_placeholder', 'Bölge / Kasaba / State');
+                if (districtInput) districtInput.placeholder = '';
                 if (prefillCity) inputEl.value = prefillCity;
             }
         };

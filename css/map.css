@@ -67,8 +67,6 @@
     margin-bottom: 3rem;
 }
 
-/* Sol menü kaldırıldı */
-
 /* Harita Kısmı */
 .global-map-full {
     width: 100%;
@@ -96,12 +94,11 @@
     position: absolute;
     width: 30px;
     height: 30px;
-    transform: translate(-50%, -50%);
     cursor: pointer;
     z-index: 5;
     opacity: 0; /* JS ile animasyonlu gelecek */
     transform: translate(-50%, -50%) scale(0);
-    transition: opacity 0.4s ease, filter 0.4s ease;
+    transition: opacity 0.3s ease;
 }
 
 .map-pin.dimmed {
@@ -129,7 +126,7 @@
     background-color: var(--accent);
     border-radius: 50%;
     box-shadow: 0 0 10px var(--accent);
-    transition: all 0.3s ease;
+    transition: transform 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .pin-pulse {
@@ -143,9 +140,13 @@
     border-radius: 50%;
     opacity: 0;
     transform: translate(-50%, -50%) scale(1);
-    animation: mapPulse 2s infinite ease-out;
+    animation: mapPulse 2.2s infinite ease-out;
     pointer-events: none;
-    will-change: transform, opacity;
+}
+
+/* Harita ekran dışındayken 13 adet sonsuz animasyonu durdur */
+.global-map-section:not(.map-in-view) .pin-pulse {
+    animation-play-state: paused;
 }
 
 @keyframes mapPulse {
@@ -164,16 +165,15 @@
     bottom: 150%;
     left: 50%;
     transform: translateX(-50%) translateY(10px);
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.98);
     border: 1px solid rgba(0, 0, 0, 0.1);
     padding: 15px 20px;
     border-radius: 8px;
     width: max-content;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(5px);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
     z-index: 10;
 }
 
@@ -185,7 +185,7 @@
     transform: translateX(-50%);
     border-width: 6px;
     border-style: solid;
-    border-color: rgba(255, 255, 255, 0.95) transparent transparent transparent;
+    border-color: rgba(255, 255, 255, 0.98) transparent transparent transparent;
 }
 
 .map-pin:hover .pin-tooltip {
@@ -246,7 +246,7 @@
     font-weight: 600;
     color: #121214;
     cursor: pointer;
-    transition: color 0.3s;
+    transition: color 0.25s ease;
     font-family: inherit;
 }
 
@@ -255,7 +255,7 @@
 }
 
 .accordion-btn .fas {
-    transition: transform 0.3s ease;
+    transition: transform 0.25s ease;
 }
 
 .accordion-btn.active .fas {
@@ -265,7 +265,7 @@
 .accordion-content {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.4s ease, padding 0.4s ease;
+    transition: max-height 0.35s ease, padding 0.35s ease;
 }
 
 .accordion-content.open {
@@ -309,7 +309,7 @@
     border-radius: 5px;
     text-decoration: none;
     font-weight: 600;
-    transition: all 0.3s ease;
+    transition: transform 0.25s ease, background-color 0.25s ease;
 }
 
 @media (max-width: 1024px) {
@@ -372,4 +372,3 @@
         font-size: 1rem;
     }
 }
-

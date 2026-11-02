@@ -45,6 +45,10 @@
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     
+    <!-- İlk açılışta Hero ürün ve arkaplan görsellerini en yüksek öncelikle önden yükle -->
+    <link rel="preload" as="image" href="img/mavi-reflektorlu-is-uniformasi.webp" type="image/webp" fetchpriority="high">
+    <link rel="preload" as="image" href="img/arkaplankaynakci.webp" type="image/webp" fetchpriority="high">
+
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap"></noscript>
     
@@ -53,14 +57,14 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"></noscript>
     
-    <link rel="stylesheet" href="css/base.css?v=4.0">
-    <link rel="stylesheet" href="css/components.css?v=4.0">
-    <link rel="stylesheet" href="css/navbar.css?v=4.0">
-    <link rel="stylesheet" href="css/footer.css?v=4.0">
-    <link rel="stylesheet" href="css/showcase.css?v=4.1">
-    <link rel="stylesheet" href="css/slider.css?v=4.0">
-    <link rel="stylesheet" href="css/map.css?v=4.0">
-    <link rel="stylesheet" href="css/pages.css?v=4.0">
+    <link rel="stylesheet" href="css/base.css?v=4.2">
+    <link rel="stylesheet" href="css/components.css?v=4.2">
+    <link rel="stylesheet" href="css/navbar.css?v=4.2">
+    <link rel="stylesheet" href="css/footer.css?v=4.2">
+    <link rel="stylesheet" href="css/showcase.css?v=4.2">
+    <link rel="stylesheet" href="css/slider.css?v=4.2">
+    <link rel="stylesheet" href="css/map.css?v=4.2">
+    <link rel="stylesheet" href="css/pages.css?v=4.2">
 
     <script src="js/config.js?v=4.3" defer></script>
 
@@ -121,7 +125,8 @@
         <div class="showcase-left">
             <div class="image-wrapper">
                 <picture>
-                    <img fetchpriority="high" id="product-img" src="img/mavi-reflektorlu-is-uniformasi.png" alt="MeteMorali Alev Geciktirici Kaynakçı Kıyafeti" class="product-image" width="400" height="600">
+                    <source srcset="img/mavi-reflektorlu-is-uniformasi.webp" type="image/webp">
+                    <img fetchpriority="high" decoding="async" id="product-img" src="img/mavi-reflektorlu-is-uniformasi.webp" alt="MeteMorali Alev Geciktirici Kaynakçı Kıyafeti" class="product-image" width="400" height="600">
                 </picture>
                 <div class="floor-shadow" id="floor-shadow"></div>
             </div>
@@ -140,7 +145,7 @@
         <div class="arc-nav">
             <svg class="arc-svg" viewBox="0 0 600 250" preserveAspectRatio="xMidYMax meet">
                 <!-- Çember yayını çizen SVG yolu (Merkez: 300,250 | Yarıçap: 250) -->
-                <path d="M 50,250 A 250,250 0 0,1 550,250" fill="none" stroke="var(--accent)" stroke-width="2" style="transition: stroke 0.4s ease;"/>
+                <path d="M 50,250 A 250,250 0 0,1 550,250" fill="none" stroke="var(--accent)" stroke-width="2" style="transition: stroke 0.3s ease;"/>
                 
                 <line id="connecting-line" x1="300" y1="130" x2="300" y2="130" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4,4" />
             </svg>
@@ -198,7 +203,7 @@
                 <div class="map-container">
                     <picture>
                         <source srcset="img/dunya.webp" type="image/webp">
-                        <img loading="lazy" src="img/dunya.png" alt="MeteMorali Küresel İhracat Ağ Haritası" class="map-image-responsive" width="1200" height="600">
+                        <img loading="lazy" decoding="async" src="img/dunya.webp" alt="MeteMorali Küresel İhracat Ağ Haritası" class="map-image-responsive" width="1200" height="600">
                     </picture>
 
                     <div class="map-pin" data-region="europe" style="top: 52%; left: 16%;">
@@ -326,11 +331,11 @@
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
     
-    <script src="js/products.js" charset="utf-8" defer></script>
-    <script src="main.js?v=3.1" charset="utf-8" defer></script>
+    <script src="js/products.js?v=3.3" charset="utf-8" defer></script>
+    <script src="main.js?v=3.3" charset="utf-8" defer></script>
     <script src="js/cart.js?v=3.2" defer></script>
-    <script src="components/loader.js" defer></script>
-    <script src="js/components.js?v=3.1" defer></script>
+    <script src="components/loader.js?v=3.3" defer></script>
+    <script src="js/components.js?v=3.3" defer></script>
     <script defer src="js/splash.js?v=3.1"></script>
 </body>
 </html>

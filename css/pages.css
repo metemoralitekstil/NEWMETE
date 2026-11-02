@@ -646,7 +646,7 @@ body.simple-page {
     top: -50%; right: -20%;
     width: 300px; height: 300px;
     background: rgba(46, 125, 50, 0.15);
-    filter: blur(100px);
+    background: radial-gradient(circle, rgba(46, 125, 50, 0.22) 0%, rgba(46, 125, 50, 0) 70%);
     border-radius: 50%;
 }
 .profile-info-block {
@@ -824,7 +824,7 @@ body.simple-page {
     margin-bottom: 1.5rem;
     position: relative;
 }
-.pure-form-row input {
+.dashboard-tab .pure-form-row input {
     width: 100%;
     padding: 13px 15px 13px 44px;
     border: 1px solid #ddd;
@@ -841,7 +841,7 @@ body.simple-page {
     background: #fff;
     box-shadow: 0 4px 15px rgba(27, 94, 32, 0.08);
 }
-.pure-form-row i.input-icon {
+.dashboard-tab .pure-form-row i.input-icon {
     position: absolute;
     left: 16px;
     top: 50%;
@@ -856,7 +856,7 @@ body.simple-page {
 }
 
 /* Phone select inside row styling */
-.pure-form-row .phone-input-group {
+.dashboard-tab .pure-form-row .phone-input-group {
     display: flex;
     gap: 0;
     border: 1px solid #ddd;
@@ -865,12 +865,12 @@ body.simple-page {
     background: #fafafa;
     transition: all 0.3s;
 }
-.pure-form-row .phone-input-group:focus-within {
+.dashboard-tab .pure-form-row .phone-input-group:focus-within {
     border-color: #1b5e20;
     background: #fff;
     box-shadow: 0 4px 15px rgba(27, 94, 32, 0.08);
 }
-.pure-form-row .phone-input-group .country-code-select-wrapper {
+.dashboard-tab .pure-form-row .phone-input-group .country-code-select-wrapper {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -881,17 +881,17 @@ body.simple-page {
     user-select: none;
     position: relative;
 }
-.pure-form-row .phone-input-group .country-code-select-wrapper img {
+.dashboard-tab .pure-form-row .phone-input-group .country-code-select-wrapper img {
     width: 20px;
     height: auto;
     border-radius: 2px;
 }
-.pure-form-row .phone-input-group .country-code-select-wrapper span {
+.dashboard-tab .pure-form-row .phone-input-group .country-code-select-wrapper span {
     font-size: 0.95rem;
     font-weight: 600;
     color: #333;
 }
-.pure-form-row .phone-input-group .country-code-select-wrapper select {
+.dashboard-tab .pure-form-row .phone-input-group .country-code-select-wrapper select {
     position: absolute;
     top: 0;
     left: 0;
@@ -901,7 +901,7 @@ body.simple-page {
     cursor: pointer;
     z-index: 10;
 }
-.pure-form-row .phone-input-group input {
+.dashboard-tab .pure-form-row .phone-input-group input {
     border: none;
     padding: 13px 15px;
     background: transparent;
@@ -1697,8 +1697,8 @@ body.simple-page {
     border-radius: 20px;
     overflow: hidden;
     position: relative;
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    /* backdrop-filter kaldırıldı (mobil scroll performansı için) */
+    /* -webkit-backdrop-filter kaldırıldı */
     transition: transform 0.4s ease, box-shadow 0.4s ease;
     display: flex;
     flex-direction: column;
@@ -1977,7 +1977,7 @@ body.catalog-theme .product-card:hover .spark {
         height: auto;
     }
     body.catalog-theme .product-card:hover {
-        transform: translateX(10px) !important;
+        transform: none !important;
     }
     body.catalog-theme .card-image-wrapper {
         width: 100%;
@@ -2870,7 +2870,7 @@ body.catalog-theme .product-card:hover .spark {
     color: #111 !important;
     border-radius: 8px !important;
 }
-.pure-form-row .iti input {
+.dashboard-tab .pure-form-row .iti input {
     padding-left: 52px !important;
     background: #fafafa !important;
 }

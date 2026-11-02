@@ -333,12 +333,12 @@ async function loadProductDetail() {
         if (thumbnailsContainer) {
             if (validSubImages.length > 0) {
                 let galleryHtml = `<div class="thumbnail active" onclick="changeMainImage('${product.imageUrl}', this)">
-                                      <img loading="lazy" src="${product.imageUrl}" alt="Ana Resim">
+                                      <img loading="lazy" decoding="async" src="${product.imageUrl}" alt="Ana Resim">
                                    </div>`;
 
                 validSubImages.forEach(imgUrl => {
                     galleryHtml += `<div class="thumbnail" onclick="changeMainImage('${imgUrl}', this)">
-                                      <img loading="lazy" src="${imgUrl}" alt="Alt Resim">
+                                      <img loading="lazy" decoding="async" src="${imgUrl}" alt="Alt Resim">
                                     </div>`;
                 });
                 thumbnailsContainer.innerHTML = galleryHtml;
@@ -795,10 +795,10 @@ function clampTransitions() {
 
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
-    const rect = img.getBoundingClientRect();
+    // offsetWidth/offsetHeight ile senkron reflow (layout thrashing) önlendi
 
-    const widthAtScale1 = rect.width / zoomScale;
-    const heightAtScale1 = rect.height / zoomScale;
+    const widthAtScale1 = img.offsetWidth || 300;
+    const heightAtScale1 = img.offsetHeight || 400;
 
     const zoomedWidth = widthAtScale1 * zoomScale;
     const zoomedHeight = heightAtScale1 * zoomScale;
@@ -862,9 +862,9 @@ function handleDoubleTap(e) {
         const clientX = e.touches ? e.touches[0].clientX : e.clientX;
         const clientY = e.touches ? e.touches[0].clientY : e.clientY;
 
-        const rect = img.getBoundingClientRect();
-        const imgCenterX = rect.left + rect.width / 2;
-        const imgCenterY = rect.top + rect.height / 2;
+        // offsetWidth/offsetHeight ile senkron reflow (layout thrashing) önlendi
+        const imgCenterX = window.innerWidth / 2;
+        const imgCenterY = window.innerHeight / 2;
 
         translateX = (clientX - imgCenterX) * (1 - zoomScale);
         translateY = (clientY - imgCenterY) * (1 - zoomScale);

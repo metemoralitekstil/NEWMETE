@@ -31,8 +31,8 @@ const MOCK_PRODUCTS = [
             it: "Parka da lavoro termico ad alta protezione con bande riflettenti, che offre protezione ignifuga, impermeabile e antistatica in condizioni invernali difficili."
         },
         price: 290.00,
-        imageUrl: "img/neon-sari-reflektif-guvenlik-parkasi.png",
-        subImages: '["img/neon-sari-reflektif-guvenlik-parkasi.png", "img/neon-sari-reflektif-is-parkasi.png", "img/neon-sari-kapusonlu-guvenlik-montu.png", "img/profilde-neon-sari-reflektorlu-is-parkasi.png"]',
+        imageUrl: "img/neon-sari-reflektif-guvenlik-parkasi.webp",
+        subImages: '["img/neon-sari-reflektif-guvenlik-parkasi.webp", "img/neon-sari-reflektif-is-parkasi.webp", "img/neon-sari-kapusonlu-guvenlik-montu.webp", "img/profilde-neon-sari-reflektorlu-is-parkasi.webp"]',
         articleCode: "910404",
         certificateCode: "OZO 1117-CPT004/26",
         standards: ["EN 11611", "EN 11612", "EN 1149-5", "EN 20471", "EN 342"],
@@ -111,8 +111,8 @@ const MOCK_PRODUCTS = [
             it: "Completo da saldatore ignifugo con strisce riflettenti per un'elevata visibilità e protezione contro gli schizzi di metallo fuso."
         },
         price: 275.00,
-        imageUrl: "img/reflektorlu-mavi-lime-is-elbisesi.png",
-        subImages: '["img/reflektorlu-mavi-lime-is-elbisesi.png", "img/arka-gorunum-reflektif-is-elbisesi.png", "img/mavi-ve-neon-sari-reflektif-is-tulumu.png", "img/kobalt-mavi-ve-neon-sari-is-montu.png", "img/mavi-sari-reflektorlu-is-montu.png", "img/yandan-gorunum-hi-vis-is-montu.png", "img/mavi-ve-neon-reflektif-is-pantolonu.png", "img/mavi-sari-reflektif-is-pantolonu.png", "img/yuksek-gorunurluklu-is-pantolonu.png"]',
+        imageUrl: "img/reflektorlu-mavi-lime-is-elbisesi.webp",
+        subImages: '["img/reflektorlu-mavi-lime-is-elbisesi.webp", "img/arka-gorunum-reflektif-is-elbisesi.webp", "img/mavi-ve-neon-sari-reflektif-is-tulumu.webp", "img/kobalt-mavi-ve-neon-sari-is-montu.webp", "img/mavi-sari-reflektorlu-is-montu.webp", "img/yandan-gorunum-hi-vis-is-montu.webp", "img/mavi-ve-neon-reflektif-is-pantolonu.webp", "img/mavi-sari-reflektif-is-pantolonu.webp", "img/yuksek-gorunurluklu-is-pantolonu.webp"]',
         articleCode: "910401",
         certificateCode: "OZO 1117-CPT001/26",
         standards: ["EN 11611", "EN 11612", "EN 1149-5", "EN 20471"],
@@ -191,8 +191,8 @@ const MOCK_PRODUCTS = [
             it: "Abbigliamento da lavoro da saldatore ignifugo e antistatico grigio acciaio con strisce riflettenti per la massima protezione contro scintille e calore."
         },
         price: 250.00,
-        imageUrl: "img/gri-mavi-reflektif-is-elbisesi.png",
-        subImages: '["img/gri-mavi-reflektif-is-elbisesi.png", "img/gri-mavi-reflektif-is-tulumu.png", "img/gri-reflektorlu-is-uniformasi-arkadan-gorunum.png", "img/reflektorlu-gri-mavi-is-montu.png", "img/gri-reflektorlu-is-montu-arkadan-gorunum.png", "img/celik-grisi-reflektorlu-is-ceketi.png", "img/reflektor-seritli-is-pantolonu.png", "img/arkadan-gorunumlu-reflektorlu-is-pantolonu.png", "img/yan-profilli-reflektif-is-pantolonu-2.png"]',
+        imageUrl: "img/gri-mavi-reflektif-is-elbisesi.webp",
+        subImages: '["img/gri-mavi-reflektif-is-elbisesi.webp", "img/gri-mavi-reflektif-is-tulumu.webp", "img/gri-reflektorlu-is-uniformasi-arkadan-gorunum.webp", "img/reflektorlu-gri-mavi-is-montu.webp", "img/gri-reflektorlu-is-montu-arkadan-gorunum.webp", "img/celik-grisi-reflektorlu-is-ceketi.webp", "img/reflektor-seritli-is-pantolonu.webp", "img/arkadan-gorunumlu-reflektorlu-is-pantolonu.webp", "img/yan-profilli-reflektif-is-pantolonu-2.webp"]',
         colors: ["Gri"],
         articleCode: "910402",
         certificateCode: "OZO 1117-CPT003/26",
@@ -272,8 +272,8 @@ const MOCK_PRODUCTS = [
             it: "Abbigliamento ignifugo senza strisce riflettenti per la massima protezione contro fiamme, calore ed elettricità statica nelle officine metallurgiche."
         },
         price: 240.00,
-        imageUrl: "img/mavi-reflektif-is-uniformasi.png",
-        subImages: '["img/mavi-reflektif-is-uniformasi.png", "img/mavi-reflektif-is-uniformasi-seti.png", "img/mavi-reflektorlu-is-uniformasi-2.png", "img/mavi-reflektorlu-is-guvenligi-montu.png", "img/mavi-reflektorlu-is-guvenligi-ceketi.png", "img/mavi-reflektif-is-ceketi.png", "img/donanimli-lacivert-is-pantolonu.png", "img/reflektor-bantli-mavi-is-pantolonu.png", "img/yan-profilli-reflektif-is-pantolonu.png"]',
+        imageUrl: "img/mavi-reflektif-is-uniformasi.webp",
+        subImages: '["img/mavi-reflektif-is-uniformasi.webp", "img/mavi-reflektif-is-uniformasi-seti.webp", "img/mavi-reflektorlu-is-uniformasi-2.webp", "img/mavi-reflektorlu-is-guvenligi-montu.webp", "img/mavi-reflektorlu-is-guvenligi-ceketi.webp", "img/mavi-reflektif-is-ceketi.webp", "img/donanimli-lacivert-is-pantolonu.webp", "img/reflektor-bantli-mavi-is-pantolonu.webp", "img/yan-profilli-reflektif-is-pantolonu.webp"]',
         colors: ["Mavi"],
         articleCode: "910405",
         certificateCode: "OZO 1117-CPT003/26-A1/26",
@@ -353,8 +353,8 @@ const MOCK_PRODUCTS = [
             it: "Abbigliamento ignifugo blu navy per la massima protezione contro fiamme, calore ed elettricità statica."
         },
         price: 240.00,
-        imageUrl: "img/lacivert-1.png",
-        subImages: '["img/lacivert-1.png", "img/lacivert-2.png", "img/lacivert-3.png", "img/lacivert-4.png", "img/lacivert-5.png", "img/lacivert-6.png", "img/lacivert-7.png", "img/lacivert-8.png", "img/lacivert-9.png"]',
+        imageUrl: "img/lacivert-1.webp",
+        subImages: '["img/lacivert-1.webp", "img/lacivert-2.webp", "img/lacivert-3.webp", "img/lacivert-4.webp", "img/lacivert-5.webp", "img/lacivert-6.webp", "img/lacivert-7.webp", "img/lacivert-8.webp", "img/lacivert-9.webp"]',
         articleCode: "910407",
         certificateCode: "OZO 1117-CPT001/26-A1/26",
         standards: ["EN 11611", "EN 11612", "EN 1149-5"],
@@ -434,13 +434,11 @@ function getProductFeatures(product, lang) {
 }
 
 // Resim URL normalleştirici: Veritabanında (Supabase) veya eski önbellekte kalan
-// Türkçe karakterli ve boşluklu dosya adlarını otomatik olarak yeni web-uyumlu slug'a çevirir
+// Türkçe karakterli, boşluklu ve .png uzantılı dosya adlarını otomatik olarak optimize .webp formatına çevirir
 function sanitizeProductImageUrl(url) {
     if (!url || typeof url !== 'string') return '';
     let clean = url.trim();
-    // Eğer zaten yeni formattaysa veya harici url ise dokunma
     if (clean.startsWith('http://') || clean.startsWith('https://')) {
-        // Eğer mete-morali.com domainliyse path'i düzelt
         if (clean.includes('mete-morali.com/img/')) {
             clean = clean.split('mete-morali.com/')[1] || clean;
         } else {
@@ -448,16 +446,13 @@ function sanitizeProductImageUrl(url) {
         }
     }
 
-    // Dosya adını izole et
     const isImgPrefixed = clean.startsWith('img/');
     let filename = isImgPrefixed ? clean.substring(4) : clean;
 
-    // URL decode yap (%20, %C3%B6 vs. için)
     try {
         filename = decodeURIComponent(filename);
     } catch(e) {}
 
-    // Türkçe karakterleri ve boşlukları web slug'a çevir
     filename = filename
         .replace(/ı/g, 'i').replace(/İ/g, 'i')
         .replace(/ğ/g, 'g').replace(/Ğ/g, 'g')
@@ -468,7 +463,8 @@ function sanitizeProductImageUrl(url) {
         .toLowerCase()
         .replace(/[^a-z0-9\.]+/g, '-')
         .replace(/-+/g, '-')
-        .replace(/^-|-$/g, '');
+        .replace(/^-|-$/g, '')
+        .replace(/\.png$/i, '.webp');
 
     return (isImgPrefixed ? 'img/' : '') + filename;
 }

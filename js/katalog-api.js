@@ -1,7 +1,6 @@
 // MeteMorali — Katalog Render Motoru
 // Ürün verileri js/products.js dosyasından (window.MOCK_PRODUCTS) beslenir.
 
-
 const EXAMINE_TRANSLATIONS = {
     tr: "İncele",
     en: "Examine",
@@ -38,20 +37,19 @@ function getProductFeatures(product, lang) {
     return Array.isArray(val) ? val : [];
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    if (document.getElementById('catalog-grid')) {
-        loadCatalogProducts();
-    }
-});
+let cachedCatalogProducts = null;
+let catalogFetchPromise = null;
 
-async function loadCatalogProducts() {
-    try {
-        const lang = (window.i18n && window.i18n.currentLang) || (new URLSearchParams(window.location.search).get('lang')) || localStorage.getItem('metemorali_lang') || 'tr';
+async function fetchCatalogProductsOnce() {
+    if (cachedCatalogProducts) return cachedCatalogProducts;
+    if (catalogFetchPromise) return catalogFetchPromise;
+
+    catalogFetchPromise = (async () => {
         let products = (typeof MOCK_PRODUCTS !== 'undefined') ? MOCK_PRODUCTS : (window.MOCK_PRODUCTS || []);
-        
+
         if (typeof supabaseClient !== 'undefined' && supabaseClient !== null) {
             try {
-                const { data, error } = await supabaseClient.from('Products').select('*').order('Id');
+                const { data } = await supabaseClient.from('Products').select('*').order('Id');
                 if (data && data.length > 0) {
                     const mockList = (typeof MOCK_PRODUCTS !== 'undefined') ? MOCK_PRODUCTS : (window.MOCK_PRODUCTS || []);
                     products = data.map(p => {
@@ -83,32 +81,51 @@ async function loadCatalogProducts() {
             }
         }
 
-        const grid = document.getElementById('catalog-grid');
-        grid.innerHTML = '';
+        cachedCatalogProducts = products;
+        return products;
+    })();
 
-        if (products.length === 0) {
+    return catalogFetchPromise;
+}
+
+function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+let lastRenderedLang = null;
+
+async function loadCatalogProducts(forceRender = false) {
+    const grid = document.getElementById('catalog-grid');
+    if (!grid) return;
+
+    try {
+        const lang = (window.i18n && window.i18n.currentLang) || (new URLSearchParams(window.location.search).get('lang')) || localStorage.getItem('metemorali_lang') || 'tr';
+        if (!forceRender && lastRenderedLang === lang && grid.children.length > 0) {
+            return;
+        }
+
+        const products = await fetchCatalogProductsOnce();
+
+        if (!products || products.length === 0) {
             grid.innerHTML = '<p style="color: white; text-align: center; width: 100%;">Henüz ürün eklenmemiş.</p>';
             return;
         }
 
-        function escapeHtml(str) {
-            if (!str) return '';
-            return String(str)
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#039;');
-        }
+        let allCardsHTML = '';
 
-        products.forEach(p => {
+        products.forEach((p, idx) => {
             if (!p || !p.imageUrl || p.imageUrl.trim() === '') return;
             const rawName = getProductTranslation(p, 'name', lang) || '';
             const rawSubtitle = getProductTranslation(p, 'subtitle', lang) || '';
             const rawDesc = getProductTranslation(p, 'description', lang) || '';
             const examineBtnText = escapeHtml(EXAMINE_TRANSLATIONS[lang] || (window.i18n && window.i18n.t('examine')) || EXAMINE_TRANSLATIONS['tr']);
 
-            // Determine category dynamically based on product ID
             let category = "welder";
             if (p.id === 1) category = "parka";
             else if (p.id === 2 || p.id === 6) category = "supervisor";
@@ -116,21 +133,19 @@ async function loadCatalogProducts() {
             const safeName = escapeHtml(rawName);
             const safeDesc = escapeHtml(rawSubtitle || rawDesc);
             const safeCategory = escapeHtml(category);
-            const safeImg = encodeURI(p.imageUrl || '');
             const safeId = encodeURIComponent(p.id || '');
-            const pagePrefix = (window.location.protocol === 'file:') ? 'urun-detay.html' : 'urun-detay';
+            const pagePrefix = 'urun-detay';
             const detailUrl = (lang && lang !== 'tr') ? `${pagePrefix}?id=${safeId}&lang=${encodeURIComponent(lang)}` : `${pagePrefix}?id=${safeId}`;
+            const loadingAttr = idx < 2 ? 'eager' : 'lazy';
 
-            // "Katalog" kartı tasarımı
-            const cardHTML = `
+            allCardsHTML += `
             <div class="product-card" data-category="${safeCategory}" style="cursor: pointer;" onclick="if (!event.target.closest('a')) window.location.href='${detailUrl}'">
-                <!-- Sparks Animasyonu -->
                 <div class="sparks-container">
                     <div class="spark"></div><div class="spark"></div><div class="spark"></div><div class="spark"></div><div class="spark"></div>
                 </div>
                 
                 <div class="card-image-wrapper">
-                    <img src="${p.imageUrl || ''}" alt="${safeName}">
+                    <img src="${p.imageUrl || ''}" alt="${safeName}" loading="${loadingAttr}" decoding="async" width="280" height="260">
                 </div>
                 
                 <div class="card-content">
@@ -141,21 +156,25 @@ async function loadCatalogProducts() {
                     </div>
                 </div>
             </div>`;
-
-            grid.innerHTML += cardHTML;
         });
 
-        // Dispatch custom event to notify main.js that product cards are loaded
+        grid.innerHTML = allCardsHTML;
+        lastRenderedLang = lang;
+
         document.dispatchEvent(new CustomEvent('catalogProductsRendered'));
 
     } catch (err) {
         console.error('Ürünler yüklenirken hata oluştu:', err);
-        const grid = document.getElementById('catalog-grid');
         grid.innerHTML = '<p style="color: red; text-align: center; width: 100%;">Ürünler yüklenemedi.</p>';
     }
 }
 
-// Re-render when components and i18n finish loading
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('catalog-grid')) {
+        loadCatalogProducts();
+    }
+});
+
 document.addEventListener('componentsLoaded', () => {
     if (document.getElementById('catalog-grid')) {
         loadCatalogProducts();

@@ -1,4 +1,3 @@
-
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -10,6 +9,8 @@
     top: 0;
     width: 100%;
     z-index: 1000;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    transform: translate3d(0, 0, 0);
 }
 
 .nav-left {
@@ -22,7 +23,7 @@
     font-size: 1.4rem;
     color: var(--text-color);
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -31,6 +32,7 @@
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.05);
+    -webkit-tap-highlight-color: transparent;
 }
 
 .menu-btn:hover {
@@ -52,7 +54,7 @@
     font-size: 1rem;
     font-weight: 400;
     letter-spacing: 0.5px;
-    transition: all 0.3s ease;
+    transition: color 0.2s ease, opacity 0.2s ease;
     position: relative;
     padding: 0.5rem 0;
     opacity: 0.9;
@@ -66,7 +68,7 @@
     bottom: 0;
     left: 50%;
     background-color: var(--accent);
-    transition: all 0.3s ease;
+    transition: width 0.25s ease;
     transform: translateX(-50%);
     border-radius: 2px;
     box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
@@ -95,7 +97,7 @@
     align-items: center;
     gap: 0.8rem;
     cursor: pointer;
-    transition: transform 0.3s ease;
+    transition: transform 0.25s ease;
 }
 
 .logo-container:hover {
@@ -127,7 +129,7 @@
     color: var(--text-color);
     font-size: 1.3rem;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
     width: 45px;
     height: 45px;
     display: flex;
@@ -138,6 +140,7 @@
     background: transparent;
     position: relative;
     opacity: 0.9;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .icon-btn:hover {
@@ -147,14 +150,9 @@
     opacity: 1;
 }
 
-.navbar {
-    transition: background 0.4s ease, box-shadow 0.4s ease;
-}
-
 .navbar.scrolled {
     background: transparent;
     box-shadow: none;
-    backdrop-filter: none;
 }
 
 .navbar.scrolled .nav-links li a,
@@ -252,8 +250,9 @@
     font-size: 0.9rem;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
     height: 45px;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .lang-btn:hover {
@@ -265,7 +264,7 @@
 
 .lang-btn .chevron-icon {
     font-size: 0.7rem;
-    transition: transform 0.3s ease;
+    transition: transform 0.25s ease;
 }
 
 .lang-btn[aria-expanded="true"] .chevron-icon {
@@ -276,9 +275,8 @@
     position: absolute;
     top: calc(100% + 8px);
     right: 0;
-    background: rgba(20, 20, 22, 0.95);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(20, 20, 24, 0.98);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     padding: 0.5rem;
     width: 150px;
@@ -287,15 +285,16 @@
     gap: 0.2rem;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-10px);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translate3d(0, -8px, 0);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    backface-visibility: hidden;
 }
 
 .lang-dropdown.active {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
 }
 
 .lang-dropdown a {
@@ -307,7 +306,7 @@
     text-decoration: none;
     font-size: 0.85rem;
     border-radius: 8px;
-    transition: all 0.2s ease;
+    transition: background-color 0.15s ease, color 0.15s ease, padding-left 0.15s ease;
     font-weight: 500;
     text-align: left;
 }
@@ -357,8 +356,8 @@
     overflow: hidden;
     padding: 0 !important;
     border: none !important;
-    background: rgba(0, 0, 0, 0.2) !important;
-    transition: all 0.3s ease;
+    background: rgba(0, 0, 0, 0.25) !important;
+    transition: opacity 0.25s ease;
     transform: none !important;
 }
 

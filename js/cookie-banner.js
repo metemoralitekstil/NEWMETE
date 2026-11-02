@@ -106,7 +106,7 @@
         const lang = (window.i18n && window.i18n.currentLang) || (new URLSearchParams(window.location.search).get('lang')) || localStorage.getItem('metemorali_lang') || 'tr';
         const t = translations[lang] || translations['tr'];
 
-        const policyUrl = 'sozlesmeler#cerez-politikasi';
+        const policyUrl = 'sozlesmeler.html#cerez-politikasi';
 
         const banner = document.createElement('div');
         banner.id = 'mm-cookie-banner';

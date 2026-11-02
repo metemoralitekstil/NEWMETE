@@ -54,7 +54,7 @@
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
             opacity: 0;
             transform: translateY(-20px);
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transition: opacity 0.25s ease, transform 0.25s ease;
             pointer-events: auto;
         `;
 
@@ -66,18 +66,15 @@
 
         container.appendChild(toast);
 
-        // Animate in
-        setTimeout(() => {
+        requestAnimationFrame(() => {
             toast.style.opacity = '1';
             toast.style.transform = 'translateY(0)';
-        }, 10);
+        });
 
-        // Auto close after 4 seconds
         const autoCloseTimeout = setTimeout(() => {
             closeToast(toast);
         }, 4000);
 
-        // Close on button click
         toast.querySelector('.toast-close-btn').addEventListener('click', () => {
             clearTimeout(autoCloseTimeout);
             closeToast(toast);
@@ -91,7 +88,7 @@
             if (toast.parentNode) {
                 toast.parentNode.removeChild(toast);
             }
-        }, 300);
+        }, 260);
     }
 
     window.showToast = showToastNotification;
@@ -145,23 +142,32 @@
         });
     }
 
+    function setParticlesPaused(paused) {
+        if (!window.tsParticles) return;
+        const containers = tsParticles.dom();
+        if (!containers || containers.length === 0) return;
+        containers.forEach(c => {
+            if (paused) c.pause();
+            else c.play();
+        });
+    }
+
     // --- 4. INITIALIZE UI ON componentsLoaded ---
     document.addEventListener('componentsLoaded', () => {
         highlightActiveNavLink();
 
-        // Navbar Scroll Effect
+        // Navbar Scroll Effect (passive & state-cached so no DOM query/reflow on every scroll tick)
         const navbar = document.querySelector('.navbar');
-        if (navbar) {
+        const showcase = document.querySelector('.showcase-container');
+        if (navbar && showcase) {
+            let isScrolled = false;
             window.addEventListener('scroll', () => {
-                const showcase = document.querySelector('.showcase-container');
-                if (!showcase) return;
-
-                if (window.scrollY > window.innerHeight - 100) {
-                    navbar.classList.add('scrolled');
-                } else {
-                    navbar.classList.remove('scrolled');
+                const shouldScroll = window.scrollY > window.innerHeight - 100;
+                if (shouldScroll !== isScrolled) {
+                    isScrolled = shouldScroll;
+                    navbar.classList.toggle('scrolled', shouldScroll);
                 }
-            });
+            }, { passive: true });
         }
 
         // Mobile Menu with GSAP Animation
@@ -172,21 +178,28 @@
         const mobileMenuLoginBtn = document.getElementById('mobile-menu-login-btn');
 
         if (topMenuBtn && mobileMenuOverlay && typeof gsap !== 'undefined') {
-            const menuTl = gsap.timeline({ paused: true });
+            const menuTl = gsap.timeline({
+                paused: true,
+                onReverseComplete: () => {
+                    mobileMenuOverlay.classList.remove('active');
+                    setParticlesPaused(false);
+                }
+            });
 
             menuTl.to(mobileMenuOverlay, {
                 opacity: 1,
                 autoAlpha: 1,
-                duration: 0.4,
-                ease: "power2.inOut"
+                duration: 0.25,
+                ease: "power2.out"
             })
             .fromTo(mobileNavItems,
-                { y: 30, opacity: 0 },
-                { y: 0, opacity: 1, duration: 0.4, stagger: 0.1, ease: "back.out(1.5)" },
-                "-=0.2"
+                { y: 18, opacity: 0 },
+                { y: 0, opacity: 1, duration: 0.25, stagger: 0.05, ease: "power2.out" },
+                "-=0.15"
             );
 
             topMenuBtn.addEventListener('click', () => {
+                setParticlesPaused(true);
                 mobileMenuOverlay.classList.add('active');
                 menuTl.play();
                 document.body.style.overflow = 'hidden';
@@ -195,7 +208,6 @@
             if (mobileMenuCloseBtn) {
                 mobileMenuCloseBtn.addEventListener('click', () => {
                     menuTl.reverse();
-                    mobileMenuOverlay.classList.remove('active');
                     document.body.style.overflow = '';
                 });
             }
@@ -204,7 +216,6 @@
                 mobileMenuLoginBtn.addEventListener('click', (e) => {
                     const user = localStorage.getItem('metemorali_user');
                     menuTl.reverse();
-                    mobileMenuOverlay.classList.remove('active');
                     document.body.style.overflow = '';
 
                     if (!user) {
@@ -216,7 +227,7 @@
         }
 
         // Dynamically load auth.js if not already present
-        if (!window.openLoginSidebar) {
+        if (!window.openLoginSidebar && !document.querySelector('script[src*="js/auth.js"]')) {
             const authScript = document.createElement('script');
             authScript.src = 'js/auth.js';
             document.body.appendChild(authScript);

@@ -26,6 +26,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+    function loadScriptAsync(src) {
+        return new Promise((resolve) => {
+            if (document.querySelector(`script[src="${src}"]`)) {
+                resolve();
+                return;
+            }
+            const s = document.createElement('script');
+            s.src = src;
+            s.onload = resolve;
+            s.onerror = () => resolve();
+            document.body.appendChild(s);
+        });
+    }
+
     await Promise.all([
         loadComponent('components/navbar.html', 'navbar-placeholder'),
         loadComponent('components/mobile-menu.html', 'mobile-menu-placeholder'),
@@ -33,18 +47,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         loadComponent('components/footer.html', 'footer-placeholder')
     ]);
 
-    await new Promise((resolve) => {
-        const i18nScript = document.createElement('script');
-        i18nScript.src = 'js/i18n.js';
-        i18nScript.onload = resolve;
-        i18nScript.onerror = () => {
-            console.error('Failed to load i18n script');
-            resolve();
-        };
-        document.body.appendChild(i18nScript);
-    });
-
-    // Load Cookie Banner CSS + JS (KVKK uyumlu)
+    // Load Cookie Banner CSS (KVKK uyumlu)
     if (!document.getElementById('mm-cookie-banner-css')) {
         const cookieCSS = document.createElement('link');
         cookieCSS.id = 'mm-cookie-banner-css';
@@ -52,21 +55,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         cookieCSS.href = 'css/cookie-banner.css';
         document.head.appendChild(cookieCSS);
     }
-    await new Promise((resolve) => {
-        const cookieScript = document.createElement('script');
-        cookieScript.src = 'js/cookie-banner.js';
-        cookieScript.onload = resolve;
-        cookieScript.onerror = () => resolve();
-        document.body.appendChild(cookieScript);
-    });
 
-    await new Promise((resolve) => {
-        const authScript = document.createElement('script');
-        authScript.src = 'js/auth.js';
-        authScript.onload = resolve;
-        authScript.onerror = () => resolve();
-        document.body.appendChild(authScript);
-    });
+    // Load i18n, cookie-banner, and auth in parallel after i18n starts
+    await loadScriptAsync('js/i18n.js');
+    await Promise.all([
+        loadScriptAsync('js/cookie-banner.js'),
+        loadScriptAsync('js/auth.js')
+    ]);
 
     // Yalnızca yerel dosya sisteminde (file:///) çift tıklayarak açıldığında .html ekle
     if (window.location.protocol === 'file:') {
