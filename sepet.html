@@ -245,8 +245,7 @@
             position: fixed;
             inset: 0;
             background: rgba(15, 23, 42, 0.65);
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
+            /* backdrop-filter kaldirildi (mobil performans optimizasyonu) */
             z-index: 10000;
             display: flex;
             align-items: center;
@@ -254,7 +253,8 @@
             padding: 16px;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.25s ease, visibility 0.25s ease;
+            transition: opacity 0.2s ease, visibility 0.2s ease;
+            will-change: opacity, visibility;
         }
         .cart-modal-backdrop.active {
             opacity: 1;
@@ -267,10 +267,13 @@
             max-width: 520px;
             max-height: 90vh;
             overflow-y: auto;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            -webkit-overflow-scrolling: touch;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
             display: flex;
             flex-direction: column;
-            animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: modalSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateZ(0);
+            backface-visibility: hidden;
         }
         @keyframes modalSlideUp {
             from { transform: translateY(20px); opacity: 0; }
@@ -856,10 +859,14 @@
             }
         }
 
+        let autoGrowRaf = null;
         function autoGrowAddress(el) {
             if (!el) return;
-            el.style.height = 'auto';
-            el.style.height = Math.max(84, el.scrollHeight) + 'px';
+            if (autoGrowRaf) cancelAnimationFrame(autoGrowRaf);
+            autoGrowRaf = requestAnimationFrame(() => {
+                el.style.height = 'auto';
+                el.style.height = Math.max(84, el.scrollHeight) + 'px';
+            });
         }
 
         function renderDeliveryAddressSection() {
