@@ -241,8 +241,8 @@ body.simple-page {
 
     .simple-nav-list {
         display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
+        flex-direction: column;
+        gap: 0.85rem;
     }
 
     .simple-nav-list li {
@@ -250,24 +250,27 @@ body.simple-page {
     }
 
     .simple-nav-list a {
-        display: inline-flex;
-        align-items: center;
-        padding: 6px 14px;
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
-        border-radius: 20px;
-        font-size: 0.85rem;
+        display: block;
+        padding: 0;
+        background: none;
+        border: none;
+        border-radius: 0;
+        font-size: 0.95rem;
         font-weight: 500;
-        color: #475569;
-        white-space: nowrap;
-        transition: all 0.2s ease;
+        color: #64748b;
+        text-decoration: none;
+        transition: color 0.15s ease;
     }
 
-    .simple-nav-list a.active,
     .simple-nav-list a:hover {
-        background: #0f172a;
-        color: #ffffff;
-        border-color: #0f172a;
+        color: #0f172a;
+    }
+
+    .simple-nav-list a.active {
+        color: #0f172a;
+        font-weight: 700;
+        background: none;
+        border: none;
     }
     
     .simple-navbar {
