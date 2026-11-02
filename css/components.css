@@ -365,6 +365,15 @@
 }
 
 @media (max-width: 600px) {
+    .mobile-nav-links {
+        gap: 1.8rem;
+    }
+    .mobile-nav-links li a {
+        font-size: 2rem;
+    }
+    .mobile-menu-footer {
+        bottom: 30px;
+    }
     .login-sidebar {
         padding: 5rem 1.5rem 3rem 1.5rem;
     }
@@ -380,5 +389,17 @@
     }
     .phone-input-group {
         margin-bottom: 1.5rem;
+    }
+}
+
+@media (max-height: 700px) {
+    .mobile-nav-links {
+        gap: 1.3rem;
+    }
+    .mobile-nav-links li a {
+        font-size: 1.7rem;
+    }
+    .mobile-menu-footer {
+        bottom: 20px;
     }
 }
